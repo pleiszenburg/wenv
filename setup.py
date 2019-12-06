@@ -104,7 +104,7 @@ setup(
 		'_wenv_python = wenv._core.env:shebang'
 		]},
 	classifiers = [
-		'Development Status :: 3 - Alpha',
+		'Development Status :: 4 - Beta',
 		'Intended Audience :: Developers',
 		'Intended Audience :: Information Technology',
 		'Intended Audience :: Science/Research',
