@@ -30,6 +30,7 @@ specific language governing rights and limitations under the License.
 
 import os
 import json
+import sys
 
 from .const import CONFIG_FN
 from .errors import config_parser_error
@@ -73,22 +74,16 @@ class config_class(dict):
 			return 'win32' # Define Wine & Wine-Python architecture
 		elif key == 'pythonversion':
 			return '3.7.4' # Define Wine-Python version
-		elif key == 'dir':
-			return self.__get_default_config_directory__() # Default config directory
 		elif key == 'winedebug':
 			return '-all' # Wine debug output off
 		elif key == 'wineprefix':
-			return os.path.join(self['dir'], self['arch'] + '-wine')
+			return os.path.join(sys.prefix, 'shared', 'wenv', self['arch'])
 		elif key == 'pythonprefix':
-			return os.path.join(self['dir'], '%s-python%s' % (self['arch'], self['pythonversion']))
+			return os.path.join(self['wineprefix'], 'drive_c', 'python-%s' % self['pythonversion'])
 		elif key == '_issues_50_workaround':
 			return False # Workaround for zugbruecke issue #50 (symlinks ...)
 		else:
 			raise KeyError('not a valid configuration key')
-
-	def __get_default_config_directory__(self):
-
-		return os.path.expanduser('~')
 
 	def __get_config_from_files__(self):
 
@@ -96,7 +91,7 @@ class config_class(dict):
 		for fn in [
 			'/etc/wenv',
 			os.path.join('/etc', CONFIG_FN),
-			os.path.join(self.__get_default_config_directory__(), CONFIG_FN),
+			os.path.join(os.path.expanduser('~'), CONFIG_FN),
 			os.environ.get('WENV'),
 			os.path.join(os.environ.get('WENV'), CONFIG_FN) if os.environ.get('WENV') is not None else None,
 			os.path.join(os.getcwd(), CONFIG_FN),
