@@ -55,8 +55,8 @@ upload_test:
 
 install:
 	pip install -U -e .[dev]
-	ZUGBRUECKE_ARCH=win32 wenv init
-	ZUGBRUECKE_ARCH=win64 wenv init
+	WENV_ARCH=win32 wenv init
+	WENV_ARCH=win64 wenv init
 
 test:
 	make docu
@@ -64,6 +64,6 @@ test:
 
 test_quick:
 	make clean
-	ZUGBRUECKE_ARCH=win32 wenv python -m platform
+	WENV_ARCH=win32 wenv python -m platform
 	make clean_py
-	ZUGBRUECKE_ARCH=win64 wenv python -m platform
+	WENV_ARCH=win64 wenv python -m platform
