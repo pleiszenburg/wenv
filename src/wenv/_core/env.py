@@ -429,7 +429,7 @@ class env_class:
 		self.setup_coverage_activate()
 
 	def _cli_clean(self):
-		"removes current environment (including Wine prefix, Python interpreter, pip and pytest)"
+		"removes current environment (including Wine prefix, Python interpreter and pip)"
 
 		self.uninstall()
 
