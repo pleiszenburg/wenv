@@ -21,8 +21,8 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 
 | prerequisite | version |
 | --- | --- |
-| [`CPython`](https://www.python.org/) | 3.x (tested with 3.{4,5,6,7,8}) |
-| [`Wine`](https://www.winehq.org/) | 4.x (tested with regular & [`staging`](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
+| [CPython](https://www.python.org/) | 3.x (tested with 3.{4,5,6,7,8}) |
+| [Wine](https://www.winehq.org/) | 4.x (tested with regular & [staging](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
 
 If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s [installation instructions](https://wenv.readthedocs.io/en/latest/installation.html) for details and workarounds.
 
@@ -33,7 +33,7 @@ If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s 
 | master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | |docs_master| |
 | develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | |docs_develop| |
 
-After installing the package with `pip`, you may choose to manually initialize the "Wine Python environment" by running ``wenv init``.
+After installing the package with `pip`, you must initialize the "Wine Python environment" by running ``wenv init``.
 
 ## Examples
 
@@ -70,10 +70,8 @@ Make sure you have read the chapter on [bugs](http://wenv.readthedocs.io/en/stab
 ## Miscellaneous
 
 - Full project documentation
-
-  - at [Read the Docs](http://wenv.readthedocs.io/en/latest/)
-  - at [`wenv` repository](https://github.com/pleiszenburg/wenv/blob/master/docs/index.rst)
-
+    - at [Read the Docs](http://wenv.readthedocs.io/en/latest/)
+    - at [`wenv` repository](https://github.com/pleiszenburg/wenv/blob/master/docs/index.rst)
 - [Authors](https://github.com/pleiszenburg/wenv/blob/master/AUTHORS.md)
 - [Change log (current)](https://github.com/pleiszenburg/wenv/blob/develop/CHANGES.md) (changes in development branch since last release)
 - [Change log (past)](https://github.com/pleiszenburg/wenv/blob/master/CHANGES.md) (release history)
