@@ -19,6 +19,8 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 
 ## Prerequisites
 
+| prerequisite | version |
+| --- | --- |
 | [`CPython`](https://www.python.org/) | 3.x (tested with 3.{4,5,6,7,8}) |
 | [`Wine`](https://www.winehq.org/) | 4.x (tested with regular & [`staging`](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
 
@@ -26,7 +28,7 @@ If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s 
 
 ## Installation
 
-| branch | status | installation                                                                | documentation      |
+| branch | status | installation | documentation |
 | --- | --- | --- | --- |
 | master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | |docs_master| |
 | develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | |docs_develop| |
