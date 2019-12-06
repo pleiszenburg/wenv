@@ -101,7 +101,7 @@ setup(
 	zip_safe = False,
 	entry_points = {'console_scripts': [
 		'wenv = wenv:cli',
-		'_wenv_python = wenv._core.env:shebang'
+		'_wenv_python = wenv:shebang'
 		]},
 	classifiers = [
 		'Development Status :: 4 - Beta',
