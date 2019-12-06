@@ -4,4 +4,4 @@
 
 `wenv` broken out of [`zugbruecke`](https://github.com/pleiszenburg/zugbruecke) and turned into an independent package. The following changes were made since `zugbruecke` 0.0.14.
 
-- TBD
+- Allow `-h` and `--help` as alternatives to `help`.

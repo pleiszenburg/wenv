@@ -475,6 +475,10 @@ class env_class:
 		# Separate command and arguments
 		cmd, param = sys.argv[1], sys.argv[2:]
 
+		# Allow -h and --help
+		if cmd in ['-h', '--help']:
+			cmd = 'help'
+
 		# Special CLI command
 		if cmd in self._cli_dict.keys():
 			self._cli_dict[cmd]()
