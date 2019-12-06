@@ -47,7 +47,7 @@ class config_class(dict):
 		super().__init__()
 
 		# Get config from files as a prioritized list
-		for config in self.__get_config_from_files__():
+		for config in self._get_config_from_files():
 			self.update(config)
 
 		# Add override parameters
@@ -85,7 +85,7 @@ class config_class(dict):
 		else:
 			raise KeyError('not a valid configuration key')
 
-	def __get_config_from_files__(self):
+	def _get_config_from_files(self):
 
 		# Look for config in the usual spots
 		for fn in [
@@ -97,12 +97,12 @@ class config_class(dict):
 			os.path.join(os.getcwd(), CONFIG_FN),
 			]:
 
-			cnt_dict = self.__load_config_from_file__(fn)
+			cnt_dict = self._load_config_from_file(fn)
 
 			if cnt_dict is not None:
 				yield cnt_dict
 
-	def __load_config_from_file__(self, try_path):
+	def _load_config_from_file(self, try_path):
 
 		# If there is a path ...
 		if try_path is None:
