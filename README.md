@@ -48,13 +48,11 @@ Linux
 Windows
 ```
 
-`wenv pip` works just like one would expect. Have a look at the output of `wenv help` for more commands and information. For use as a shebang, there is an alias for `wenv python`: One can write `#!/usr/bin/env _wenv_python` at the top of scripts.
+`wenv pip` works just like one would expect. Have a look at the output of `wenv help` for more commands and information. For use as a shebang, `wenv python` has an alias: One can write `#!/usr/bin/env _wenv_python` at the top of scripts.
 
 ## Security
 
-Just like Wine can run malicious Windows software on Unix, `wenv` can also run malicious Python code intended to run on Windows on Unix. **Never, ever, run it with root / super users privileges!**
-
-For details, check the section on [security](http://wenv.readthedocs.io/en/stable/security.html) in the documentation.
+Just like Wine, `wenv` can run malicious Windows software on Unix. **Never, ever, run `wenv` with root / super users privileges!** For details, check the section on [security](http://wenv.readthedocs.io/en/stable/security.html) in the documentation.
 
 ## Need help?
 
