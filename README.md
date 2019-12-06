@@ -30,8 +30,8 @@ If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s 
 
 | branch | status | installation | documentation |
 | --- | --- | --- | --- |
-| master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | |docs_master| |
-| develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | |docs_develop| |
+| master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
+| develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
 
 After installing the package with `pip`, you must initialize the "Wine Python environment" by running ``wenv init``.
 
