@@ -25,20 +25,20 @@ Method: ``ensure()``
 
 Equivalent of ``wenv init``. Intended to be used by 3rd-party packages which want to "ensure" that ``wenv`` has been initialized (i.e. *Python* and *pip* are present and working).
 
-Method: ``setup_prefix(overwrite = False)``
--------------------------------------------
+Method: ``setup_wineprefix(overwrite = False)``
+-----------------------------------------------
 
 Part of the initialization process, but can be triggered on its own if required. It creates a *Wine* prefix according to *wenv*'s configuration. If ``overwrite`` is set to ``True``, a pre-existing *Wine* prefix is removed before a new one is created.
 
-Method: ``setup_python(overwrite = False)``
--------------------------------------------
+Method: ``setup_pythonprefix(overwrite = False)``
+-------------------------------------------------
 
 Part of the initialization process, but can be triggered on its own if required. It installs the *CPython* interpreter into the *Python* prefix. If ``overwrite`` is set to ``True``, a pre-existing *Python* prefix is removed before a new one is created.
 
 Method: ``setup_pip()``
 -----------------------
 
-Part of the initialization process, but can be triggered on its own if required. It installs ``pip``, assuming that ``CPython`` is already present.
+Part of the initialization process, but can be triggered on its own if required. It installs ``pip``, assuming that both the ``wineprefix`` and ``pythonprefix`` are already present.
 
 Method: ``shebang()``
 ---------------------
