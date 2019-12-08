@@ -6,11 +6,11 @@
 
 | **OLD**                               | **NEW**                            |
 | ------------------------------------- | ---------------------------------- |
-| `wine-python`                         | `wenv python``                     |
-| `wine-pip`                            | `wenv pip``                        |
-| `wine-pytest`                         | `wenv pytest``                     |
+| `wine-python`                         | `wenv python`                      |
+| `wine-pip`                            | `wenv pip`                         |
+| `wine-pytest`                         | `wenv pytest`                      |
 | `#!/usr/bin/env wine-python`          | `#!/usr/bin/env _wenv_python`      |
-| ``{"version": "3.5.3"}`               | `{"pythonversion": "3.7.4"}`       |
+| `{"version": "3.5.3"}`                | `{"pythonversion": "3.7.4"}`       |
 
 The above significant change was mandatory for allowing to cleanup a lot of old code and to remove long-standing bugs.
 
