@@ -6,7 +6,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/__init__.py: Package init file
+	tests/lib/const.py: Holds constant values, flags, types
 
 	Copyright (C) 2017-2019 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -25,11 +25,8 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# IMPORT / EXPORT
+# CONST
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import (
-	cli,
-	env_class as env,
-	shebang,
-	)
+ARCHS = ['win32', 'win64']
+DEFAULT_TIMEOUT = 600

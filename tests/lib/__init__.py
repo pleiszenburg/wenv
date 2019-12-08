@@ -6,7 +6,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/__init__.py: Package init file
+	tests/lib/__init__.py: Test library module
 
 	Copyright (C) 2017-2019 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -25,11 +25,7 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# IMPORT / EXPORT
+# IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import (
-	cli,
-	env_class as env,
-	shebang,
-	)
+from .param import get_context, run_process

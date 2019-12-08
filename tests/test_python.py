@@ -6,7 +6,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/__init__.py: Package init file
+	tests/test_util.py: Testing Python interpreter
 
 	Copyright (C) 2017-2019 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -24,12 +24,33 @@ specific language governing rights and limitations under the License.
 
 """
 
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# IMPORT / EXPORT
+# IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import (
-	cli,
-	env_class as env,
-	shebang,
-	)
+from .lib import get_context, run_process
+
+import pytest
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# TEST(s)
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+@pytest.mark.parametrize('arch', get_context())
+def test_python(arch):
+
+	out, err, code = run_process(['wenv', 'python', '-m', 'platform'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'Windows' in out
+
+	out, err, code = run_process(
+		['wenv', 'python', '-c', 'import platform; print(platform.machine())'],
+		env = {'WENV_ARCH': arch}
+		)
+	assert code == 0
+	assert len(err.strip()) == 0
+	out = out.strip()
+	assert (arch == 'win32' and out == 'x86') ^ (arch == 'win64' and out == 'AMD64')
