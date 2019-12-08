@@ -29,7 +29,7 @@ Technically, the basic problem is how to install (and run) just any version or d
 While researching options for developing *zugbruecke*, *CPython*'s `embeddable package`_ for Windows showed up on the radar. It is a simple ZIP-file without any installer. By merely unpacking it, one can run *Python* without an issue. With some manual tweaking and tuning of both the unpacked folder and *Wine*, it becomes possible to make ``pip`` work and install just about anything on top. *wenv* essentially takes care of the entire process automatically.
 
 .. _zugbruecke: https://github.com/pleiszenburg/zugbruecke
-.. _embedded: https://docs.python.org/3/using/windows.html#windows-embeddable
+.. _embeddable package: https://docs.python.org/3/using/windows.html#windows-embeddable
 
 .. _implementation:
 
