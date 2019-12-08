@@ -2,7 +2,7 @@
 
 ## 0.1.1 (2019-XX-XX)
 
-* TBD
+* FIX: Broken links in README.md
 
 ## 0.1.0 (2019-12-08)
 
