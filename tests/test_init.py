@@ -6,7 +6,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	tests/test_util.py: Testing Python interpreter
+	tests/test_init.py: Testing clean & init
 
 	Copyright (C) 2017-2019 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -38,19 +38,28 @@ import pytest
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 @pytest.mark.parametrize('arch', get_context())
-def test_python(arch):
+def test_init(arch):
 
-	out, err, code = run_process(['wenv', 'python', '-m', 'platform'], env = {'WENV_ARCH': arch})
+	out, err, code = run_process(['wenv', 'clean'], env = {'WENV_ARCH': arch})
 
 	assert code == 0
 	assert len(err.strip()) == 0
-	assert 'Windows' in out
 
-	out, err, code = run_process(
-		['wenv', 'python', '-c', 'import platform; print(platform.machine())'],
-		env = {'WENV_ARCH': arch}
-		)
+	out, err, code = run_process(['wenv', 'help'], env = {'WENV_ARCH': arch})
+
 	assert code == 0
 	assert len(err.strip()) == 0
-	out = out.strip()
-	assert (arch == 'win32' and out == 'x86') ^ (arch == 'win64' and out == 'AMD64')
+	assert 'wenv pip' not in out
+	# assert 'wenv python' not in out # TODO
+
+	out, err, code = run_process(['wenv', 'init'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	# assert len(err.strip()) == 0 # pip output goes to stderr
+
+	out, err, code = run_process(['wenv', 'help'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'wenv pip' in out
+	# assert 'wenv python' in out # TODO

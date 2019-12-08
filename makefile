@@ -55,8 +55,8 @@ upload_test:
 
 install:
 	pip install -U -e .[dev]
-	WENV_ARCH=win32 wenv init
-	WENV_ARCH=win64 wenv init
+	# WENV_ARCH=win32 wenv init
+	# WENV_ARCH=win64 wenv init
 
 test:
 	make docu

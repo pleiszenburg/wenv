@@ -31,6 +31,7 @@ specific language governing rights and limitations under the License.
 from .const import ARCHS, DEFAULT_TIMEOUT
 
 import os
+import re
 import signal
 import subprocess
 
@@ -42,6 +43,9 @@ def get_context():
 
 	for arch in ARCHS:
 		yield arch
+
+# https://stackoverflow.com/a/14693789/1672565
+_ansi_escape_8bit = re.compile(br'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
 
 def run_process(cmd_list, env = None, timeout = DEFAULT_TIMEOUT):
 
@@ -62,4 +66,8 @@ def run_process(cmd_list, env = None, timeout = DEFAULT_TIMEOUT):
 		os.kill(proc.pid, signal.SIGINT)
 		outs, errs = proc.communicate()
 
-	return outs.decode('utf-8'), errs.decode('utf-8'), proc.returncode
+	return (
+		_ansi_escape_8bit.sub(b'', outs).decode('utf-8'),
+		errs.decode('utf-8'),
+		proc.returncode
+		)
