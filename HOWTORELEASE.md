@@ -1,4 +1,4 @@
-# How to release zugbruecke
+# How to release `wenv`
 
 1) Merge all relevant changes into branch `develop` - this is where development and pre-release testing happens.
 1) In branch `develop`, run tests and examples and check that the documentation builds without errors: `make test`
