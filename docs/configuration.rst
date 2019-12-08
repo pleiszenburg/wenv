@@ -11,7 +11,7 @@
 Configuration
 =============
 
-*wenv* can configure itself or can be configured with files or can be (re-) configured during run-time.
+*wenv* can configure itself automatically or can be configured with files and environment variables manually.
 
 Configuration files
 -------------------
