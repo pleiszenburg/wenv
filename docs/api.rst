@@ -25,6 +25,11 @@ Method: ``ensure()``
 
 Equivalent of ``wenv init``. Intended to be used by 3rd-party packages which want to "ensure" that ``wenv`` has been initialized (i.e. *Python* and *pip* are present and working).
 
+Method: ``wine_47766_workaround()``
+-----------------------------------
+
+Due to *Wine*'s bug #47766, *Wine* crashes if **any** folder in the path to ``pythonprefix`` is hidden Unix-style (i.e. prefixed with a dot / ``.``). This workaround creates a symlink directly pointing to ``pythonprefix`` into ``/tmp``, which is (more or less) guaranteed to be visible. It is then used instead of the actual ``pythonprefix``. ``setup_wineprefix`` and ``setup_pythonprefix`` will work without it. Any subsequent action such as installing ``pip`` will not work without it.
+
 Method: ``setup_wineprefix(overwrite = False)``
 -----------------------------------------------
 
