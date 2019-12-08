@@ -64,6 +64,4 @@ test:
 
 test_quick:
 	make clean
-	WENV_ARCH=win32 wenv python -m platform
-	make clean_py
-	WENV_ARCH=win64 wenv python -m platform
+	pytest
