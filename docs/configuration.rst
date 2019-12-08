@@ -45,7 +45,7 @@ Defines the architecture of *Wine* & *Wine* *Python*. It can be set to ``win32``
 
 The ``pythonversion`` parameter tells *wenv* what version of the *Windows* *CPython* interpreter it should use. By default, it is set to ``3.7.4``.
 
-Please note that 3.4 and earlier are not supported. In the opposite direction, at the time of writing, 3.6 (and later) do require Wine 4.0 or later. If you are forced to use *Wine* 2.0 or 3.0, you may try to set this parameter to ``3.5.4``. Note that you can only specify versions for which an "Windows embeddable zip file" is available, see `python.org`_.
+Please note that 3.4 and earlier are not supported. In the opposite direction, at the time of writing, 3.6 (and later) do require *Wine* 4.0 or later. If you are forced to use *Wine* 2.0 or 3.0, you may try to set this parameter to ``3.5.4``. Note that you can only specify versions for which an "Windows embeddable zip file" is available, see `python.org`_.
 
 .. _python.org: https://www.python.org/downloads/windows/
 
