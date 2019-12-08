@@ -10,8 +10,8 @@
 	triple: wine; python; environment
 	module: wenv._core.env
 
-Wine Python environment
-=======================
+Usage
+=====
 
 This chapter covers the main modes of usage of ``wenv``.
 

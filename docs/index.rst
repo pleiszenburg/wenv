@@ -17,7 +17,7 @@ User's guide
    installation
    examples
    configuration
-   wineenv
+   usage
    security
    bugs
    faq
