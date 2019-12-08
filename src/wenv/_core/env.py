@@ -232,9 +232,9 @@ class env_class:
 
 	def ensure(self):
 
-		self.setup_prefix()
-		self.setup_python()
-		self.wine_47766_workaround() # must run after setup_python and before setup_pip
+		self.setup_wineprefix()
+		self.setup_pythonprefix()
+		self.wine_47766_workaround() # must run after setup_pythonprefix and before setup_pip
 		self.setup_pip()
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -259,7 +259,7 @@ class env_class:
 # SETUP
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	def setup_prefix(self, overwrite = False):
+	def setup_wineprefix(self, overwrite = False):
 
 		if not isinstance(overwrite, bool):
 			raise TypeError('overwrite is not a boolean')
@@ -286,7 +286,7 @@ class env_class:
 		if proc.returncode != 0:
 			sys.exit(1)
 
-	def setup_python(self, overwrite = False):
+	def setup_pythonprefix(self, overwrite = False):
 
 		def fix_special_version(version_string):
 			if 'b' in version_string:

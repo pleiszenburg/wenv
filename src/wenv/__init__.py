@@ -28,4 +28,8 @@ specific language governing rights and limitations under the License.
 # IMPORT / EXPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import cli, shebang
+from ._core.env import (
+	cli,
+	env,
+	shebang,
+	)

@@ -18,6 +18,7 @@ User's guide
    examples
    configuration
    usage
+   api
    security
    bugs
    faq
