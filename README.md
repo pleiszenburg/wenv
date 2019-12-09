@@ -62,8 +62,8 @@ Feel free to post questions in the [GitHub issue tracker](https://github.com/ple
 
 ## Bugs & issues
 
-- Report bugs in wenv here: [GitHub issue tracker](https://github.com/pleiszenburg/wenv/issues)
-- Report bugs in Wine here: [WineHQ Bug Tracking System](https://bugs.winehq.org/)
+- Report bugs in *wenv* here: [GitHub issue tracker](https://github.com/pleiszenburg/wenv/issues)
+- Report bugs in *Wine* here: [WineHQ Bug Tracking System](https://bugs.winehq.org/)
 
 Make sure you have read the chapter on [bugs](http://wenv.readthedocs.io/en/stable/bugs.html) in `wenv`'s documentation.
 
