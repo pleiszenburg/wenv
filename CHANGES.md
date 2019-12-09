@@ -2,6 +2,7 @@
 
 ## 0.1.1 (2019-XX-XX)
 
+* FIX: `wenv` installed its environment into `shared` folder instead of `share`.
 * FIX: Broken links in README.md
 
 ## 0.1.0 (2019-12-08)
