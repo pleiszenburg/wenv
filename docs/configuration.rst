@@ -57,7 +57,7 @@ This parameter can be used to specify a custom location for the *Wine Python env
 ``wineprefix`` (str)
 ^^^^^^^^^^^^^^^^^^^^
 
-This parameter can be used to point to a custom ``WINEPREFIX`` outside of the ``shared`` folder of the current *Unix* *Python*'s prefix. By default, it is set to ``{sys.prefix}/shared/wenv/{arch}``
+This parameter can be used to point to a custom ``WINEPREFIX`` outside of the ``shared`` folder of the current *Unix* *Python*'s prefix. By default, it is set to ``{sys.prefix}/share/wenv/{arch}``
 
 ``winedebug`` (str)
 ^^^^^^^^^^^^^^^^^^^

@@ -77,7 +77,7 @@ class config_class(dict):
 		elif key == 'winedebug':
 			return '-all' # Wine debug output off
 		elif key == 'wineprefix':
-			return os.path.join(sys.prefix, 'shared', 'wenv', self['arch'])
+			return os.path.join(sys.prefix, 'share', 'wenv', self['arch'])
 		elif key == 'pythonprefix':
 			return os.path.join(self['wineprefix'], 'drive_c', 'python-%s' % self['pythonversion'])
 		elif key == '_issues_50_workaround':

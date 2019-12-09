@@ -43,7 +43,7 @@ from sys import platform
 
 
 # Bump version HERE!
-_version_ = '0.1.0'
+_version_ = '0.1.1'
 
 
 # List all versions of Python which are supported
@@ -82,11 +82,9 @@ setup(
 	install_requires = [],
 	extras_require = {
 		'dev': [
-			'hypothesis',
 			'pytest',
 			'coverage',
 			'pytest-cov',
-			'Jinja2',
 			'python-language-server',
 			'setuptools',
 			'Sphinx',

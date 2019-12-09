@@ -1,9 +1,9 @@
-[![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
-[![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
-[![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
-[![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
+[![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://travis-ci.org/pleiszenburg/wenv)
+[![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/)
+[![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://travis-ci.org/pleiszenburg/wenv)
+[![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://wenv.readthedocs.io/en/develop/)
 [![license](https://img.shields.io/pypi/l/wenv.svg?style=flat-square "Internet Systems Consortium License")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
-[![status](https://img.shields.io/pypi/status/wenv.svg?style=flat-square "Project Development Status")](https://github.com/pleiszenburg/wenv/milestone/3)
+[![status](https://img.shields.io/pypi/status/wenv.svg?style=flat-square "Project Development Status")](https://github.com/pleiszenburg/wenv/issues)
 [![pypi_version](https://img.shields.io/pypi/v/wenv.svg?style=flat-square "Project Development Status")](https://pypi.python.org/pypi/wenv)
 [![pypi_versions](https://img.shields.io/pypi/pyversions/wenv.svg?style=flat-square "Available on PyPi - the Python Package Index")](https://pypi.python.org/pypi/wenv)
 
@@ -30,8 +30,8 @@ If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s 
 
 | branch | status | installation | documentation |
 | --- | --- | --- | --- |
-| master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
-| develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
+| master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/) |
+| develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://wenv.readthedocs.io/en/develop/) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
 
 After installing the package with `pip`, you must initialize the "Wine Python environment" by running ``wenv init``.
 
@@ -62,8 +62,8 @@ Feel free to post questions in the [GitHub issue tracker](https://github.com/ple
 
 ## Bugs & issues
 
-- Report bugs in wenv here: [GitHub issue tracker](https://github.com/pleiszenburg/wenv/issues)
-- Report bugs in Wine here: [WineHQ Bug Tracking System](https://bugs.winehq.org/)
+- Report bugs in *wenv* here: [GitHub issue tracker](https://github.com/pleiszenburg/wenv/issues)
+- Report bugs in *Wine* here: [WineHQ Bug Tracking System](https://bugs.winehq.org/)
 
 Make sure you have read the chapter on [bugs](http://wenv.readthedocs.io/en/stable/bugs.html) in `wenv`'s documentation.
 
