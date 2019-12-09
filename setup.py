@@ -82,11 +82,9 @@ setup(
 	install_requires = [],
 	extras_require = {
 		'dev': [
-			'hypothesis',
 			'pytest',
 			'coverage',
 			'pytest-cov',
-			'Jinja2',
 			'python-language-server',
 			'setuptools',
 			'Sphinx',
