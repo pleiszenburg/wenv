@@ -1,5 +1,9 @@
 # Changes
 
+## 0.1.2 (2019-XX-XX)
+
+- [TBD]
+
 ## 0.1.1 (2019-12-09)
 
 * FIX: `wenv` installed its environment into `shared` folder instead of `share`.
