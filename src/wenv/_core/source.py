@@ -31,7 +31,7 @@ specific language governing rights and limitations under the License.
 import requests
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# PYTHON SSL FALLBACK
+# ROUTINES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 def download(down_url, mode = 'binary'):
@@ -44,7 +44,3 @@ def download(down_url, mode = 'binary'):
 	else:
 		assert mode == 'binary' and isinstance(r.content, bytes)
 		return r.content
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ROUTINES
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
