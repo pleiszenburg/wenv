@@ -33,33 +33,11 @@ import os
 import shutil
 import subprocess
 import sys
-import urllib.request
 import zipfile
 
 from .config import config_class
 from .const import c, COVERAGE_STARTUP, HELP_STR
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# PYTHON SSL FALLBACK
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-def _download(_down_url):
-	try:
-		return urllib.request.urlopen(_down_url)
-	except urllib.error.URLError as e:
-		import ssl
-		if not isinstance(e.args[0], ssl.SSLError):
-			raise e # Not an SSL issue - this is unexpected ...
-		try:
-			_ = ModuleNotFoundError
-			del _
-		except NameError:
-			ModuleNotFoundError = ImportError # Python 3.4 & 3.5
-		try:
-			import certifi
-		except ModuleNotFoundError:
-			raise SystemExit('SSL/TSL has issues - please install "certifi" and try again', e.args[0])
-		return urllib.request.urlopen(_down_url, cafile = certifi.where())
+from .source import _download
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # HELPER ROUTINES
