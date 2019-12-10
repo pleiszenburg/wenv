@@ -37,7 +37,7 @@ import zipfile
 
 from .config import config_class
 from .const import c, COVERAGE_STARTUP, HELP_STR
-from .source import _download
+from .source import download
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # HELPER ROUTINES
@@ -304,8 +304,7 @@ class env_class:
 			# Generate in-memory file-like-object
 			archive_zip = BytesIO()
 			# Download zip file from Python website into file-like-object
-			with _download(pyurl) as u:
-				archive_zip.write(u.read())
+			archive_zip.write(download(pyurl, mode = 'binary'))
 			# Unpack from memory to disk
 			with zipfile.ZipFile(archive_zip) as f:
 				f.extractall(path = self._p['pythonprefix']) # Directory created if required
@@ -332,14 +331,13 @@ class env_class:
 			return
 
 		# Download get-pip.py into memory
-		with _download('https://bootstrap.pypa.io/get-pip.py') as u:
-			getpip_bin = u.read()
+		getpip_bin = download('https://bootstrap.pypa.io/get-pip.py', mode = 'text')
 
 		# Start Python on top of Wine
 		proc_getpip = subprocess.Popen(['wenv', 'python'], stdin = subprocess.PIPE)
 
 		# Pipe script into interpreter and get feedback
-		proc_getpip.communicate(input = getpip_bin)
+		proc_getpip.communicate(input = getpip_bin.encode('utf-8'))
 
 	def install_package(self, name, update = False):
 		"""

@@ -28,13 +28,25 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import requests
 import urllib.request
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # PYTHON SSL FALLBACK
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-def _download(_down_url):
+def download(down_url, mode = 'binary'):
+	assert mode in ('text', 'binary')
+	r = requests.get(down_url)
+	assert r.ok
+	if r.encoding is not None:
+		assert mode == 'text' and isinstance(r.text, str)
+		return r.text
+	else:
+		assert mode == 'binary' and isinstance(r.content, bytes)
+		return r.content
+
+def download_old(_down_url):
 	try:
 		return urllib.request.urlopen(_down_url)
 	except urllib.error.URLError as e:
