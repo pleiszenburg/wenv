@@ -44,3 +44,28 @@ def download(down_url, mode = 'binary'):
 	else:
 		assert mode == 'binary' and isinstance(r.content, bytes)
 		return r.content
+
+def get_available_python_versions():
+
+	versions = [
+		tuple(int(nr) for nr in line.split('"')[1][:-1].split('.'))
+		for line in download('https://www.python.org/ftp/python/', mode = 'text').split('\n')
+		if line.startswith('<a href="3.')
+		]
+	version_urls = [
+		'https://www.python.org/ftp/python/%d.%d.%d/' % version
+			if len(version) == 3 else
+		'https://www.python.org/ftp/python/%d.%d/' % version
+		for version in versions
+		]
+	embedded_versions = {
+		version: [
+			line.split('"')[1]
+			for line in download(version_url, mode = 'text').split('\n')
+			if all((line.startswith('<a href="'), 'embed' in line, '.zip' in line, '.zip.asc' not in line))
+			]
+		for version, version_url in zip(versions, version_urls)
+		}
+	embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
+
+	print(embedded_versions)
