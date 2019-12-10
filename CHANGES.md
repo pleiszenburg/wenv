@@ -2,7 +2,7 @@
 
 ## 0.1.2 (2019-XX-XX)
 
-- [TBD]
+- FIX: Using `requests` instead of `urllib` for loading components. Removed `certifi` workaround.
 
 ## 0.1.1 (2019-12-09)
 
