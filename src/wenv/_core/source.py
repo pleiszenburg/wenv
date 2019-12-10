@@ -28,6 +28,8 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+from multiprocessing.pool import ThreadPool
+
 import requests
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -58,13 +60,14 @@ def get_available_python_versions():
 		'https://www.python.org/ftp/python/%d.%d/' % version
 		for version in versions
 		]
+	version_downloads = ThreadPool(8).imap(lambda x: download(x, mode = 'text'), version_urls)
 	embedded_versions = {
 		version: [
 			line.split('"')[1]
-			for line in download(version_url, mode = 'text').split('\n')
+			for line in version_download.split('\n')
 			if all((line.startswith('<a href="'), 'embed' in line, '.zip' in line, '.zip.asc' not in line))
 			]
-		for version, version_url in zip(versions, version_urls)
+		for version, version_url, version_download in zip(versions, version_urls, version_downloads)
 		}
 	embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
 
