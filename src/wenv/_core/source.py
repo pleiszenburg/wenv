@@ -37,6 +37,7 @@ import requests
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 def download(down_url, mode = 'binary'):
+
 	assert mode in ('text', 'binary')
 	r = requests.get(down_url)
 	assert r.ok
