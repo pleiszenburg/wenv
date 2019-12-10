@@ -62,13 +62,46 @@ def get_available_python_versions():
 		]
 	version_downloads = ThreadPool(8).imap(lambda x: download(x, mode = 'text'), version_urls)
 	embedded_versions = {
-		version: [
-			line.split('"')[1]
+		version: {
+			parse_zip_name(line.split('"')[1]): version_url + line.split('"')[1]
 			for line in version_download.split('\n')
 			if all((line.startswith('<a href="'), 'embed' in line, '.zip' in line, '.zip.asc' not in line))
-			]
+			}
 		for version, version_url, version_download in zip(versions, version_urls, version_downloads)
 		}
 	embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
 
-	print(embedded_versions)
+	return embedded_versions
+
+def parse_zip_name(zip_name):
+
+	fragments = zip_name.split('-')
+	fragments.append(fragments[3].split('.')[1])
+	fragments[3] = fragments[3].split('.')[0]
+
+	assert fragments[0] == 'python'
+	assert fragments[2] == 'embed'
+	assert fragments[3] in ('win32', 'amd64')
+	assert fragments[4] == 'zip'
+
+	arch = 'win32' if fragments[3] == 'win32' else 'win64'
+	release = [
+		int(f) if f.isnumeric() else f
+		for f in fragments[1].split('.')
+		]
+
+	if isinstance(release[2], str):
+		assert len(release[2]) > 0
+		for pos, char in enumerate(release[2]):
+			if not char.isdigit():
+				break
+		release.append(release[2][pos:])
+		release[2] = release[2][:pos]
+		assert release[2].isnumeric()
+		release[2] = int(release[2])
+
+	if len(release) == 3:
+		release.append('stable')
+	assert len(release) == 4
+
+	return (arch,) + tuple(release)
