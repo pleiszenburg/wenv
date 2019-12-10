@@ -363,15 +363,27 @@ class env_class:
 		# Pipe script into interpreter and get feedback
 		proc_getpip.communicate(input = getpip_bin)
 
+	def install_package(self, name, update = False):
+		"""
+		Thin wrapper for `wenv pip install`
+		"""
+		pass
+
+	def install_requirements(self, requirements):
+		"""
+		Installs requirements provided as a string similar to a requirements.txt file
+		"""
+		pass
+
 	def link_package(self, name):
 		"""
-		Link package from Unix env to Wine env
+		Link package from surrounding Unix environment to Wine environment
 		"""
 		pass
 
 	def copy_package(self, name):
 		"""
-		Copy package from Unix env to Wine env (_issues_50_workaround)
+		Copy package from surrounding Unix environment to Wine environment (_issues_50_workaround)
 		"""
 		pass
 
