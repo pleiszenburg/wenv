@@ -29,7 +29,6 @@ specific language governing rights and limitations under the License.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import requests
-import urllib.request
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # PYTHON SSL FALLBACK
@@ -45,24 +44,6 @@ def download(down_url, mode = 'binary'):
 	else:
 		assert mode == 'binary' and isinstance(r.content, bytes)
 		return r.content
-
-def download_old(_down_url):
-	try:
-		return urllib.request.urlopen(_down_url)
-	except urllib.error.URLError as e:
-		import ssl
-		if not isinstance(e.args[0], ssl.SSLError):
-			raise e # Not an SSL issue - this is unexpected ...
-		try:
-			_ = ModuleNotFoundError
-			del _
-		except NameError:
-			ModuleNotFoundError = ImportError # Python 3.4 & 3.5
-		try:
-			import certifi
-		except ModuleNotFoundError:
-			raise SystemExit('SSL/TSL has issues - please install "certifi" and try again', e.args[0])
-		return urllib.request.urlopen(_down_url, cafile = certifi.where())
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ROUTINES

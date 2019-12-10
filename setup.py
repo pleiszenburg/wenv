@@ -93,9 +93,6 @@ setup(
 			'sphinx_rtd_theme',
 			'twine',
 			'wheel'
-			],
-		'certifi': [
-			'certifi'
 			]
 		},
 	zip_safe = False,

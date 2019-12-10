@@ -45,15 +45,6 @@ After installing the package with ``pip``, you must initialize the "Wine Python 
 
 If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 1.0.0 or going from 0.1.y to 1.0.0 therefore indicates a breaking change.
 
-Possible problem: ``SSL/TSL has issues - please install "certifi" and try again``
----------------------------------------------------------------------------------
-
-While running ``wenv init``, the command may terminate with a ``SystemExit`` exception entitled ``SSL/TSL has issues - please install "certifi" and try again``. This may happen on systems with older versions of ``libssl`` (``libopenssl``) or configuration issues regarding the SSL certificate store. You will most likely see additional information telling you that an SSL certificate could not be validated.
-
-In most cases, a **clean solution** is to install ``certifi`` with pip: ``pip install -U certifi``. The ``-U`` option forces ``pip`` to update ``certifi`` if it is already installed. Once you have installed or updated ``certifi``, you can run ``wenv init`` again.
-
-On known problematic systems, you may also choose to install ``wenv`` directly with ``certifi`` included: ``pip install wenv[certifi]``. Notice that this may have undesired security implications.
-
 Possible problem: ``OSError: [WinError 6] Invalid handle``
 ----------------------------------------------------------
 
