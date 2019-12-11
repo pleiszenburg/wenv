@@ -65,3 +65,13 @@ This parameter can be used to point to a custom ``WINEPREFIX`` outside of the ``
 *Wine* allows to control the level of debugging output through the ``WINEDEBUG`` environment variable. *wenv* will by default disable all output by setting it to ``-all``. A custom value can be specified in the ``winedebug`` configuration parameter. See the `Wine documentation`_ for details.
 
 .. _Wine documentation: https://wiki.winehq.org/Debug_Channels
+
+``offline`` (str/bool)
+^^^^^^^^^^^^^^^^^^^^^^
+
+If set to ``true``, ``wenv init`` will try to create a *Wine Python environment* from a locally cached *Windows Python* interpreter and a locally cached ``get-pip.py`` script. An exception is raised if any of the required components is not found in the local cache. For API usage, a boolean is expected. For command line usage / environment variables, strings equal to ``TRUE``/``True``/``true`` or ``FALSE``/``False``/``false`` are expected. By default, this option is set to ``false``.
+
+``cache`` (str)
+^^^^^^^^^^^^^^^
+
+Path to the local cache directory. By default, it is set to ``{sys.prefix}/share/wenv/cache``

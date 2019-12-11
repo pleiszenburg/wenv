@@ -80,6 +80,10 @@ class config_class(dict):
 			return os.path.join(sys.prefix, 'share', 'wenv', self['arch'])
 		elif key == 'pythonprefix':
 			return os.path.join(self['wineprefix'], 'drive_c', 'python-%s' % self['pythonversion'])
+		elif key == 'offline':
+			return False
+		elif key == 'cache':
+			return os.path.join(sys.prefix, 'share', 'wenv', 'cache')
 		elif key == '_issues_50_workaround':
 			return False # Workaround for zugbruecke issue #50 (symlinks ...)
 		else:
