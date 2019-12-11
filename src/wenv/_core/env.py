@@ -37,7 +37,7 @@ import zipfile
 
 from .config import config_class
 from .const import c, COVERAGE_STARTUP, HELP_STR
-from .source import download
+from .source import download, PythonVersion
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # HELPER ROUTINES
@@ -261,28 +261,10 @@ class env_class:
 		if proc.returncode != 0:
 			sys.exit(1)
 
-	def setup_pythonprefix(self, overwrite = False, version = None):
-
-		
-
-		def fix_special_version(version_string):
-			if 'b' in version_string:
-				return version_string[:version_string.index('b')]
-			elif 'rc' in version_string:
-				return version_string[:version_string.index('rc')]
-			else:
-				return version_string
+	def setup_pythonprefix(self, overwrite = False):
 
 		if not isinstance(overwrite, bool):
 			raise TypeError('overwrite is not a boolean')
-
-		# File name for python stand-alone zip file
-		pyarchive = 'python-%s-embed-%s.zip' % (
-			self._p['pythonversion'],
-			'amd64' if self._p['arch'] == 'win64' else self._p['arch']
-			)
-		# Compute full URL of Python stand-alone zip file
-		pyurl = 'https://www.python.org/ftp/python/%s/%s' % (fix_special_version(self._p['pythonversion']), pyarchive)
 
 		# Is there a pre-existing Python installation with identical parameters?
 		preexisting = os.path.isfile(self._path_dict['interpreter'])
@@ -303,7 +285,10 @@ class env_class:
 			# Generate in-memory file-like-object
 			archive_zip = BytesIO()
 			# Download zip file from Python website into file-like-object
-			archive_zip.write(download(pyurl, mode = 'binary'))
+			archive_zip.write(download(
+				PythonVersion.from_config(self._p['arch'], self._p['pythonversion']).as_url(),
+				mode = 'binary'
+				))
 			# Unpack from memory to disk
 			with zipfile.ZipFile(archive_zip) as f:
 				f.extractall(path = self._p['pythonprefix']) # Directory created if required

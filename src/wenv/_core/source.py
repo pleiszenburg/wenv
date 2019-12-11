@@ -98,7 +98,7 @@ def get_available_python_versions():
 # CLASS: PYTHON VERSION
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class python_version:
+class PythonVersion:
 
 	def __init__(self, arch, major, minor, maintenance, build = 'stable'):
 
@@ -167,7 +167,7 @@ class python_version:
 	@classmethod
 	def from_config(cls, arch, version):
 
-		if not isinstance(version):
+		if not isinstance(version, str):
 			raise TypeError('version must be str')
 		segments = version.split('.')
 		if not len(segments) in (3, 4):
