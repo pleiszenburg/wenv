@@ -156,16 +156,21 @@ class python_version:
 	@classmethod
 	def from_zipname(cls, zip_name):
 
-		assert isinstance(zip_name, str)
+		if not isinstance(zip_name, str):
+			raise TypeError('zip_name must be str')
 
 		fragments = zip_name.split('-')
 		fragments.append(fragments[3].split('.')[1])
 		fragments[3] = fragments[3].split('.')[0]
 
-		assert fragments[0] == 'python'
-		assert fragments[2] == 'embed'
-		assert fragments[3] in ('win32', 'amd64')
-		assert fragments[4] == 'zip'
+		if not fragments[0] == 'python':
+			raise ValueError('fagment[0] != "python"')
+		if not  fragments[2] == 'embed':
+			raise ValueError('fagment[2] != "embed"')
+		if not  fragments[3] in ('win32', 'amd64'):
+			raise ValueError('fagment[3] not in in ("win32", "amd64")')
+		if not  fragments[4] == 'zip':
+			raise ValueError('fagment[4] != "zip"')
 
 		arch = 'win32' if fragments[3] == 'win32' else 'win64'
 		release = [
@@ -174,17 +179,20 @@ class python_version:
 			]
 
 		if isinstance(release[2], str):
-			assert len(release[2]) > 0
+			if not len(release[2]) > 0:
+				raise ValueError('broken maintenance/build fragment')
 			for pos, char in enumerate(release[2]):
 				if not char.isdigit():
 					break
 			release.append(release[2][pos:])
 			release[2] = release[2][:pos]
-			assert release[2].isnumeric()
+			if not release[2].isnumeric():
+				raise ValueError('maintenance fragment not numeric')
 			release[2] = int(release[2])
 
 		if len(release) == 3:
 			release.append('stable')
-		assert len(release) == 4
+		if not len(release) == 4:
+			raise ValueError('release does not have 4 fragments (major,minor,maintenance,build)')
 
 		return cls(arch, *release)
