@@ -253,9 +253,11 @@ class env_class:
 		os.makedirs(self._p['wineprefix']) # HACK Wine on Travis CI expects folder to exist
 
 		# Start wine server into prepared environment
+		envvar_dict = self._envvar_dict.copy()
+		envvar_dict['DISPLAY'] = ''
 		proc = subprocess.Popen(
 			['wine', 'wineboot', '-i'],
-			env = self._envvar_dict
+			env = envvar_dict
 			)
 		proc.wait()
 		if proc.returncode != 0:
