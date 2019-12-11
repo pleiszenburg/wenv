@@ -39,8 +39,13 @@ import requests
 def download(down_url, mode = 'binary'):
 
 	assert mode in ('text', 'binary')
+	assert isinstance(down_url, str)
+
 	r = requests.get(down_url)
+
 	assert r.ok
+	r.raise_for_status()
+
 	if r.encoding is not None:
 		assert mode == 'text' and isinstance(r.text, str)
 		return r.text
@@ -55,7 +60,7 @@ def get_available_python_versions():
 		for line in download('https://www.python.org/ftp/python/', mode = 'text').split('\n')
 		if all([
 			line.startswith('<a href="'),
-			line[9].isdigit(),
+			line[9:10].isdigit(),
 			not line.startswith('<a href="2.')
 			])
 		]
@@ -78,7 +83,34 @@ def get_available_python_versions():
 
 	return embedded_versions
 
+def guess_zip_url(arch, *version):
+
+	assert len(version) in (3, 4)
+	assert arch in ('win32', 'win64')
+	assert all((isinstance(item, int) for item in version[:3]))
+	assert version[0] >= 3
+	if len(version) == 4:
+		assert isinstance(version[3], str)
+	else:
+		version = version + ('stable',)
+
+	version = list(version)
+	if version[3] == 'stable':
+		version[3] = ''
+	version.append('amd64' if arch == 'win64' else 'win32')
+	version = tuple(version)
+
+	if version[3].startswith('post'):
+		filename = 'python-%d.%d.%d.%s-embed-%s.zip' % version
+	else:
+		filename = 'python-%d.%d.%d%s-embed-%s.zip' % version
+	url = 'https://www.python.org/ftp/python/%d.%d.%d/' % version[:3]
+
+	return url + filename
+
 def parse_zip_name(zip_name):
+
+	assert isinstance(zip_name, str)
 
 	fragments = zip_name.split('-')
 	fragments.append(fragments[3].split('.')[1])
