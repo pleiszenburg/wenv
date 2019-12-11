@@ -129,17 +129,20 @@ class python_version:
 
 	def as_url(self):
 
+		return 'https://www.python.org/ftp/python/%d.%d.%d/' % (
+			self._major, self._minor, self._maintenance
+			) + self.as_zipname()
+
+	def as_zipname(self):
+
 		build = '' if self._build == 'stable' else self._build
 		arch = 'amd64' if self._arch == 'win64' else self._arch
 		sub_tuple = (self._major, self._minor, self._maintenance, build, arch)
 
 		if version[3].startswith('post'):
-			filename = 'python-%d.%d.%d.%s-embed-%s.zip' % sub_tuple
+			return 'python-%d.%d.%d.%s-embed-%s.zip' % sub_tuple
 		else:
-			filename = 'python-%d.%d.%d%s-embed-%s.zip' % sub_tuple
-		url = 'https://www.python.org/ftp/python/%d.%d.%d/' % sub_tuple[:3]
-
-		return url + filename
+			return 'python-%d.%d.%d%s-embed-%s.zip' % sub_tuple
 
 	@classmethod
 	def from_config(cls, arch, version):
