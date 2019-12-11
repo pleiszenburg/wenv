@@ -52,7 +52,7 @@ Please note that 3.4 and earlier are not supported. In the opposite direction, a
 ``prefix`` (str)
 ^^^^^^^^^^^^^^^^
 
-If ``wenv`` is installed into a *Python* virtual environment or system-wide, this option's defaults is ``sys.prefix``. If ``wenv`` is installed user-wide, its default is ``~/.local``.
+If ``wenv`` is installed into a *Python* virtual environment or system-wide, this option's defaults is ``sys.prefix``. If ``wenv`` is installed user-wide, its default is ``site.USER_BASE`` (typically ``~/.local``).
 
 ``wineprefix`` (str)
 ^^^^^^^^^^^^^^^^^^^^

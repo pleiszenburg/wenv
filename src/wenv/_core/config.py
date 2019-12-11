@@ -30,6 +30,7 @@ specific language governing rights and limitations under the License.
 
 import os
 import json
+import site
 import sys
 
 from .const import CONFIG_FN
@@ -77,7 +78,11 @@ class config_class(dict):
 		elif key == 'winedebug':
 			return '-all' # Wine debug output off
 		elif key == 'prefix':
-			return sys.prefix
+			install_location = os.path.abspath(__file__)
+			if install_location.startswith(site.USER_BASE): # Hacky way of looking for a user installation
+				return site.USER_BASE
+			else:
+				return sys.prefix
 		elif key == 'wineprefix':
 			return os.path.join(self['prefix'], 'share', 'wenv', self['arch'])
 		elif key == 'pythonprefix':
