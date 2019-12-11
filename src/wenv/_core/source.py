@@ -123,6 +123,10 @@ class python_version:
 
 		return self._arch
 
+	def as_config(self):
+
+		return str(self)
+
 	def as_url(self):
 
 		build = '' if self._build == 'stable' else self._build
