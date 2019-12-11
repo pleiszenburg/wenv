@@ -234,6 +234,27 @@ class env_class:
 		self.wine_47766_workaround_uninstall()
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Fetch installer data
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	def _get_python(self):
+
+		if not self._p['offline']:
+			return download(
+				PythonVersion.from_config(self._p['arch'], self._p['pythonversion']).as_url(),
+				mode = 'binary'
+				)
+		else:
+			return None
+
+	def _get_pip(self):
+
+		if not self._p['offline']:
+			return download('https://bootstrap.pypa.io/get-pip.py', mode = 'text').encode('utf-8')
+		else:
+			return None
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # SETUP
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -286,11 +307,8 @@ class env_class:
 
 			# Generate in-memory file-like-object
 			archive_zip = BytesIO()
-			# Download zip file from Python website into file-like-object
-			archive_zip.write(download(
-				PythonVersion.from_config(self._p['arch'], self._p['pythonversion']).as_url(),
-				mode = 'binary'
-				))
+			# Fetch Python zip file
+			archive_zip.write(self._get_python())
 			# Unpack from memory to disk
 			with zipfile.ZipFile(archive_zip) as f:
 				f.extractall(path = self._p['pythonprefix']) # Directory created if required
@@ -316,14 +334,14 @@ class env_class:
 		if os.path.isfile(self._path_dict['pip']):
 			return
 
-		# Download get-pip.py into memory
-		getpip_bin = download('https://bootstrap.pypa.io/get-pip.py', mode = 'text')
+		# Fetch get-pip.py
+		getpip = self._get_pip()
 
 		# Start Python on top of Wine
 		proc_getpip = subprocess.Popen(['wenv', 'python'], stdin = subprocess.PIPE)
 
 		# Pipe script into interpreter and get feedback
-		proc_getpip.communicate(input = getpip_bin.encode('utf-8'))
+		proc_getpip.communicate(input = getpip)
 
 	def install_package(self, name, update = False):
 		"""
