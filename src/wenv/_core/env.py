@@ -28,6 +28,7 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import json
 from io import BytesIO
 import os
 import shutil
@@ -241,12 +242,27 @@ class env_class:
 
 		version = PythonVersion.from_config(self._p['arch'], self._p['pythonversion'])
 
-		os.makedirs(self._p['cache'])
+		os.makedirs(self._p['cache'], exist_ok = True)
 
 		with open(os.path.join(self._p['cache'], version.as_zipname()), 'wb') as f:
 			f.write(self._get_python(offline = False))
 		with open(os.path.join(self._p['cache'], 'get-pip.py'), 'wb') as f:
 			f.write(self._get_pip(offline = False))
+
+		for package in ('pip', 'setuptools', 'wheel'):
+			self.cache_package(package)
+
+	def cache_package(self, name):
+
+		os.makedirs(self._p['packages'], exist_ok = True)
+
+		meta = json.loads(
+			download('https://pypi.org/pypi/%s/json' % name, mode = 'binary').decode('utf-8')
+			)
+
+		for item in meta['urls']:
+			with open(os.path.join(self._p['packages'], item['filename']), 'wb') as f:
+				f.write(download(item['url'], mode = 'binary'))
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Fetch installer data
@@ -440,7 +456,7 @@ class env_class:
 		self.setup_coverage_activate()
 
 	def _cli_cache(self):
-		"cache installation files locally for offline usage (Python interpreter and pip)"
+		"fetches installation files and caches them for offline usage (Python, pip, setuptools, wheel)"
 
 		self.cache()
 
