@@ -234,25 +234,41 @@ class env_class:
 		self.wine_47766_workaround_uninstall()
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# CACHE INSTALLATION FILES LOCALLY
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	def cache(self):
+
+		version = PythonVersion.from_config(self._p['arch'], self._p['pythonversion'])
+
+		os.makedirs(self._p['cache'])
+
+		with open(os.path.join(self._p['cache'], version.as_zipname()), 'wb') as f:
+			f.write(self._get_python(offline = False))
+		with open(os.path.join(self._p['cache'], 'get-pip.py'), 'wb') as f:
+			f.write(self._get_pip(offline = False))
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Fetch installer data
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	def _get_python(self):
+	def _get_python(self, offline = False):
 
-		if not self._p['offline']:
-			return download(
-				PythonVersion.from_config(self._p['arch'], self._p['pythonversion']).as_url(),
-				mode = 'binary'
-				)
+		version = PythonVersion.from_config(self._p['arch'], self._p['pythonversion'])
+
+		if offline:
+			with open(os.path.join(self._p['cache'], version.as_zipname()), 'rb') as f:
+				return f.read()
 		else:
-			return None
+			return download(version.as_url(), mode = 'binary')
 
-	def _get_pip(self):
+	def _get_pip(self, offline = False):
 
-		if not self._p['offline']:
+		if offline:
+			with open(os.path.join(self._p['cache'], 'get-pip.py'), 'rb') as f:
+				return f.read()
+		else:
 			return download('https://bootstrap.pypa.io/get-pip.py', mode = 'text').encode('utf-8')
-		else:
-			return None
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # SETUP
@@ -308,7 +324,7 @@ class env_class:
 			# Generate in-memory file-like-object
 			archive_zip = BytesIO()
 			# Fetch Python zip file
-			archive_zip.write(self._get_python())
+			archive_zip.write(self._get_python(self._p['offline']))
 			# Unpack from memory to disk
 			with zipfile.ZipFile(archive_zip) as f:
 				f.extractall(path = self._p['pythonprefix']) # Directory created if required
@@ -334,14 +350,17 @@ class env_class:
 		if os.path.isfile(self._path_dict['pip']):
 			return
 
-		# Fetch get-pip.py
-		getpip = self._get_pip()
-
-		# Start Python on top of Wine
-		proc_getpip = subprocess.Popen(['wenv', 'python'], stdin = subprocess.PIPE)
-
-		# Pipe script into interpreter and get feedback
-		proc_getpip.communicate(input = getpip)
+		if self._p['offline']:
+			proc_getpip = subprocess.Popen([
+				'wenv', 'python',
+				os.path.join(self._p['cache'], 'get-pip.py'),
+				'--no-index', '--find-links=%s' % self._p['cache'],
+				])
+			proc_getpip.wait()
+		else:
+			getpip = self._get_pip(self._p['offline'])
+			proc_getpip = subprocess.Popen(['wenv', 'python'], stdin = subprocess.PIPE)
+			proc_getpip.communicate(input = getpip)
 
 	def install_package(self, name, update = False):
 		"""
@@ -419,6 +438,11 @@ class env_class:
 		"enables coverage analysis inside wenv"
 
 		self.setup_coverage_activate()
+
+	def _cli_cache(self):
+		"cache installation files locally for offline usage (Python interpreter and pip)"
+
+		self.cache()
 
 	def _cli_clean(self):
 		"removes current environment (including Wine prefix, Python interpreter and pip)"
