@@ -72,11 +72,11 @@ def get_available_python_versions():
 		]
 	version_downloads = ThreadPool(8).imap(lambda x: download(x, mode = 'text'), version_urls)
 	embedded_versions = {
-		version: {
-			parse_zip_name(line.split('"')[1]): version_url + line.split('"')[1]
+		version: [
+			python_version.from_zipname(line.split('"')[1])
 			for line in version_download.split('\n')
 			if all((line.startswith('<a href="'), 'embed' in line, '.zip' in line, '.zip.asc' not in line))
-			}
+			]
 		for version, version_url, version_download in zip(versions, version_urls, version_downloads)
 		}
 	embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
@@ -139,7 +139,7 @@ class python_version:
 		arch = 'amd64' if self._arch == 'win64' else self._arch
 		sub_tuple = (self._major, self._minor, self._maintenance, build, arch)
 
-		if version[3].startswith('post'):
+		if build.startswith('post'):
 			return 'python-%d.%d.%d.%s-embed-%s.zip' % sub_tuple
 		else:
 			return 'python-%d.%d.%d%s-embed-%s.zip' % sub_tuple
