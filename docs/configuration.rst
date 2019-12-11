@@ -49,15 +49,20 @@ Please note that 3.4 and earlier are not supported. In the opposite direction, a
 
 .. _python.org: https://www.python.org/downloads/windows/
 
-``pythonprefix`` (str)
-^^^^^^^^^^^^^^^^^^^^^^^
+``prefix`` (str)
+^^^^^^^^^^^^^^^^
 
-This parameter can be used to specify a custom location for the *Wine Python environment* outside of ``wineprefix`` if required. By default, it is set to ``{wineprefix}/drive_c/python-{pythonversion}/``
+If ``wenv`` is installed into a *Python* virtual environment or system-wide, this option's defaults is ``sys.prefix``. If ``wenv`` user-wide, its default is ``~/.local``.
 
 ``wineprefix`` (str)
 ^^^^^^^^^^^^^^^^^^^^
 
-This parameter can be used to point to a custom ``WINEPREFIX`` outside of the ``shared`` folder of the current *Unix* *Python*'s prefix. By default, it is set to ``{sys.prefix}/share/wenv/{arch}``
+This parameter can be used to point to a custom ``WINEPREFIX`` outside of the ``shared`` folder of the current *Unix* *Python*'s prefix. By default, it is set to ``{prefix}/share/wenv/{arch}``
+
+``pythonprefix`` (str)
+^^^^^^^^^^^^^^^^^^^^^^
+
+This parameter can be used to specify a custom location for the *Wine Python environment* outside of ``wineprefix`` if required. By default, it is set to ``{wineprefix}/drive_c/python-{pythonversion}/``
 
 ``winedebug`` (str)
 ^^^^^^^^^^^^^^^^^^^
@@ -74,4 +79,4 @@ If set to ``true``, ``wenv init`` will try to create a *Wine Python environment*
 ``cache`` (str)
 ^^^^^^^^^^^^^^^
 
-Path to the local cache directory. By default, it is set to ``{sys.prefix}/share/wenv/cache``
+Path to the local cache directory. By default, it is set to ``{prefix}/share/wenv/cache``

@@ -76,14 +76,16 @@ class config_class(dict):
 			return '3.7.4' # Define Wine-Python version
 		elif key == 'winedebug':
 			return '-all' # Wine debug output off
+		elif key == 'prefix':
+			return sys.prefix
 		elif key == 'wineprefix':
-			return os.path.join(sys.prefix, 'share', 'wenv', self['arch'])
+			return os.path.join(self['prefix'], 'share', 'wenv', self['arch'])
 		elif key == 'pythonprefix':
 			return os.path.join(self['wineprefix'], 'drive_c', 'python-%s' % self['pythonversion'])
 		elif key == 'offline':
 			return False
 		elif key == 'cache':
-			return os.path.join(sys.prefix, 'share', 'wenv', 'cache')
+			return os.path.join(self['prefix'], 'share', 'wenv', 'cache')
 		elif key == '_issues_50_workaround':
 			return False # Workaround for zugbruecke issue #50 (symlinks ...)
 		else:
