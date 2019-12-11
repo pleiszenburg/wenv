@@ -255,12 +255,9 @@ class env_class:
 		# Start wine server into prepared environment
 		proc = subprocess.Popen(
 			['wine', 'wineboot', '-i'],
-			stdout = subprocess.PIPE, stderr = subprocess.PIPE,
 			env = self._envvar_dict
 			)
-		out, err = proc.communicate()
-		print(out.decode('utf-8').strip())
-		print(err.decode('utf-8').strip())
+		proc.wait()
 		if proc.returncode != 0:
 			sys.exit(1)
 
