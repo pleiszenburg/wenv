@@ -81,7 +81,18 @@ def get_available_python_versions():
 		}
 	embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
 
-	return embedded_versions
+	sorted_versions = {
+		'win32': {
+			version_tuple: sorted([version for version in versions if version.arch == 'win32'])
+			for version_tuple, versions in embedded_versions.items()
+			},
+		'win64': {
+			version_tuple: sorted([version for version in versions if version.arch == 'win64'])
+			for version_tuple, versions in embedded_versions.items()
+			}
+		}
+
+	return sorted_versions
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLASS: PYTHON VERSION
@@ -117,6 +128,15 @@ class python_version:
 		return '<Python %d.%d.%d.%s (%s)>' % (
 			self._major, self._minor, self._maintenance, self._build, self._arch
 			)
+
+	def __eq__(self, other):
+		return self._as_sort() == other._as_sort()
+	def __gt__(self, other):
+		return self._as_sort() > other._as_sort()
+	def __lt__(self, other):
+		return self._as_sort() < other._as_sort()
+	def _as_sort(self):
+		return '%04d-%04d-%04d-%s' % (self._major, self._minor, self._maintenance, self._build)
 
 	@property
 	def arch(self):
