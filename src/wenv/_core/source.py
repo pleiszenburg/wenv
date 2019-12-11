@@ -53,7 +53,11 @@ def get_available_python_versions():
 	versions = [
 		tuple(int(nr) for nr in line.split('"')[1][:-1].split('.'))
 		for line in download('https://www.python.org/ftp/python/', mode = 'text').split('\n')
-		if line.startswith('<a href="') and not line.startswith('<a href="2.')
+		if all([
+			line.startswith('<a href="'),
+			line[9].isdigit(),
+			not line.startswith('<a href="2.')
+			])
 		]
 	version_urls = [
 		'https://www.python.org/ftp/python/%d.%d.%d/' % version

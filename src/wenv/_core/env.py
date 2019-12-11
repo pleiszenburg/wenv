@@ -261,7 +261,9 @@ class env_class:
 		if proc.returncode != 0:
 			sys.exit(1)
 
-	def setup_pythonprefix(self, overwrite = False):
+	def setup_pythonprefix(self, overwrite = False, version = None):
+
+		
 
 		def fix_special_version(version_string):
 			if 'b' in version_string:
