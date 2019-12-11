@@ -83,62 +83,108 @@ def get_available_python_versions():
 
 	return embedded_versions
 
-def guess_zip_url(arch, *version):
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# CLASS: PYTHON VERSION
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	assert len(version) in (3, 4)
-	assert arch in ('win32', 'win64')
-	assert all((isinstance(item, int) for item in version[:3]))
-	assert version[0] >= 3
-	if len(version) == 4:
-		assert isinstance(version[3], str)
-	else:
-		version = version + ('stable',)
+class python_version:
 
-	version = list(version)
-	if version[3] == 'stable':
-		version[3] = ''
-	version.append('amd64' if arch == 'win64' else 'win32')
-	version = tuple(version)
+	def __init__(self, arch, major, minor, maintenance, build = 'stable'):
 
-	if version[3].startswith('post'):
-		filename = 'python-%d.%d.%d.%s-embed-%s.zip' % version
-	else:
-		filename = 'python-%d.%d.%d%s-embed-%s.zip' % version
-	url = 'https://www.python.org/ftp/python/%d.%d.%d/' % version[:3]
+		if not isinstance(arch, str):
+			raise TypeError('arch must be str')
+		if arch not in ('win32', 'win64'):
+			raise ValueError('Unknown arch: ' + arch)
+		if any((not isinstance(item, int) for item in (major, minor, maintenance))):
+			raise TypeError('Unknown type for major, minor or maintenance')
+		if major <= 2:
+			raise ValueError('Only Python 3 and newer supported')
+		if not isinstance(build, str):
+			raise TypeError('build must be str')
 
-	return url + filename
+		self._arch = arch
+		self._major, self._minor, self._maintenance = major, minor, maintenance
+		self._build = 'stable' if build == '' else build
 
-def parse_zip_name(zip_name):
+	def __str__(self):
 
-	assert isinstance(zip_name, str)
+		return '%d.%d.%d.%s' % (
+			self._major, self._minor, self._maintenance, self._build
+			)
 
-	fragments = zip_name.split('-')
-	fragments.append(fragments[3].split('.')[1])
-	fragments[3] = fragments[3].split('.')[0]
+	def __repr__(self):
 
-	assert fragments[0] == 'python'
-	assert fragments[2] == 'embed'
-	assert fragments[3] in ('win32', 'amd64')
-	assert fragments[4] == 'zip'
+		return '<Python %d.%d.%d.%s (%s)>' % (
+			self._major, self._minor, self._maintenance, self._build, self._arch
+			)
 
-	arch = 'win32' if fragments[3] == 'win32' else 'win64'
-	release = [
-		int(f) if f.isnumeric() else f
-		for f in fragments[1].split('.')
-		]
+	@property
+	def arch(self):
 
-	if isinstance(release[2], str):
-		assert len(release[2]) > 0
-		for pos, char in enumerate(release[2]):
-			if not char.isdigit():
-				break
-		release.append(release[2][pos:])
-		release[2] = release[2][:pos]
-		assert release[2].isnumeric()
-		release[2] = int(release[2])
+		return self._arch
 
-	if len(release) == 3:
-		release.append('stable')
-	assert len(release) == 4
+	def as_url(self):
 
-	return (arch,) + tuple(release)
+		build = '' if self._build == 'stable' else self._build
+		arch = 'amd64' if self._arch == 'win64' else self._arch
+		sub_tuple = (self._major, self._minor, self._maintenance, build, arch)
+
+		if version[3].startswith('post'):
+			filename = 'python-%d.%d.%d.%s-embed-%s.zip' % sub_tuple
+		else:
+			filename = 'python-%d.%d.%d%s-embed-%s.zip' % sub_tuple
+		url = 'https://www.python.org/ftp/python/%d.%d.%d/' % sub_tuple[:3]
+
+		return url + filename
+
+	@classmethod
+	def from_config(cls, arch, version):
+
+		if not isinstance(version):
+			raise TypeError('version must be str')
+		segments = version.split('.')
+		if not len(segments) in (3, 4):
+			raise ValueError('wrong number of version segments')
+		if len(segments) == 3:
+			segments.append('stable')
+		if not all((segment.isnumeric() for segment in segments[:3])):
+			raise ValueError('version segments are not numeric')
+		segments = tuple([int(segment) for segment in segments[:3]] + [segments[3]])
+
+		return cls(arch, *segments)
+
+	@classmethod
+	def from_zipname(cls, zip_name):
+
+		assert isinstance(zip_name, str)
+
+		fragments = zip_name.split('-')
+		fragments.append(fragments[3].split('.')[1])
+		fragments[3] = fragments[3].split('.')[0]
+
+		assert fragments[0] == 'python'
+		assert fragments[2] == 'embed'
+		assert fragments[3] in ('win32', 'amd64')
+		assert fragments[4] == 'zip'
+
+		arch = 'win32' if fragments[3] == 'win32' else 'win64'
+		release = [
+			int(f) if f.isnumeric() else f
+			for f in fragments[1].split('.')
+			]
+
+		if isinstance(release[2], str):
+			assert len(release[2]) > 0
+			for pos, char in enumerate(release[2]):
+				if not char.isdigit():
+					break
+			release.append(release[2][pos:])
+			release[2] = release[2][:pos]
+			assert release[2].isnumeric()
+			release[2] = int(release[2])
+
+		if len(release) == 3:
+			release.append('stable')
+		assert len(release) == 4
+
+		return cls(arch, *release)
