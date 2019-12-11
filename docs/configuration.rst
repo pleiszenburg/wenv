@@ -82,3 +82,8 @@ If set to ``true``, ``wenv init`` will try to create a *Wine Python environment*
 ^^^^^^^^^^^^^^^
 
 Path to the local cache directory. By default, it is set to ``{prefix}/share/wenv/cache``
+
+``packages`` (str)
+^^^^^^^^^^^^^^^^^^
+
+Path to the local package cache directory. By default, it is set to ``{cache}/packages``

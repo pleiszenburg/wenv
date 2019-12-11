@@ -91,6 +91,8 @@ class config_class(dict):
 			return False
 		elif key == 'cache':
 			return os.path.join(self['prefix'], 'share', 'wenv', 'cache')
+		elif key == 'packages':
+			return os.path.join(self['cache'], 'packages')
 		elif key == '_issues_50_workaround':
 			return False # Workaround for zugbruecke issue #50 (symlinks ...)
 		else:

@@ -354,7 +354,7 @@ class env_class:
 			proc_getpip = subprocess.Popen([
 				'wenv', 'python',
 				os.path.join(self._p['cache'], 'get-pip.py'),
-				'--no-index', '--find-links=%s' % self._p['cache'],
+				'--no-index', '--find-links=%s' % self._p['packages'],
 				])
 			proc_getpip.wait()
 		else:
