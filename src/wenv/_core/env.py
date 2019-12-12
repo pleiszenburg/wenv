@@ -161,6 +161,7 @@ class env_class:
 			WINEDLLOVERRIDES = 'mscoree=d', # Disable MONO: https://unix.stackexchange.com/a/191609
 			WINEDEBUG = self._p['winedebug'], # Wine debug level
 			PYTHONHOME = self._p['pythonprefix'], # Python home for Wine Python (can be a Unix path)
+			VIRTUAL_ENV = '', # Reset Unix virtual env variable - wenv is "independent"
 			))
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
