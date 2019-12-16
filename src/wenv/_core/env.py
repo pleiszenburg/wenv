@@ -162,6 +162,7 @@ class env_class:
 			WINEDEBUG = self._p['winedebug'], # Wine debug level
 			PYTHONHOME = self._p['pythonprefix'], # Python home for Wine Python (can be a Unix path)
 			VIRTUAL_ENV = '', # Reset Unix virtual env variable - wenv is "independent"
+			PIP_NO_WARN_SCRIPT_LOCATION = '0', # pip will not warn that pythonprefix and scripts are not in PATH
 			))
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
