@@ -164,6 +164,15 @@ class env_class:
 			VIRTUAL_ENV = '', # Reset Unix virtual env variable - wenv is "independent"
 			PIP_NO_WARN_SCRIPT_LOCATION = '0', # pip will not warn that pythonprefix and scripts are not in PATH
 			))
+		if self._p['wineinstallprefix'] not in (None, ''): # allow custom installations of Wine outside of PATH
+			path = self._envvar_dict.get('PATH', '')
+			self._envvar_dict['PATH'] = os.path.join(self._p['wineinstallprefix'], 'bin') + ':' + path
+			ld_library_path = self._envvar_dict.get('LD_LIBRARY_PATH', '')
+			self._envvar_dict['LD_LIBRARY_PATH'] = ':'.join((
+				os.path.join(self._p['wineinstallprefix'], 'lib'),
+				os.path.join(self._p['wineinstallprefix'], 'lib64'),
+				ld_library_path
+				)) # https://wiki.winehq.org/FAQ#Can_I_install_more_than_one_Wine_version_on_my_system.3F
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # WINE BUG #47766 / ZUGBRUECKE BUG #49

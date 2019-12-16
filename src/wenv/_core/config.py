@@ -77,6 +77,8 @@ class config_class(dict):
 			return '3.7.4' # Define Wine-Python version
 		elif key == 'winedebug':
 			return '-all' # Wine debug output off
+		elif key == 'wineinstallprefix':
+			return None # no custom Wine installation outside of PATH
 		elif key == 'prefix':
 			install_location = os.path.abspath(__file__)
 			if install_location.startswith(site.USER_BASE): # Hacky way of looking for a user installation
