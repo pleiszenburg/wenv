@@ -86,6 +86,4 @@ Path to the local cache directory. By default, it is set to ``{prefix}/share/wen
 ``packages`` (str)
 ^^^^^^^^^^^^^^^^^^
 
-Path to the local package cache directory. By default, it is set to ``{cache}/packages``.
-
-This cache is used for offline initialization of ``wenv`` only, see ``offline`` option. It is not a general offline cache for ``wenv pip``.
+Path to the local package cache directory. By default, it is set to ``{cache}/packages``. This cache is used for offline initialization of ``wenv`` only, see ``offline`` option. It is not a general offline cache for ``wenv pip``.
