@@ -2,7 +2,7 @@
 
 ## 0.2.0 (2019-XX-XX)
 
-- FEATURE: `wenv init` can be used offline. A cache for installation files was added, see #1. `wenv cache` fills the cache automatically (internet connection required), `WENV_OFFLINE=true wenv init` runs the initialization of the actual *Wine Python environment* offline. Offline functionality can be configured through the new configuration parameters `prefix`, `offline`, `cache` and `packages`.
+- FEATURE: `wenv init` can be used offline. A cache for installation files was added, see #1. `wenv cache` fills the cache automatically (internet connection required), `WENV_OFFLINE=true wenv init` runs the initialization of the actual *Wine Python environment* offline. Offline functionality can be configured through the new configuration parameters `prefix`, `offline`, `cache` and `packages`. See #1.
 - FEATURE: Added new configuration parameter `wineinstallprefix` allowing custom wine installation paths, see #10.
 - FIX: Using `requests` instead of `urllib` for loading components. Removed `certifi` workaround.
 - FIX: For user installations, `sys.prefix` is not the right place to put shared resources. `site.USER_BASE` should be used instead, see #4.
