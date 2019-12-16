@@ -76,14 +76,16 @@ This parameter can be used to specify a custom location for the *Wine Python env
 ``offline`` (str/bool)
 ^^^^^^^^^^^^^^^^^^^^^^
 
-If set to ``true``, ``wenv init`` will try to create a *Wine Python environment* from a locally cached *Windows Python* interpreter and a locally cached ``get-pip.py`` script. An exception is raised if any of the required components is not found in the local cache. For API usage, a boolean is expected. For command line usage / environment variables, strings equal to ``TRUE``/``True``/``true`` or ``FALSE``/``False``/``false`` are expected. By default, this option is set to ``false``.
+If set to ``true``, ``wenv init`` will try to create a *Wine Python environment* from a locally cached *Windows Python* interpreter, a locally cached ``get-pip.py`` script as well as locally cached wheels for ``pip``, ``wheel`` and ``setuptools``. An exception is raised if any of the required components is not found in the local cache. For API usage, a boolean is expected. For command line usage / environment variables, strings equal to ``TRUE``/``True``/``true`` or ``FALSE``/``False``/``false`` are expected. By default, this option is set to ``false``. ``wenv cache`` can be used, while online, to initialize the cache and download all required items.
 
 ``cache`` (str)
 ^^^^^^^^^^^^^^^
 
-Path to the local cache directory. By default, it is set to ``{prefix}/share/wenv/cache``
+Path to the local cache directory. By default, it is set to ``{prefix}/share/wenv/cache``.
 
 ``packages`` (str)
 ^^^^^^^^^^^^^^^^^^
 
-Path to the local package cache directory. By default, it is set to ``{cache}/packages``
+Path to the local package cache directory. By default, it is set to ``{cache}/packages``.
+
+This cache is used for offline initialization of ``wenv`` only, see ``offline`` option. It is not a general offline cache for ``wenv pip``.
