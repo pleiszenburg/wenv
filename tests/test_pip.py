@@ -49,7 +49,7 @@ def test_pip(arch):
 	assert 'pytest' not in out
 
 	out, err, code = run_process(
-		['wenv', 'pip', 'install', '--no-warn-script-location', 'pytest'],
+		['wenv', 'pip', 'install', 'pytest'],
 		env = {'WENV_ARCH': arch}
 		)
 
