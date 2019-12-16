@@ -143,6 +143,10 @@ class PythonVersion:
 
 		return self._arch
 
+	def as_block(self):
+
+		return '%d%d' % (self._major, self._minor)
+
 	def as_config(self):
 
 		return str(self)

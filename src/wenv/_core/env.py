@@ -56,6 +56,43 @@ def _symlink(src, dest):
 	if os.readlink(dest) != src:
 		raise OSError('"{LINK:s}" points to the wrong source'.format(LINK = dest))
 
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# PATHS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class Paths:
+
+	def __init__(self, pythonprefix, arch, pythonversion):
+
+		self._pythonprefix = pythonprefix
+		self._pythonversion_block = PythonVersion.from_config(arch, pythonversion).as_block()
+
+	def __getitem__(self, key):
+
+		if key == 'pythonprefix':
+			return self._pythonprefix
+		elif key == 'lib':
+			return os.path.join(self['pythonprefix'], 'Lib')
+		elif key == 'sitepackages':
+			return os.path.join(self['lib'], 'site-packages')
+		elif key == 'scripts':
+			return os.path.join(self['pythonprefix'], 'Scripts')
+		elif key == 'interpreter':
+			return os.path.join(self['pythonprefix'], 'python.exe')
+		elif key == 'pip':
+			return os.path.join(self['scripts'], 'pip.exe')
+		# elif key == 'pytest':
+		# 	return os.path.join(self['scripts'], 'pytest.exe')
+		# elif key == 'coverage':
+		# 	return os.path.join(self['scripts'], 'coverage.exe')
+		elif key == 'libzip':
+			return os.path.join(self['pythonprefix'], 'python%s.zip' % self._pythonversion_block)
+		elif key == 'pth':
+			return os.path.join(self['pythonprefix'], 'python%s._pth' % self._pythonversion_block)
+		else:
+			raise KeyError('not a valid path key')
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # WINE-PYTHON ENVIRONMENT CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -85,48 +122,13 @@ class env_class:
 		self._wine_dict = {'win32': 'wine', 'win64': 'wine64'}
 
 		# Init Python environment paths
-		self._init_path_dict()
+		self._path_dict = Paths(self._p['pythonprefix'], self._p['arch'], self._p['pythonversion'])
 		# Init Python commands and scripts
 		self._init_cmd_dict()
 		# Init internal CLI commands
 		self._init_cli_dict()
 		# Init environment variables
 		self._init_envvar_dict()
-
-	def _init_path_dict(self):
-
-		version_string = ''.join(self._p['pythonversion'].split('.')[0:2])
-
-		# python standard library
-		lib_path = os.path.join(self._p['pythonprefix'], 'Lib')
-		# site-packages
-		sitepackages_path = os.path.join(lib_path, 'site-packages')
-		# python interpreter
-		interpreter_path = os.path.join(self._p['pythonprefix'], 'python.exe')
-		# scripts
-		scripts_path = os.path.join(self._p['pythonprefix'], 'Scripts')
-		# pip
-		pip_path = os.path.join(scripts_path, 'pip.exe')
-		# pytest
-		pytest_path = os.path.join(scripts_path, 'pytest.exe')
-		# coverage
-		coverage_path = os.path.join(scripts_path, 'coverage.exe')
-		# stdlib zip filename
-		stdlibzip_path = os.path.join(self._p['pythonprefix'], 'python%s.zip' % version_string)
-		# pth filename (library path)
-		pth_path = os.path.join(self._p['pythonprefix'], 'python%s._pth' % version_string)
-
-		self._path_dict = dict(
-			lib = lib_path,
-			sitepackages = sitepackages_path,
-			scripts = scripts_path,
-			interpreter = interpreter_path,
-			pip = pip_path,
-			pytest = pytest_path,
-			coverage = coverage_path,
-			stdlibzip = stdlibzip_path,
-			pth = pth_path,
-			)
 
 	def _init_cmd_dict(self):
 
@@ -357,10 +359,10 @@ class env_class:
 				f.extractall(path = self._p['pythonprefix']) # Directory created if required
 
 			# Unpack Python library from embedded zip on disk
-			with zipfile.ZipFile(self._path_dict['stdlibzip'], 'r') as f:
+			with zipfile.ZipFile(self._path_dict['libzip'], 'r') as f:
 				f.extractall(path = self._path_dict['lib']) # Directory created if required
 			# Remove Python library zip from disk
-			os.remove(self._path_dict['stdlibzip'])
+			os.remove(self._path_dict['libzip'])
 
 			# HACK: Fix library path in pth-file (CPython >= 3.6)
 			with open(self._path_dict['pth'], 'w') as f:
@@ -457,7 +459,7 @@ class env_class:
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	def _cli_init(self):
-		"sets up an environment (including Wine prefix, Python interpreter, pip and pytest)"
+		"sets up an environment (Wine prefix, Python interpreter, pip, setuptools, wheel)"
 
 		self.ensure()
 
@@ -467,12 +469,12 @@ class env_class:
 		self.setup_coverage_activate()
 
 	def _cli_cache(self):
-		"fetches installation files and caches them for offline usage (Python, pip, setuptools, wheel)"
+		"fetches installation files and caches them for offline usage (Python interpreter, pip, setuptools, wheel)"
 
 		self.cache()
 
 	def _cli_clean(self):
-		"removes current environment (including Wine prefix, Python interpreter and pip)"
+		"removes current environment (Python interpreter, pip, setuptools, wheel, all installed packages)"
 
 		self.uninstall()
 
