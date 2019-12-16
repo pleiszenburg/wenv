@@ -7,6 +7,7 @@
 - FIX: Using `requests` instead of `urllib` for loading components. Removed `certifi` workaround.
 - FIX: For user installations, `sys.prefix` is not the right place to put shared resources. `site.USER_BASE` should be used instead, see #4.
 - FIX: `wenv init` would trigger Wine's "update prefix" message window even when used in scripts. Now suppressed, see #5.
+- FIX: `wenv pip` does not warn anymore that exe-files are not in PATH, see #6.
 
 ## 0.1.1 (2019-12-09)
 
