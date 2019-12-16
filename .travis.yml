@@ -55,12 +55,12 @@ before_install:
   - sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
   - sudo apt-get -qq update
   - sudo apt-get install -y wine-staging
-  - export PATH=/opt/wine-staging/bin:$PATH
+  # - export PATH=/opt/wine-staging/bin:$PATH
   - pip install -U pip
   - pip install -U setuptools
   - pip install -U pytest
-  - wine --version
-  - wine64 --version
+  - PATH=/opt/wine-staging/bin:$PATH wine --version
+  - PATH=/opt/wine-staging/bin:$PATH wine64 --version
   - python --version
   - pytest --version
   - uname -a
@@ -71,7 +71,7 @@ install:
   - make install
 
 # command to run tests
-script: make test
+script: WENV_WINEINSTALLPREFIX=/opt/wine-staging make test
 
 # Notify developers
 notifications:
