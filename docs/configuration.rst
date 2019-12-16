@@ -87,3 +87,8 @@ Path to the local cache directory. By default, it is set to ``{prefix}/share/wen
 ^^^^^^^^^^^^^^^^^^
 
 Path to the local package cache directory. By default, it is set to ``{cache}/packages``. This cache is used for offline initialization of ``wenv`` only, see ``offline`` option. It is not a general offline cache for ``wenv pip``.
+
+``wineinstallprefix`` (str)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Path to custom *Wine* installation. Binaries are expected in ``{wineinstallprefix}/bin``, libraries in ``{wineinstallprefix}/lib`` and ``{wineinstallprefix}/lib64``. If set to an empty string or ``None``, its value is ignored.
