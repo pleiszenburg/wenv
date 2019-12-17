@@ -43,7 +43,6 @@ import pytest
 def test_pip(arch):
 
 	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-
 	assert code == 0
 	assert len(err.strip()) == 0
 	assert 'pip' in out
@@ -54,12 +53,10 @@ def test_pip(arch):
 		['wenv', 'pip', 'install', 'pytest'],
 		env = {'WENV_ARCH': arch}
 		)
-
 	assert code == 0
 	assert len(err.strip()) == 0
 
 	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-
 	assert code == 0
 	assert len(err.strip()) == 0
 	assert 'pip' in out
@@ -72,19 +69,41 @@ def test_pip_api(arch):
 	env = Env(arch = arch)
 
 	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-
 	assert code == 0
 	assert len(err.strip()) == 0
 	assert 'pip' in out
 	assert 'setuptools' in out
 	assert 'requests' not in out
 
+	packages = [package['name'] for package in env.list_packages()]
+	assert 'pip' in packages
+	assert 'setuptools' in packages
+	assert 'requests' not in packages
+
 	env.install_package('requests')
 
 	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-
 	assert code == 0
 	assert len(err.strip()) == 0
 	assert 'pip' in out
 	assert 'setuptools' in out
 	assert 'requests' in out
+
+	packages = [package['name'] for package in env.list_packages()]
+	assert 'pip' in packages
+	assert 'setuptools' in packages
+	assert 'requests' in packages
+
+	env.uninstall_package('requests')
+
+	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'pip' in out
+	assert 'setuptools' in out
+	assert 'requests' not in out
+
+	packages = [package['name'] for package in env.list_packages()]
+	assert 'pip' in packages
+	assert 'setuptools' in packages
+	assert 'requests' not in packages

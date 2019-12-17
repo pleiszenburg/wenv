@@ -434,6 +434,47 @@ class Env:
 		if proc.returncode != 0:
 			raise SystemError('installing package "%s" failed' % name, outs, errs)
 
+	def uninstall_package(self, name):
+		"""
+		Thin wrapper for `wenv pip uninstall -y`
+		"""
+
+		if not isinstance(name, str):
+			raise TypeError('name must be str')
+		if len(name) == 0:
+			raise ValueError('name must not be empty')
+
+		envvar_dict = {k: os.environ[k] for k in os.environ.keys()}
+		envvar_dict.update(self._p.export_envvar_dict())
+
+		proc = subprocess.Popen(
+			['wenv', 'pip', 'uninstall', '-y', name],
+			stdout = subprocess.PIPE, stderr = subprocess.PIPE,
+			env = envvar_dict
+			)
+		outs, errs = proc.communicate()
+		if proc.returncode != 0:
+			raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
+
+	def list_packages(self):
+		"""
+		Thin wrapper for `wenv pip list --format json`
+		"""
+
+		envvar_dict = {k: os.environ[k] for k in os.environ.keys()}
+		envvar_dict.update(self._p.export_envvar_dict())
+
+		proc = subprocess.Popen(
+			['wenv', 'pip', 'list', '--format', 'json'],
+			stdout = subprocess.PIPE, stderr = subprocess.PIPE,
+			env = envvar_dict
+			)
+		outs, errs = proc.communicate()
+		if proc.returncode != 0:
+			raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
+
+		return json.loads(outs.decode('utf-8'))
+
 	def install_requirements(self, requirements):
 		"""
 		Installs requirements provided as a string similar to a requirements.txt file
