@@ -405,6 +405,10 @@ class Env:
 				)
 			proc.communicate(input = getpip)
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# PACKAGE MANAGEMENT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 	def install_package(self, name, update = False):
 		"""
 		Thin wrapper for `wenv pip install`
@@ -474,56 +478,6 @@ class Env:
 			raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
 
 		return json.loads(outs.decode('utf-8'))
-
-	def ln_package(self, name):
-		"""
-		Link package from surrounding Unix environment to Wine environment
-		"""
-		pass
-
-	def cp_package(self, name):
-		"""
-		Copy package from surrounding Unix environment to Wine environment (_issues_50_workaround)
-		"""
-		pass
-
-	def rm_package_link(self, name):
-		"""
-		Revert link_package
-		"""
-		pass
-
-	def rm_package_copy(self, name):
-		"""
-		Revert copy_package
-		"""
-		pass
-
-		# # Package path in unix-python site-packages
-		# unix_pkg_path = os.path.abspath(os.path.dirname(__file__))
-		# # Package path in wine-python site-packages
-		# wine_pkg_path = os.path.abspath(os.path.join(self._path_dict['sitepackages'], 'zugbruecke'))
-		#
-		# if not self._p['_issues_50_workaround']:
-		# 	# Link zugbruecke package into wine-python site-packages
-		# 	_symlink(unix_pkg_path, wine_pkg_path)
-		# else:
-		# 	if not os.path.exists(wine_pkg_path):
-		# 		# Copy zugbruecke package into wine-python site-packages
-		# 		shutil.copytree(unix_pkg_path, wine_pkg_path)
-		#
-		# # Egg path in unix-python site-packages
-		# unix_egg_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'zugbruecke.egg-info'))
-		# # Egg path in wine-python site-packages
-		# wine_egg_path = os.path.abspath(os.path.join(self._path_dict['sitepackages'], 'zugbruecke.egg-info'))
-		#
-		# if not self._p['_issues_50_workaround']:
-		# 	# Link zugbruecke egg into wine-python site-packages
-		# 	_symlink(unix_egg_path, wine_egg_path)
-		# else:
-		# 	if not os.path.exists(wine_egg_path):
-		# 		# Copy zugbruecke egg into wine-python site-packages
-		# 		shutil.copytree(unix_egg_path, wine_egg_path)
 
 	def setup_coverage_activate(self):
 
