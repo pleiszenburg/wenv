@@ -405,6 +405,18 @@ class Env:
 				)
 			proc.communicate(input = getpip)
 
+	def setup_coverage_activate(self):
+
+		# Ensure that coverage is started with the Python interpreter
+		siteconfig_cnt = ''
+		if os.path.isfile(self._path_dict['sitecustomize']):
+			with open(self._path_dict['sitecustomize'], 'r') as f:
+				siteconfig_cnt = f.read()
+			if COVERAGE_STARTUP in siteconfig_cnt:
+				return
+		with open(self._path_dict['sitecustomize'], 'w') as f:
+			f.write(siteconfig_cnt + '\n' + COVERAGE_STARTUP)
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # PACKAGE MANAGEMENT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -478,18 +490,6 @@ class Env:
 			raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
 
 		return json.loads(outs.decode('utf-8'))
-
-	def setup_coverage_activate(self):
-
-		# Ensure that coverage is started with the Python interpreter
-		siteconfig_cnt = ''
-		if os.path.isfile(self._path_dict['sitecustomize']):
-			with open(self._path_dict['sitecustomize'], 'r') as f:
-				siteconfig_cnt = f.read()
-			if COVERAGE_STARTUP in siteconfig_cnt:
-				return
-		with open(self._path_dict['sitecustomize'], 'w') as f:
-			f.write(siteconfig_cnt + '\n' + COVERAGE_STARTUP)
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLI
