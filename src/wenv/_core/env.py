@@ -475,13 +475,6 @@ class Env:
 
 		return json.loads(outs.decode('utf-8'))
 
-	def install_requirements(self, requirements):
-		"""
-		Installs requirements provided as a string similar to a requirements.txt file
-		Thin wrapper for `wenv pip install -r`
-		"""
-		pass
-
 	def ln_package(self, name):
 		"""
 		Link package from surrounding Unix environment to Wine environment
