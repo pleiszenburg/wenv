@@ -401,7 +401,23 @@ class Env:
 		"""
 		Thin wrapper for `wenv pip install`
 		"""
-		pass
+
+		if not isinstance(name, str):
+			raise TypeError('name must be str')
+		if len(name) == 0:
+			raise ValueError('name must not be empty')
+		if not isinstance(update, bool):
+			raise TypeError('update must be bool')
+
+		cmd = ['wenv', 'pip', 'install']
+		if update:
+			cmd.append('-U')
+		cmd.append(name)
+
+		proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+		outs, errs = proc.communicate()
+		if proc.returncode != 0:
+			raise SystemError('installing package "%s" failed' % name, outs, errs)
 
 	def install_requirements(self, requirements):
 		"""

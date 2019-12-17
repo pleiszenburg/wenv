@@ -31,6 +31,8 @@ specific language governing rights and limitations under the License.
 
 from .lib import get_context, run_process
 
+from wenv import Env
+
 import pytest
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -63,3 +65,26 @@ def test_pip(arch):
 	assert 'pip' in out
 	assert 'setuptools' in out
 	assert 'pytest' in out
+
+@pytest.mark.parametrize('arch', get_context())
+def test_pip_api(arch):
+
+	env = Env(arch = arch)
+
+	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'pip' in out
+	assert 'setuptools' in out
+	assert 'requests' not in out
+
+	env.install_package('requests')
+
+	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'pip' in out
+	assert 'setuptools' in out
+	assert 'requests' in out
