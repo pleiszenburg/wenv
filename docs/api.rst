@@ -10,12 +10,12 @@
 	triple: wine; python; environment
 	module: wenv._core.env
 
-API: class ``env``
+API: class ``Env``
 ==================
 
-``wenv`` can not only be used from the command line. It also offers an API through its ``env`` class.
+``wenv`` can not only be used from the command line. It also offers an API through its ``Env`` class.
 
-Constructor: ``env(parameter = None)``
+Constructor: ``Env(parameter = None)``
 --------------------------------------
 
 The constructor expects one optional argument, ``parameter``. It should either be ``None`` or a dictionary. In the latter case, the dictionary may contain all valid configuration options.
