@@ -36,7 +36,7 @@ import subprocess
 import sys
 import zipfile
 
-from .config import config_class
+from .config import EnvConfig
 from .const import c, COVERAGE_STARTUP, HELP_STR
 from .source import download, PythonVersion
 
@@ -109,7 +109,7 @@ class Env:
 
 		# Get config
 		if parameter is None:
-			self._p = config_class()
+			self._p = EnvConfig()
 		else:
 			if not isinstance(parameter, dict):
 				raise TypeError('parameter is not a dictionary')

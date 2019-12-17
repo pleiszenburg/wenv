@@ -34,13 +34,13 @@ import site
 import sys
 
 from .const import CONFIG_FN
-from .errors import config_parser_error
+from .errors import EnvConfigParserError
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CONFIGURATION CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class config_class(dict):
+class EnvConfig(dict):
 
 	def __init__(self, **override_dict):
 
@@ -132,16 +132,16 @@ class config_class(dict):
 			with open(try_path, 'r', encoding = 'utf-8') as f:
 				cnt = f.read()
 		except:
-			raise config_parser_error('Config file could not be read: "%s"' % try_path)
+			raise EnvConfigParserError('Config file could not be read: "%s"' % try_path)
 
 		# Try to parse it
 		try:
 			cnt_dict = json.loads(cnt)
 		except:
-			raise config_parser_error('Config file could not be parsed: "%s"' % try_path)
+			raise EnvConfigParserError('Config file could not be parsed: "%s"' % try_path)
 
 		# Ensure that config has the right format
 		if not isinstance(cnt_dict, dict):
-			raise config_parser_error('Config file is malformed: "%s"' % try_path)
+			raise EnvConfigParserError('Config file is malformed: "%s"' % try_path)
 
 		return cnt_dict
