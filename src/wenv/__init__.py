@@ -36,3 +36,6 @@ from ._core.env import (
 from ._core.config import (
 	EnvConfig,
 	)
+from ._core.errors import (
+	EnvConfigParserError,
+	)
