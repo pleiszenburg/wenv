@@ -84,10 +84,6 @@ class Paths:
 			return os.path.join(self['pythonprefix'], 'python.exe')
 		elif key == 'pip':
 			return os.path.join(self['scripts'], 'pip.exe')
-		# elif key == 'pytest':
-		# 	return os.path.join(self['scripts'], 'pytest.exe')
-		# elif key == 'coverage':
-		# 	return os.path.join(self['scripts'], 'coverage.exe')
 		elif key == 'libzip':
 			return os.path.join(self['pythonprefix'], 'python%s.zip' % self._pythonversion_block)
 		elif key == 'pth':
