@@ -138,19 +138,20 @@ class Env:
 
 	def _init_cmd_dict(self):
 
-		out = {'python': self._path_dict['interpreter']} # TODO check!
+		def ls_exe(dir):
+			if not os.path.isdir(dir):
+				return
+			for item in os.listdir(dir):
+				if not item.lower().endswith('.exe'):
+					continue
+				yield item[:-4], os.path.join(dir, item)
 
-		if not os.path.exists(self._path_dict['scripts']):
-			self._cmd_dict = out
-			return
-
-		scripts = os.listdir(self._path_dict['scripts'])
-		for script in scripts:
-			if not script.lower().endswith('.exe'):
-				continue
-			out[script[:-4]] = os.path.join(self._path_dict['scripts'], script)
-
-		self._cmd_dict = out
+		self._cmd_dict = {
+			item: path for item, path in ls_exe(self._path_dict['scripts'])
+			}
+		self._cmd_dict.update({
+			item: path for item, path in ls_exe(self._path_dict['pythonprefix'])
+			})
 
 	def _init_cli_dict(self):
 
