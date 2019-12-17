@@ -33,3 +33,6 @@ from ._core.env import (
 	Env as env,
 	shebang,
 	)
+from ._core.config import (
+	EnvConfig,
+	)
