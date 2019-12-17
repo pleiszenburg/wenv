@@ -407,13 +407,13 @@ class Env:
 		"""
 		pass
 
-	def link_package(self, name):
+	def ln_package(self, name):
 		"""
 		Link package from surrounding Unix environment to Wine environment
 		"""
 		pass
 
-	def copy_package(self, name):
+	def cp_package(self, name):
 		"""
 		Copy package from surrounding Unix environment to Wine environment (_issues_50_workaround)
 		"""
