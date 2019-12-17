@@ -49,6 +49,11 @@ Method: ``setup_pip()``
 
 Part of the initialization process, but can be triggered on its own if required. It installs ``pip``, assuming that both the ``wineprefix`` and ``pythonprefix`` are already present.
 
+Method: ``install_package(name, update = False)``
+-------------------------------------------------
+
+Thin wrapper around ``wenv pip install [-U] {name}``.
+
 Method: ``shebang()``
 ---------------------
 
