@@ -76,6 +76,8 @@ class Paths:
 			return os.path.join(self['pythonprefix'], 'Lib')
 		elif key == 'sitepackages':
 			return os.path.join(self['lib'], 'site-packages')
+		elif key == 'sitecustomize':
+			return os.path.join(self['sitepackages'], 'sitecustomize.py')
 		elif key == 'scripts':
 			return os.path.join(self['pythonprefix'], 'Scripts')
 		elif key == 'interpreter':
@@ -444,14 +446,13 @@ class env_class:
 	def setup_coverage_activate(self):
 
 		# Ensure that coverage is started with the Python interpreter
-		siteconfig_path = os.path.join(self._path_dict['sitepackages'], 'sitecustomize.py')
 		siteconfig_cnt = ''
-		if os.path.isfile(siteconfig_path):
-			with open(siteconfig_path, 'r') as f:
+		if os.path.isfile(self._path_dict['sitecustomize']):
+			with open(self._path_dict['sitecustomize'], 'r') as f:
 				siteconfig_cnt = f.read()
 			if COVERAGE_STARTUP in siteconfig_cnt:
 				return
-		with open(siteconfig_path, 'w') as f:
+		with open(self._path_dict['sitecustomize'], 'w') as f:
 			f.write(siteconfig_cnt + '\n' + COVERAGE_STARTUP)
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
