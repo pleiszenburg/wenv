@@ -402,6 +402,7 @@ class Env:
 	def install_requirements(self, requirements):
 		"""
 		Installs requirements provided as a string similar to a requirements.txt file
+		Thin wrapper for `wenv pip install -r`
 		"""
 		pass
 
@@ -414,6 +415,18 @@ class Env:
 	def copy_package(self, name):
 		"""
 		Copy package from surrounding Unix environment to Wine environment (_issues_50_workaround)
+		"""
+		pass
+
+	def rm_package_link(self, name):
+		"""
+		Revert link_package
+		"""
+		pass
+
+	def rm_package_copy(self, name):
+		"""
+		Revert copy_package
 		"""
 		pass
 
