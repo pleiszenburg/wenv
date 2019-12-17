@@ -30,6 +30,14 @@ specific language governing rights and limitations under the License.
 
 from ._core.env import (
 	cli,
-	env_class as env,
+	Env,
 	shebang,
 	)
+from ._core.config import (
+	EnvConfig,
+	)
+from ._core.errors import (
+	EnvConfigParserError,
+	)
+
+env = Env # legacy

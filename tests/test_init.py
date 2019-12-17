@@ -63,3 +63,36 @@ def test_init(arch):
 	assert len(err.strip()) == 0
 	assert 'wenv pip' in out
 	# assert 'wenv python' in out # TODO
+
+@pytest.mark.parametrize('arch', get_context())
+def test_init_offline(arch):
+
+	out, err, code = run_process(['wenv', 'clean'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+
+	out, err, code = run_process(['wenv', 'help'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'wenv pip' not in out
+	# assert 'wenv python' not in out # TODO
+
+	out, err, code = run_process(['wenv', 'cache'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'wenv pip' not in out
+
+	out, err, code = run_process(['wenv', 'init'], env = {'WENV_ARCH': arch, 'WENV_OFFLINE': 'true'})
+
+	assert code == 0
+	# assert len(err.strip()) == 0 # pip output goes to stderr
+
+	out, err, code = run_process(['wenv', 'help'], env = {'WENV_ARCH': arch})
+
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'wenv pip' in out
+	# assert 'wenv python' in out # TODO

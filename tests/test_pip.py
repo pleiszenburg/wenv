@@ -31,6 +31,8 @@ specific language governing rights and limitations under the License.
 
 from .lib import get_context, run_process
 
+from wenv import Env
+
 import pytest
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -41,7 +43,6 @@ import pytest
 def test_pip(arch):
 
 	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-
 	assert code == 0
 	assert len(err.strip()) == 0
 	assert 'pip' in out
@@ -49,17 +50,60 @@ def test_pip(arch):
 	assert 'pytest' not in out
 
 	out, err, code = run_process(
-		['wenv', 'pip', 'install', '--no-warn-script-location', 'pytest'],
+		['wenv', 'pip', 'install', 'pytest'],
 		env = {'WENV_ARCH': arch}
 		)
-
 	assert code == 0
 	assert len(err.strip()) == 0
 
 	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-
 	assert code == 0
 	assert len(err.strip()) == 0
 	assert 'pip' in out
 	assert 'setuptools' in out
 	assert 'pytest' in out
+
+@pytest.mark.parametrize('arch', get_context())
+def test_pip_api(arch):
+
+	env = Env(arch = arch)
+
+	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'pip' in out
+	assert 'setuptools' in out
+	assert 'requests' not in out
+
+	packages = [package['name'] for package in env.list_packages()]
+	assert 'pip' in packages
+	assert 'setuptools' in packages
+	assert 'requests' not in packages
+
+	env.install_package('requests')
+
+	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'pip' in out
+	assert 'setuptools' in out
+	assert 'requests' in out
+
+	packages = [package['name'] for package in env.list_packages()]
+	assert 'pip' in packages
+	assert 'setuptools' in packages
+	assert 'requests' in packages
+
+	env.uninstall_package('requests')
+
+	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
+	assert code == 0
+	assert len(err.strip()) == 0
+	assert 'pip' in out
+	assert 'setuptools' in out
+	assert 'requests' not in out
+
+	packages = [package['name'] for package in env.list_packages()]
+	assert 'pip' in packages
+	assert 'setuptools' in packages
+	assert 'requests' not in packages

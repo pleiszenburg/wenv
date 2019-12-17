@@ -1,5 +1,19 @@
 # Changes
 
+## 0.2.0 (2019-12-17)
+
+- FEATURE: `wenv init` can be used offline. A cache for installation files was added, see #1. `wenv cache` fills the cache automatically (internet connection required), `WENV_OFFLINE=true wenv init` runs the initialization of the actual *Wine Python environment* offline. Offline functionality can be configured through the new configuration parameters `prefix`, `offline`, `cache` and `packages`. See #1.
+- FEATURE: Added new configuration parameter `wineinstallprefix` allowing custom wine installation paths, see #10.
+- FEATURE: `wenv` now not only exposes `python.exe` but also `pythonw.exe`.
+- FEATURE: New APIs: ``Env.install_package``, ``Env.uninstall_package``, ``Env.list_packages``
+- FIX: Using `requests` instead of `urllib` for loading components. Removed `certifi` workaround.
+- FIX: For user installations, `sys.prefix` is not the right place to put shared resources. `site.USER_BASE` should be used instead, see #4.
+- FIX: `wenv init` would trigger Wine's "update prefix" message window even when used in scripts. Now suppressed, see #5.
+- FIX: `wenv pip` does not warn anymore that exe-files are not in PATH, see #6.
+- FIX: `wenv help` only shows `python` command if the Python interpreter is actually available.
+- API: Environment class is exported as ``Env``. ``env`` is deprecated and will be removed.
+- API: The constructor of the environment class expects keyword arguments matching configuration options. The use of a ``parameter`` dictionary is deprecated and support will be removed.
+
 ## 0.1.1 (2019-12-09)
 
 * FIX: `wenv` installed its environment into `shared` folder instead of `share`.

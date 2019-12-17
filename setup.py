@@ -43,7 +43,7 @@ from sys import platform
 
 
 # Bump version HERE!
-_version_ = '0.1.1'
+_version_ = '0.2.0'
 
 
 # List all versions of Python which are supported
@@ -79,7 +79,9 @@ setup(
 	keywords = ['wine', 'cross platform'],
 	scripts = [],
 	include_package_data = True,
-	install_requires = [],
+	install_requires = [
+		'requests'
+		],
 	extras_require = {
 		'dev': [
 			'pytest',
@@ -91,9 +93,6 @@ setup(
 			'sphinx_rtd_theme',
 			'twine',
 			'wheel'
-			],
-		'certifi': [
-			'certifi'
 			]
 		},
 	zip_safe = False,

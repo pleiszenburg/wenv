@@ -30,16 +30,17 @@ specific language governing rights and limitations under the License.
 
 import os
 import json
+import site
 import sys
 
 from .const import CONFIG_FN
-from .errors import config_parser_error
+from .errors import EnvConfigParserError
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CONFIGURATION CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class config_class(dict):
+class EnvConfig(dict):
 
 	def __init__(self, **override_dict):
 
@@ -76,14 +77,47 @@ class config_class(dict):
 			return '3.7.4' # Define Wine-Python version
 		elif key == 'winedebug':
 			return '-all' # Wine debug output off
+		elif key == 'wineinstallprefix':
+			return None # no custom Wine installation outside of PATH
+		elif key == 'prefix':
+			install_location = os.path.abspath(__file__)
+			if install_location.startswith(site.USER_BASE): # Hacky way of looking for a user installation
+				return site.USER_BASE
+			else:
+				return sys.prefix
 		elif key == 'wineprefix':
-			return os.path.join(sys.prefix, 'share', 'wenv', self['arch'])
+			return os.path.join(self['prefix'], 'share', 'wenv', self['arch'])
 		elif key == 'pythonprefix':
 			return os.path.join(self['wineprefix'], 'drive_c', 'python-%s' % self['pythonversion'])
+		elif key == 'offline':
+			return False
+		elif key == 'cache':
+			return os.path.join(self['prefix'], 'share', 'wenv', 'cache')
+		elif key == 'packages':
+			return os.path.join(self['cache'], 'packages')
 		elif key == '_issues_50_workaround':
 			return False # Workaround for zugbruecke issue #50 (symlinks ...)
 		else:
 			raise KeyError('not a valid configuration key')
+
+	def export_envvar_dict(self):
+
+		return {
+			'WENV_' + field.upper(): '' if field is None else str(self[field])
+			for field in (
+				'arch',
+				'pythonversion',
+				'winedebug',
+				'wineinstallprefix',
+				'prefix',
+				'wineprefix',
+				'pythonprefix',
+				'offline',
+				'cache',
+				'packages',
+				'_issues_50_workaround',
+				)
+			}
 
 	def _get_config_from_files(self):
 
@@ -117,16 +151,16 @@ class config_class(dict):
 			with open(try_path, 'r', encoding = 'utf-8') as f:
 				cnt = f.read()
 		except:
-			raise config_parser_error('Config file could not be read: "%s"' % try_path)
+			raise EnvConfigParserError('Config file could not be read: "%s"' % try_path)
 
 		# Try to parse it
 		try:
 			cnt_dict = json.loads(cnt)
 		except:
-			raise config_parser_error('Config file could not be parsed: "%s"' % try_path)
+			raise EnvConfigParserError('Config file could not be parsed: "%s"' % try_path)
 
 		# Ensure that config has the right format
 		if not isinstance(cnt_dict, dict):
-			raise config_parser_error('Config file is malformed: "%s"' % try_path)
+			raise EnvConfigParserError('Config file is malformed: "%s"' % try_path)
 
 		return cnt_dict
