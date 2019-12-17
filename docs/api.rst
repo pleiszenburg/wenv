@@ -54,6 +54,16 @@ Method: ``install_package(name, update = False)``
 
 Thin wrapper around ``wenv pip install [-U] {name}``.
 
+Method: ``uninstall_package(name)``
+-----------------------------------
+
+Thin wrapper around ``wenv pip uninstall -y {name}``.
+
+Method: ``list_packages()``
+---------------------------
+
+Thin wrapper around ``wenv pip list --format json``. Returns a list of dictionaries.
+
 Method: ``shebang()``
 ---------------------
 
