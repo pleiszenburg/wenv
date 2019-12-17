@@ -414,7 +414,14 @@ class Env:
 			cmd.append('-U')
 		cmd.append(name)
 
-		proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+		envvar_dict = {k: os.environ[k] for k in os.environ.keys()}
+		envvar_dict.update(self._p.export_envvar_dict())
+
+		proc = subprocess.Popen(
+			cmd,
+			stdout = subprocess.PIPE, stderr = subprocess.PIPE,
+			env = envvar_dict
+			)
 		outs, errs = proc.communicate()
 		if proc.returncode != 0:
 			raise SystemError('installing package "%s" failed' % name, outs, errs)

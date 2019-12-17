@@ -100,6 +100,25 @@ class EnvConfig(dict):
 		else:
 			raise KeyError('not a valid configuration key')
 
+	def export_envvar_dict(self):
+
+		return {
+			'WENV_' + field.upper(): '' if field is None else str(self[field])
+			for field in (
+				'arch',
+				'pythonversion',
+				'winedebug',
+				'wineinstallprefix',
+				'prefix',
+				'wineprefix',
+				'pythonprefix',
+				'offline',
+				'cache',
+				'packages',
+				'_issues_50_workaround',
+				)
+			}
+
 	def _get_config_from_files(self):
 
 		# Look for config in the usual spots
