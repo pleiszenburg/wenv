@@ -30,6 +30,6 @@ specific language governing rights and limitations under the License.
 
 from ._core.env import (
 	cli,
-	env_class as env,
+	Env as env,
 	shebang,
 	)

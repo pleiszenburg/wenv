@@ -99,7 +99,7 @@ class Paths:
 # WINE-PYTHON ENVIRONMENT CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class env_class:
+class Env:
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # INIT
@@ -576,8 +576,8 @@ class env_class:
 
 def cli():
 
-	env_class().cli()
+	Env().cli()
 
 def shebang():
 
-	env_class().shebang()
+	Env().shebang()
