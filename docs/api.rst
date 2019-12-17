@@ -25,7 +25,7 @@ In previous releases, the constructor expected one optional argument, ``paramete
 Method: ``ensure()``
 --------------------
 
-Equivalent of ``wenv init``. Intended to be used by 3rd-party packages which want to "ensure" that ``wenv`` has been initialized (i.e. *Python* and *pip* are present and working).
+Equivalent of ``wenv init``. Intended to be used by 3rd-party packages which want to "ensure" that ``wenv`` has been initialized (i.e. *Python* and *pip* are present and working). ``ensure()`` calls ``wine_47766_workaround()`` internally.
 
 Method: ``wine_47766_workaround()``
 -----------------------------------
