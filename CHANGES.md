@@ -1,5 +1,9 @@
 # Changes
 
+## 0.2.1 (2019-XX-XX)
+
+- (TBD)
+
 ## 0.2.0 (2019-12-17)
 
 - FEATURE: `wenv init` can be used offline. A cache for installation files was added, see #1. `wenv cache` fills the cache automatically (internet connection required), `WENV_OFFLINE=true wenv init` runs the initialization of the actual *Wine Python environment* offline. Offline functionality can be configured through the new configuration parameters `prefix`, `offline`, `cache` and `packages`. See #1.
