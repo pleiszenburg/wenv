@@ -15,10 +15,12 @@ API: class ``Env``
 
 ``wenv`` can not only be used from the command line. It also offers an API through its ``Env`` class.
 
-Constructor: ``Env(parameter = None)``
---------------------------------------
+Constructor: ``Env(**kwargs)``
+------------------------------
 
-The constructor expects one optional argument, ``parameter``. It should either be ``None`` or a dictionary. In the latter case, the dictionary may contain all valid configuration options.
+The constructor expects an arbitrary number of keyword arguments matching valid configuration options.
+
+In previous releases, the constructor expected one optional argument, ``parameter``. It should either be ``None`` or a dictionary. In the latter case, the dictionary may contain all valid configuration options. ``parameter`` can still be used but is deprecated.
 
 Method: ``ensure()``
 --------------------
