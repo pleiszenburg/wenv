@@ -105,17 +105,22 @@ class Env:
 # INIT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	def __init__(self, parameter = None):
+	def __init__(self, **kwargs):
 
-		# Get config
-		if parameter is None:
-			self._p = EnvConfig()
+		if 'parameter' in kwargs.keys(): # legacy API
+			if len(kwargs) > 1:
+				raise TypeError('legacy API: only allows one parameter dict, named "parameter"')
+			kwargs = kwargs['parameter']
+			if kwargs is None:
+				kwargs = dict()
+			if not isinstance(kwargs, dict) and not isinstance(kwargs, EnvConfig):
+				raise TypeError('legacy API: only allows one parameter, must be a dict or EnvConfig')
+			if not isinstance(kwargs, EnvConfig):
+				kwargs = EnvConfig(**kwargs)
 		else:
-			if not isinstance(parameter, dict):
-				raise TypeError('parameter is not a dictionary')
-			self._p = parameter
+			kwargs = EnvConfig(**kwargs)
 
-		# Init internal dicts
+		self._p = kwargs
 		self._init_dicts()
 
 	def _init_dicts(self):
