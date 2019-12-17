@@ -385,17 +385,25 @@ class Env:
 		if os.path.isfile(self._path_dict['pip']):
 			return
 
+		envvar_dict = {k: os.environ[k] for k in os.environ.keys()}
+		envvar_dict.update(self._p.export_envvar_dict())
+
 		if self._p['offline']:
-			proc_getpip = subprocess.Popen([
+			proc = subprocess.Popen([
 				'wenv', 'python',
 				os.path.join(self._p['cache'], 'get-pip.py'),
 				'--no-index', '--find-links=%s' % self._p['packages'],
-				])
-			proc_getpip.wait()
+				], env = envvar_dict
+				)
+			proc.wait()
 		else:
 			getpip = self._get_pip(self._p['offline'])
-			proc_getpip = subprocess.Popen(['wenv', 'python'], stdin = subprocess.PIPE)
-			proc_getpip.communicate(input = getpip)
+			proc = subprocess.Popen(
+				['wenv', 'python'],
+				stdin = subprocess.PIPE,
+				env = envvar_dict
+				)
+			proc.communicate(input = getpip)
 
 	def install_package(self, name, update = False):
 		"""
