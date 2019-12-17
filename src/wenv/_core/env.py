@@ -120,6 +120,9 @@ class Env:
 		self._init_dicts()
 
 	def _init_dicts(self):
+		"""
+		Initialize core dictionaries. Function can also be used for re-initialization.
+		"""
 
 		# Init Wine cmd names
 		self._wine_dict = {'win32': 'wine', 'win64': 'wine64'}
