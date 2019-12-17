@@ -109,7 +109,7 @@ class Env:
 
 		if 'parameter' in kwargs.keys(): # legacy API
 			if len(kwargs) > 1:
-				raise TypeError('legacy API: only allows one parameter dict, named "parameter"')
+				raise ValueError('legacy API: only allows one parameter dict, named "parameter"')
 			kwargs = kwargs['parameter']
 			if kwargs is None:
 				kwargs = dict()
