@@ -65,6 +65,13 @@ if platform.startswith('win'):
 	raise SystemExit('You are already running Windows. No need for this package!')
 
 
+# Python 3.4 dependency / CI fix
+pls = 'python-language-server'
+assert version_info.major == 3
+if version_info.minor <= 4:
+	pls += '<0.32.0'
+
+
 setup(
 	name = 'wenv',
 	packages = find_packages('src'),
@@ -90,7 +97,7 @@ setup(
 			'pytest',
 			'coverage',
 			'pytest-cov',
-			'python-language-server',
+			pls,
 			'setuptools',
 			'Sphinx',
 			'sphinx_rtd_theme',
