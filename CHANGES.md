@@ -1,6 +1,6 @@
 # Changes
 
-## 0.2.1 (2020-XX-XX)
+## 0.2.1 (2020-07-10)
 
 - FIX: CI tests failed due to dependency issue in Python 3.4, see issue #13.
 
