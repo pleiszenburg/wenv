@@ -8,7 +8,7 @@ https://github.com/pleiszenburg/wenv
 
 	setup.py: Used for package distribution
 
-	Copyright (C) 2017-2019 Sebastian M. Ernst <ernst@pleiszenburg.de>
+	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -34,7 +34,7 @@ from setuptools import (
 	setup
 	)
 import os
-from sys import platform
+from sys import platform, version_info
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -43,13 +43,15 @@ from sys import platform
 
 
 # Bump version HERE!
-_version_ = '0.2.0'
+_version_ = '0.2.1'
 
 
 # List all versions of Python which are supported
+python_minor_min = 4
+python_minor_max = 8
 confirmed_python_versions = [
-	('Programming Language :: Python :: %s' % x)
-	for x in '3.4 3.5 3.6 3.7 3.8'.split()
+	'Programming Language :: Python :: 3.{MINOR:d}'.format(MINOR = minor)
+	for minor in range(python_minor_min, python_minor_max + 1)
 	]
 
 
@@ -61,6 +63,13 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as f:
 # Just in case someone is actually running this on Windows ...
 if platform.startswith('win'):
 	raise SystemExit('You are already running Windows. No need for this package!')
+
+
+# Python 3.4 dependency / CI fix
+pls = 'python-language-server'
+assert version_info.major == 3
+if version_info.minor <= 4:
+	pls += '<0.32.0'
 
 
 setup(
@@ -79,6 +88,7 @@ setup(
 	keywords = ['wine', 'cross platform'],
 	scripts = [],
 	include_package_data = True,
+	python_requires = '>=3.{MINOR:d}'.format(MINOR = python_minor_min),
 	install_requires = [
 		'requests'
 		],
@@ -87,7 +97,7 @@ setup(
 			'pytest',
 			'coverage',
 			'pytest-cov',
-			'python-language-server',
+			pls,
 			'setuptools',
 			'Sphinx',
 			'sphinx_rtd_theme',
