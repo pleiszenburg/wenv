@@ -34,7 +34,7 @@ from setuptools import (
 	setup
 	)
 import os
-from sys import platform
+from sys import platform, version_info
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
