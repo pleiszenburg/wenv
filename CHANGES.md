@@ -1,8 +1,8 @@
 # Changes
 
-## 0.2.1 (2019-XX-XX)
+## 0.2.1 (2020-XX-XX)
 
-- (TBD)
+- FIX: CI tests failed due to dependency issue in Python 3.4, see issue #13.
 
 ## 0.2.0 (2019-12-17)
 
