@@ -26,6 +26,7 @@ specific language governing rights and limitations under the License.
 # CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 class PythonVersion:
     """
     Parse and handle Python versions

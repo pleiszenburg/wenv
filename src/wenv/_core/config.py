@@ -164,7 +164,9 @@ class EnvConfig(dict):
             with open(try_path, "r", encoding="utf-8") as f:
                 cnt = f.read()
         except Exception as e:
-            raise EnvConfigParserError('Config file could not be read: "%s"' % try_path) from e
+            raise EnvConfigParserError(
+                'Config file could not be read: "%s"' % try_path
+            ) from e
 
         # Try to parse it
         try:

@@ -34,6 +34,7 @@ from .pythonversion import PythonVersion
 # PATHS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 class Paths:
     """
     Wine Python environment paths

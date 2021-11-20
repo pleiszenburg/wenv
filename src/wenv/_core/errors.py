@@ -26,5 +26,6 @@ specific language governing rights and limitations under the License.
 # TYPES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 class EnvConfigParserError(Exception):
     pass
