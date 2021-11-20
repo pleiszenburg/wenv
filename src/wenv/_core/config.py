@@ -129,6 +129,7 @@ class EnvConfig(dict):
         for fn in [
             "/etc/wenv",
             os.path.join("/etc", CONFIG_FN),
+            os.path.join("/etc", CONFIG_FN[1:]),
             os.path.join(os.path.expanduser("~"), CONFIG_FN),
             os.environ.get("WENV"),
             os.path.join(os.environ.get("WENV"), CONFIG_FN)
