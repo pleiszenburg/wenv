@@ -73,3 +73,5 @@ upload:
 	for filename in $$(ls dist/*.tar.gz dist/*.whl) ; do \
 		twine upload $$filename $$filename.asc ; \
 	done
+
+.PHONY: docs
