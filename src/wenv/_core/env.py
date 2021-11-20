@@ -39,12 +39,13 @@ from .const import c, COVERAGE_STARTUP, HELP_STR
 from .paths import Paths
 from .pythonversion import PythonVersion
 from .source import download
+from .typeguard import typechecked
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
+@typechecked
 class Env:
 
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -83,6 +83,7 @@ setup(
             "Sphinx",
             "sphinx_rtd_theme",
             "sphinx-autodoc-typehints",
+            "typeguard",
             "myst-parser",
             "twine",
             "wheel",
