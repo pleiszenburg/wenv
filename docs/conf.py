@@ -37,6 +37,9 @@ def fetch_version_string():
             version = line.split("'")[1].split("'")[0]
             break
 
+    if len(version) == 0:
+        raise ValueError('failed to parse version')
+
     return version
 
 
