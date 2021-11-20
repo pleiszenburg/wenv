@@ -86,7 +86,7 @@ class Env:
         self._wine_dict = {
             "win32": self._p["wine_bin_win32"],
             "win64": self._p["wine_bin_win64"],
-            "arm64": self._p["wine_bin_arm32"],
+            "arm64": self._p["wine_bin_arm64"],
         }
 
         # Init Python environment paths
