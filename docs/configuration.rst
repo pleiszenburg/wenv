@@ -54,14 +54,14 @@ Release candidates, alpha and beta versions can be accessed in the following for
 ``wine_bin_win32``, ``wine_bin_win64``, ``wine_bin_arm64`` (str)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This field configures the name of the ``wine`` binary/command. It usually depends on packaging and differs across Linux distributions. On Debian- & Ubuntu-based systems, ``wine`` points to Wine 32 bit while ``wine64`` points to Wine 64 bit. Those are also the default settings for ``wenv``. On RedHat/Fedora/CentOS, ``wine`` is by default an alias for Wine 64 bit, however, see `forums at WineHQ`_, and may require additional configuration for ``wenv``.
+These fields configure the name of the ``wine`` binary/command. They usually depend on packaging and differ across Linux distributions. On Debian- & Ubuntu-based systems, ``wine`` points to Wine 32 bit while ``wine64`` points to Wine 64 bit. Those are also the default settings for ``wenv``. On RedHat/Fedora/CentOS, ``wine`` is by default an alias for Wine 64 bit, however, see `forums at WineHQ`_, and may require additional configuration for ``wenv``.
 
 .. _forums at WineHQ: https://forum.winehq.org/viewtopic.php?t=29567
 
 ``prefix`` (str)
 ^^^^^^^^^^^^^^^^
 
-If ``wenv`` is installed into a *Python* virtual environment or system-wide, this option's defaults is ``sys.prefix``. If ``wenv`` is installed user-wide, its default is ``site.USER_BASE`` (typically ``~/.local``).
+If ``wenv`` is installed into a *Python* virtual environment or system-wide, this option's default is ``sys.prefix``. If ``wenv`` is installed user-wide, its default is ``site.USER_BASE`` (typically ``~/.local``).
 
 ``wineprefix`` (str)
 ^^^^^^^^^^^^^^^^^^^^
