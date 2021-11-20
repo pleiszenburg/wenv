@@ -28,7 +28,7 @@ specific language governing rights and limitations under the License.
 
 import os
 
-from .source import PythonVersion
+from .pythonversion import PythonVersion
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # PATHS

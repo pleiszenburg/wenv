@@ -37,7 +37,8 @@ import zipfile
 from .config import EnvConfig
 from .const import c, COVERAGE_STARTUP, HELP_STR
 from .paths import Paths
-from .source import download, PythonVersion
+from .pythonversion import PythonVersion
+from .source import download
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLASS
