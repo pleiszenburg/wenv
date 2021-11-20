@@ -147,7 +147,7 @@ class PythonVersion:
         if not fragments[2] == "embed":
             raise ValueError('fagment[2] != "embed"')
         if not fragments[3] in ("win32", "amd64", "arm64"):
-            raise ValueError('fagment[3] not in in ("win32", "amd64")')
+            raise ValueError('fagment[3] not in in ("win32", "amd64", "arm64")')
         if not fragments[4] == "zip":
             raise ValueError('fagment[4] != "zip"')
 
