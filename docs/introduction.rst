@@ -7,8 +7,8 @@
 	single: implementation
 	single: use cases
 
-Introduction
-============
+About ``wenv``
+==============
 
 .. _synopsis:
 

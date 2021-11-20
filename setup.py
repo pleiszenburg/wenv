@@ -82,6 +82,8 @@ setup(
             "setuptools",
             "Sphinx",
             "sphinx_rtd_theme",
+            "sphinx-autodoc-typehints",
+            "myst-parser",
             "twine",
             "wheel",
         ]

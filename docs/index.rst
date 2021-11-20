@@ -12,13 +12,24 @@ User's guide
 
 .. toctree::
    :maxdepth: 2
+   :caption: Introduction
 
    introduction
    installation
    examples
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+
    configuration
    usage
    api
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Advanced
+
    security
    bugs
    faq
