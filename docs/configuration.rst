@@ -21,7 +21,7 @@ Configuration files
 * The current working directory
 * A directory specified in the ``WENV`` environment variable
 * The user profile folder (``~`` / ``/home/{username}``)
-* ``/etc``
+* ``/etc`` (here, the file is simply expected to be named ``wenv.json``)
 
 There is one optional addition to the above rules: The path specified in the ``WENV`` environment variable can directly point to a configuration file. I.e. the ``WENV`` environment variable can also contain a path similar to ``/path/to/some/file.json``.
 
