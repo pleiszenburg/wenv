@@ -18,50 +18,55 @@
 # specific language governing rights and limitations under the License.
 # </LICENSE_BLOCK>
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# LIB
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-clean:
-	-rm -r build/*
-	-rm -r dist/*
+_clean_coverage:
 	coverage erase
-	make clean_py
-clean_py:
+
+_clean_egg:
+	-rm -r src/*.egg-info
+
+_clean_py:
 	find src/ tests/ -name '*.pyc' -exec rm -f {} +
 	find src/ tests/ -name '*.pyo' -exec rm -f {} +
 	find src/ tests/ -name '*~' -exec rm -f {} +
 	find src/ tests/ -name '__pycache__' -exec rm -fr {} +
 
-release_clean:
-	make clean
-	-rm -r src/*.egg-info
+_clean_release:
+	-rm -r build/*
+	-rm -r dist/*
 
-docu:
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ENTRY POINTS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+clean:
+	make _clean_release
+	make _clean_coverage
+	make _clean_py
+
+docs:
 	@(cd docs; make clean; make html)
-
-release:
-	make release_clean
-	python setup.py sdist bdist_wheel
-	gpg --detach-sign -a dist/wenv*.whl
-	gpg --detach-sign -a dist/wenv*.tar.gz
-
-upload:
-	for filename in $$(ls dist/*.tar.gz dist/*.whl) ; do \
-		twine upload $$filename $$filename.asc ; \
-	done
-
-upload_test:
-	for filename in $$(ls dist/*.tar.gz dist/*.whl) ; do \
-		twine upload $$filename $$filename.asc -r pypitest ; \
-	done
 
 install:
 	pip install -U -e .[dev]
 	# WENV_ARCH=win32 wenv init
 	# WENV_ARCH=win64 wenv init
 
-test:
-	make docu
-	make test_quick
+release:
+	make clean
+	make _clean_egg
+	python setup.py sdist bdist_wheel
+	gpg --detach-sign -a dist/wenv*.whl
+	gpg --detach-sign -a dist/wenv*.tar.gz
 
-test_quick:
+test:
 	make clean
 	pytest
+
+upload:
+	for filename in $$(ls dist/*.tar.gz dist/*.whl) ; do \
+		twine upload $$filename $$filename.asc ; \
+	done
