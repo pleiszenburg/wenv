@@ -90,7 +90,7 @@ setup(
 			'pytest',
 			'coverage',
 			'pytest-cov',
-			'python-lsp-server',
+			'python-lsp-server[all]',
 			'setuptools',
 			'Sphinx',
 			'sphinx_rtd_theme',
