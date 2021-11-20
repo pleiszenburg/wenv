@@ -65,46 +65,44 @@ class EnvConfig(dict):
             if len(value) > 0:
                 if value.isnumeric():
                     return int(value)
-                elif value.strip().lower() in ("true", "false"):
+                if value.strip().lower() in ("true", "false"):
                     return {"true": True, "false": False}[value.strip().lower()]
-                else:
-                    return value
+                return value
 
         if key in self.keys():
             return super().__getitem__(key)
 
         if key == "arch":
             return "win32"  # Define Wine & Wine-Python architecture
-        elif key == "pythonversion":
+        if key == "pythonversion":
             return "3.7.4"  # Define Wine-Python version
-        elif key == "winedebug":
+        if key == "winedebug":
             return "-all"  # Wine debug output off
-        elif key == "wineinstallprefix":
+        if key == "wineinstallprefix":
             return None  # no custom Wine installation outside of PATH
-        elif key == "prefix":
+        if key == "prefix":
             install_location = os.path.abspath(__file__)
             if install_location.startswith(
                 site.USER_BASE
             ):  # Hacky way of looking for a user installation
                 return site.USER_BASE
-            else:
-                return sys.prefix
-        elif key == "wineprefix":
+            return sys.prefix
+        if key == "wineprefix":
             return os.path.join(self["prefix"], "share", "wenv", self["arch"])
-        elif key == "pythonprefix":
+        if key == "pythonprefix":
             return os.path.join(
                 self["wineprefix"], "drive_c", "python-%s" % self["pythonversion"]
             )
-        elif key == "offline":
+        if key == "offline":
             return False
-        elif key == "cache":
+        if key == "cache":
             return os.path.join(self["prefix"], "share", "wenv", "cache")
-        elif key == "packages":
+        if key == "packages":
             return os.path.join(self["cache"], "packages")
-        elif key == "_issues_50_workaround":
+        if key == "_issues_50_workaround":
             return False  # Workaround for zugbruecke issue #50 (symlinks ...)
-        else:
-            raise KeyError("not a valid configuration key")
+
+        raise KeyError("not a valid configuration key")
 
     def export_envvar_dict(self):
 
@@ -158,16 +156,16 @@ class EnvConfig(dict):
         try:
             with open(try_path, "r", encoding="utf-8") as f:
                 cnt = f.read()
-        except:
-            raise EnvConfigParserError('Config file could not be read: "%s"' % try_path)
+        except Exception as e:
+            raise EnvConfigParserError('Config file could not be read: "%s"' % try_path) from e
 
         # Try to parse it
         try:
             cnt_dict = json.loads(cnt)
-        except:
+        except Exception as e:
             raise EnvConfigParserError(
                 'Config file could not be parsed: "%s"' % try_path
-            )
+            ) from e
 
         # Ensure that config has the right format
         if not isinstance(cnt_dict, dict):
