@@ -122,6 +122,12 @@ def get_available_python_versions():
             )
             for version_tuple, versions in embedded_versions.items()
         },
+        "arm64": {
+            version_tuple: sorted(
+                [version for version in versions if version.arch == "arm64"]
+            )
+            for version_tuple, versions in embedded_versions.items()
+        },
     }
 
     return sorted_versions

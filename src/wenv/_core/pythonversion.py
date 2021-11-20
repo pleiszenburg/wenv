@@ -35,7 +35,7 @@ class PythonVersion:
 
         if not isinstance(arch, str):
             raise TypeError("arch must be str")
-        if arch not in ("win32", "win64"):
+        if arch not in ("win32", "win64", "arm64"):
             raise ValueError("Unknown arch: " + arch)
         if any((not isinstance(item, int) for item in (major, minor, maintenance))):
             raise TypeError("Unknown type for major, minor or maintenance")
@@ -151,7 +151,7 @@ class PythonVersion:
         if not fragments[4] == "zip":
             raise ValueError('fagment[4] != "zip"')
 
-        arch = "win32" if fragments[3] == "win32" else "win64"
+        arch = "win64" if fragments[3] == "amd64" else fragments[3]
         release = [int(f) if f.isnumeric() else f for f in fragments[1].split(".")]
 
         if isinstance(release[2], str):
