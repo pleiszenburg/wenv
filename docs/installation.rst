@@ -41,7 +41,11 @@ If you are interested in testing the latest work from the **development branch**
 
 	pip install git+https://github.com/pleiszenburg/wenv.git@develop
 
-After installing the package with ``pip``, you must initialize the "Wine Python environment" by running ``wenv init``.
+After installing the package with ``pip``, you must **initialize** the "Wine Python environment" by running:
+
+.. code:: bash
+
+	wenv init
 
 If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.1.y therefore indicates a breaking change.
 
