@@ -108,7 +108,7 @@ class EnvConfig(dict):
         if key == "_issues_50_workaround":
             return False  # Workaround for zugbruecke issue #50 (symlinks ...)
 
-        raise KeyError("not a valid configuration key")
+        raise KeyError("not a valid configuration key", key)
 
     def export_envvar_dict(self):
 
