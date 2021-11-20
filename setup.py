@@ -5,9 +5,9 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	setup.py: Used for package distribution
+    setup.py: Used for package distribution
 
-	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
