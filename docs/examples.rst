@@ -116,6 +116,35 @@ Thanks to Wine, the handling of paths is seamless and transparent:
 	(env) user@comp:~> wenv python -c "import os; print(os.getcwd())"
 	Z:\home\user
 
+``wenv`` can be heavily configured via configuration files and/or environment variables. In the following example, two Wine Python environments are initialized. The first environment is using the ``wenv`` default Python version, 3.7.4. The second environment is using a custom Python version, 3.9.6:
+
+.. code:: bash
+
+	(env) user@comp:~> wenv init 2> /dev/null
+	Collecting pip
+	  Downloading pip-21.3.1-py3-none-any.whl (1.7 MB)
+	     |################################| 1.7 MB 1.1 MB/s
+	Collecting setuptools
+	  Downloading setuptools-59.2.0-py3-none-any.whl (952 kB)
+	     |################################| 952 kB 1.7 MB/s
+	Collecting wheel
+	  Downloading wheel-0.37.0-py2.py3-none-any.whl (35 kB)
+	Installing collected packages: wheel, setuptools, pip
+	Successfully installed pip-21.3.1 setuptools-59.2.0 wheel-0.37.0
+	(env) user@comp:~> WENV_PYTHONVERSION=3.9.6 wenv init 2> /dev/null
+	Collecting pip
+	  Using cached pip-21.3.1-py3-none-any.whl (1.7 MB)
+	Collecting setuptools
+	  Using cached setuptools-59.2.0-py3-none-any.whl (952 kB)
+	Collecting wheel
+	  Using cached wheel-0.37.0-py2.py3-none-any.whl (35 kB)
+	Installing collected packages: wheel, setuptools, pip
+	Successfully installed pip-21.3.1 setuptools-59.2.0 wheel-0.37.0
+	(env) user@comp:~> wenv python --version
+	Python 3.7.4
+	(env) user@comp:~> WENV_PYTHONVERSION=3.9.6 wenv python --version
+	Python 3.9.6
+
 For use as a shebang, ``wenv python`` has an alias. One can write ``#!/usr/bin/env _wenv_python`` at the top of scripts:
 
 .. code:: python
