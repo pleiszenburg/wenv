@@ -38,7 +38,7 @@ Configurable parameters
 ``arch`` (str)
 ^^^^^^^^^^^^^^
 
-Defines the architecture of *Wine* & *Wine* *Python*. It can be set to ``win32`` or ``win64``. Default is ``win32``, even on 64-bit systems. It appears to be a more stable configuration.
+Defines the architecture of *Wine* & *Wine* *Python*. It can be set to ``win32``, ``win64`` or ``arm64``. Default is ``win32``, even on 64-bit systems. It appears to be a more stable configuration.
 
 ``pythonversion`` (str)
 ^^^^^^^^^^^^^^^^^^^^^^^
