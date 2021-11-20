@@ -57,7 +57,7 @@ Wine 2.x and 3.x are no longer supported. Please use Wine 4.x or later.
 
 On older versions of Linux such as *Ubuntu 14.04* alias *Trusty Tahr* (released 2014), you may observe errors when running ``wenv python``. Most commonly, they will present themselves as ``OSError: [WinError 6] Invalid handle: 'z:\\...`` triggered by calling ``os.listdir`` on a symbolic link ("symlink") to a folder.
 
-*wenv* will use semantic versioning. Breaking changes will be indicated by increasing the first version number, the major version. Going for example from 0.x.0 to 1.0.0 or going from 1.y.0 to 2.0.0 therefore indicates a breaking change.
+*wenv* will use semantic versioning. Breaking changes will be indicated by increasing the first version number, the major version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.2.y therefore indicates a breaking change.
 
 * FEATURE: Allow `-h` and `--help` as alternatives to `help`.
 * FEATURE: ``wineprefix``, ``winedebug`` and ``pythonprefix`` become configuration parameters definable by users allowing custom wine prefixes, wine debug levels and Python installation paths, see issue zugbruecke#44.
