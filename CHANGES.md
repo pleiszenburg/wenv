@@ -2,6 +2,7 @@
 
 ## 0.3.0 (2021-XX-XX)
 
+- FEATURE: Experimental ARM64 support added.
 - FEATURE: Added support for Python 3.9 and 3.10.
 - FEATURE: Dropped support for Python 3.4 and 3.5.
 - FIX: Switched from unsupported `python-language-server` to supported `python-lsp-server`.
