@@ -42,6 +42,9 @@ _clean_release:
 # ENTRY POINTS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+black:
+	black .
+
 clean:
 	make _clean_release
 	make _clean_coverage

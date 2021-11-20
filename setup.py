@@ -87,6 +87,7 @@ setup(
 		],
 	extras_require = {
 		'dev': [
+			'black',
 			'pytest',
 			'coverage',
 			'pytest-cov',
