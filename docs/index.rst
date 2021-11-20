@@ -32,6 +32,7 @@ User's guide
 
    security
    bugs
+   changes
    faq
 
 `Interested in contributing?`_
