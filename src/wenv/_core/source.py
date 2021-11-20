@@ -53,6 +53,18 @@ def download(down_url, mode="binary"):
         assert mode == "binary" and isinstance(r.content, bytes)
         return r.content
 
+def get_latest_maintenance_release(arch: str, major: int, minor: int, sorted_versions = None):
+
+    if sorted_versions is None:
+        sorted_versions = get_available_python_versions()
+
+    arch_versions = sorted_versions[arch]
+    maintenance_versions = {
+        k[2]: v # maintenance
+        for k, v in arch_versions.items()
+        if k[0] == major and k[1] == minor
+    }
+    return maintenance_versions[max(maintenance_versions.keys())][-1]
 
 def get_available_python_versions():
 
