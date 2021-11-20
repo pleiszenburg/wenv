@@ -6,9 +6,9 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/__init__.py: Package init file
+    src/wenv/__init__.py: Package init file
 
-	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -29,15 +29,15 @@ specific language governing rights and limitations under the License.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from ._core.env import (
-	cli,
-	Env,
-	shebang,
-	)
+    cli,
+    Env,
+    shebang,
+)
 from ._core.config import (
-	EnvConfig,
-	)
+    EnvConfig,
+)
 from ._core.errors import (
-	EnvConfigParserError,
-	)
+    EnvConfigParserError,
+)
 
-env = Env # legacy
+env = Env  # legacy
