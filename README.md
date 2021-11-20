@@ -22,7 +22,7 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 | prerequisite | version |
 | --- | --- |
 | [CPython](https://www.python.org/) | 3.x (tested with 3.{6,7,8,9,10}) |
-| [Wine](https://www.winehq.org/) | 4.x (tested with regular & [staging](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
+| [Wine](https://www.winehq.org/) | >= 4.x (tested with regular & [staging](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
 
 If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s [installation instructions](https://wenv.readthedocs.io/en/latest/installation.html) for details and workarounds.
 
