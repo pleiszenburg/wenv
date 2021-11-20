@@ -2,7 +2,7 @@
 [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/)
 [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://travis-ci.org/pleiszenburg/wenv)
 [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://wenv.readthedocs.io/en/develop/)
-[![license](https://img.shields.io/pypi/l/wenv.svg?style=flat-square "Internet Systems Consortium License")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
+[![license](https://img.shields.io/pypi/l/wenv.svg?style=flat-square "GNU Lesser General Public License v2.1")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
 [![status](https://img.shields.io/pypi/status/wenv.svg?style=flat-square "Project Development Status")](https://github.com/pleiszenburg/wenv/issues)
 [![pypi_version](https://img.shields.io/pypi/v/wenv.svg?style=flat-square "Project Development Status")](https://pypi.python.org/pypi/wenv)
 [![pypi_versions](https://img.shields.io/pypi/pyversions/wenv.svg?style=flat-square "Available on PyPi - the Python Package Index")](https://pypi.python.org/pypi/wenv)
@@ -21,7 +21,7 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 
 | prerequisite | version |
 | --- | --- |
-| [CPython](https://www.python.org/) | 3.x (tested with 3.{4,5,6,7,8}) |
+| [CPython](https://www.python.org/) | 3.x (tested with 3.{6,7,8,9,10}) |
 | [Wine](https://www.winehq.org/) | 4.x (tested with regular & [staging](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
 
 If you are limited to an older version of Wine such as 2.x or 3.x, see `wenv`'s [installation instructions](https://wenv.readthedocs.io/en/latest/installation.html) for details and workarounds.

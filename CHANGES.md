@@ -1,8 +1,9 @@
 # Changes
 
-## 0.2.2 (2020-XX-XX)
+## 0.3.0 (2021-XX-XX)
 
-- (TBD)
+- FEATURE: Added support for Python 3.9 and 3.10.
+- FEATURE: Dropped support for Python 3.4 and 3.5.
 
 ## 0.2.1 (2020-07-10)
 

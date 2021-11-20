@@ -43,12 +43,12 @@ from sys import platform, version_info
 
 
 # Bump version HERE!
-_version_ = '0.2.2'
+_version_ = '0.3.0'
 
 
 # List all versions of Python which are supported
-python_minor_min = 4
-python_minor_max = 8
+python_minor_min = 6
+python_minor_max = 10
 confirmed_python_versions = [
 	'Programming Language :: Python :: 3.{MINOR:d}'.format(MINOR = minor)
 	for minor in range(python_minor_min, python_minor_max + 1)
@@ -63,13 +63,6 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as f:
 # Just in case someone is actually running this on Windows ...
 if platform.startswith('win'):
 	raise SystemExit('You are already running Windows. No need for this package!')
-
-
-# Python 3.4 dependency / CI fix
-pls = 'python-language-server'
-assert version_info.major == 3
-if version_info.minor <= 4:
-	pls += '<0.32.0'
 
 
 setup(
@@ -97,7 +90,7 @@ setup(
 			'pytest',
 			'coverage',
 			'pytest-cov',
-			pls,
+			'python-lsp-server',
 			'setuptools',
 			'Sphinx',
 			'sphinx_rtd_theme',
