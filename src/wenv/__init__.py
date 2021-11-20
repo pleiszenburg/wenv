@@ -37,5 +37,12 @@ from ._core.config import (
 from ._core.errors import (
     EnvConfigParserError,
 )
+from ._core.pythonversion import (
+    PythonVersion,
+)
+from ._core.source import (
+    get_available_python_versions,
+    get_latest_maintenance_release,
+)
 
 env = Env  # legacy
