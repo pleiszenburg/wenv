@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """
-
 WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
@@ -21,7 +20,6 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the
 specific language governing rights and limitations under the License.
 </LICENSE_BLOCK>
-
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
