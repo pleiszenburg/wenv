@@ -157,9 +157,13 @@ class PythonVersion:
         if isinstance(release[2], str):
             if not len(release[2]) > 0:
                 raise ValueError("broken maintenance/build fragment")
-            for pos, char in enumerate(release[2]):
+            pos = None
+            for pos_idx, char in enumerate(release[2]):
                 if not char.isdigit():
+                    pos = pos_idx
                     break
+            if pos is None:
+                raise ValueError("maintenance fragment could not be identified")
             release.append(release[2][pos:])
             release[2] = release[2][:pos]
             if not release[2].isnumeric():
