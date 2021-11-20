@@ -36,77 +36,18 @@ import zipfile
 
 from .config import EnvConfig
 from .const import c, COVERAGE_STARTUP, HELP_STR
+from .paths import Paths
 from .source import download, PythonVersion
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# HELPER ROUTINES
+# CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-def _symlink(src, dest):
-
-    if not os.path.lexists(dest):
-        os.symlink(src, dest)
-
-    if not os.path.exists(dest):
-        raise OSError('"{LINK:s}" could not be created'.format(LINK=dest))
-    if not os.path.islink(dest):
-        raise OSError('"{LINK:s}" is not a symlink'.format(LINK=dest))
-    if os.readlink(dest) != src:
-        raise OSError('"{LINK:s}" points to the wrong source'.format(LINK=dest))
-
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# PATHS
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-class Paths:
-    def __init__(self, pythonprefix, arch, pythonversion):
-
-        self._pythonprefix = pythonprefix
-        self._pythonversion_block = PythonVersion.from_config(
-            arch, pythonversion
-        ).as_block()
-
-    def __getitem__(self, key):
-
-        if key == "pythonprefix":
-            return self._pythonprefix
-        elif key == "lib":
-            return os.path.join(self["pythonprefix"], "Lib")
-        elif key == "sitepackages":
-            return os.path.join(self["lib"], "site-packages")
-        elif key == "sitecustomize":
-            return os.path.join(self["sitepackages"], "sitecustomize.py")
-        elif key == "scripts":
-            return os.path.join(self["pythonprefix"], "Scripts")
-        elif key == "interpreter":
-            return os.path.join(self["pythonprefix"], "python.exe")
-        elif key == "pip":
-            return os.path.join(self["scripts"], "pip.exe")
-        elif key == "libzip":
-            return os.path.join(
-                self["pythonprefix"], "python%s.zip" % self._pythonversion_block
-            )
-        elif key == "pth":
-            return os.path.join(
-                self["pythonprefix"], "python%s._pth" % self._pythonversion_block
-            )
-        else:
-            raise KeyError("not a valid path key")
-
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# WINE-PYTHON ENVIRONMENT CLASS
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 class Env:
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # INIT
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# INIT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def __init__(self, **kwargs):
 
@@ -128,6 +69,10 @@ class Env:
             kwargs = EnvConfig(**kwargs)
 
         self._p = kwargs
+        self._cmd_dict = None
+        self._cli_dict = None
+        self._envvar_dict = None
+
         self._init_dicts()
 
     def _init_dicts(self):
@@ -150,20 +95,17 @@ class Env:
         self._init_envvar_dict()
 
     def _init_cmd_dict(self):
-        def ls_exe(dir):
-            if not os.path.isdir(dir):
+
+        def ls_exe(directory):
+            if not os.path.isdir(directory):
                 return
-            for item in os.listdir(dir):
+            for item in os.listdir(directory):
                 if not item.lower().endswith(".exe"):
                     continue
-                yield item[:-4], os.path.join(dir, item)
+                yield item[:-4], os.path.join(directory, item)
 
-        self._cmd_dict = {
-            item: path for item, path in ls_exe(self._path_dict["scripts"])
-        }
-        self._cmd_dict.update(
-            {item: path for item, path in ls_exe(self._path_dict["pythonprefix"])}
-        )
+        self._cmd_dict = dict(ls_exe(self._path_dict["scripts"]))
+        self._cmd_dict.update(dict(ls_exe(self._path_dict["pythonprefix"])))
 
     def _init_cli_dict(self):
 
@@ -175,9 +117,7 @@ class Env:
 
     def _init_envvar_dict(self):
 
-        self._envvar_dict = {
-            k: os.environ[k] for k in os.environ.keys()
-        }  # HACK Required for Travis CI
+        self._envvar_dict = os.environ.copy()
         self._envvar_dict.update(
             dict(
                 WINEARCH=self._p["arch"],  # Architecture
@@ -208,9 +148,9 @@ class Env:
                 )
             )  # https://wiki.winehq.org/FAQ#Can_I_install_more_than_one_Wine_version_on_my_system.3F
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # WINE BUG #47766 / ZUGBRUECKE BUG #49
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# WINE BUG #47766 / ZUGBRUECKE BUG #49
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def wine_47766_workaround(self):
         """
@@ -244,7 +184,7 @@ class Env:
             )
 
         if os.path.exists(self._p["pythonprefix"]):
-            _symlink(self._p["pythonprefix"], link_path)
+            Paths.symlink(self._p["pythonprefix"], link_path)
 
         self._p["pythonprefix"] = link_path
         self._init_dicts()
@@ -256,9 +196,9 @@ class Env:
         if os.path.lexists(self._p["pythonprefix"]):
             os.unlink(self._p["pythonprefix"])
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # ENSURE ENVIRONMENT
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ENSURE ENVIRONMENT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def ensure(self):
 
@@ -267,9 +207,9 @@ class Env:
         self.wine_47766_workaround()  # must run after setup_pythonprefix and before setup_pip
         self.setup_pip()
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # DESTROY / UNINSTALL ENVIRONMENT
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# DESTROY / UNINSTALL ENVIRONMENT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def uninstall(self):
 
@@ -285,9 +225,9 @@ class Env:
 
         self.wine_47766_workaround_uninstall()
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # CACHE INSTALLATION FILES LOCALLY
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# CACHE INSTALLATION FILES LOCALLY
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def cache(self):
 
@@ -317,9 +257,9 @@ class Env:
             with open(os.path.join(self._p["packages"], item["filename"]), "wb") as f:
                 f.write(download(item["url"], mode="binary"))
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # Fetch installer data
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Fetch installer data
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def _get_python(self, offline=False):
 
@@ -341,9 +281,9 @@ class Env:
                 "utf-8"
             )
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # SETUP
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# SETUP
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def setup_wineprefix(self, overwrite=False):
 
@@ -460,9 +400,9 @@ class Env:
         with open(self._path_dict["sitecustomize"], "w") as f:
             f.write(siteconfig_cnt + "\n" + COVERAGE_STARTUP)
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # PACKAGE MANAGEMENT
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# PACKAGE MANAGEMENT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def install_package(self, name, update=False):
         """
@@ -530,13 +470,13 @@ class Env:
         )
         outs, errs = proc.communicate()
         if proc.returncode != 0:
-            raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
+            raise SystemError('listing packages failed', outs, errs)
 
         return json.loads(outs.decode("utf-8"))
 
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    # CLI
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# CLI
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def _cli_init(self):
         "sets up an environment (Wine prefix, Python interpreter, pip, setuptools, wheel)"
@@ -658,16 +598,13 @@ class Env:
             wine, (wine, self._cmd_dict["python"], sys.argv[1]), self._envvar_dict
         )
 
-
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLI EXPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
 def cli():
 
     Env().cli()
-
 
 def shebang():
 
