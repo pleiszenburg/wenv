@@ -32,6 +32,7 @@ import os
 import shutil
 import subprocess
 import sys
+from typing import Any, Generator
 import zipfile
 
 from .config import EnvConfig
@@ -52,7 +53,7 @@ class Env:
     # INIT
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any):
 
         if "parameter" in kwargs.keys():  # legacy API
             if len(kwargs) > 1:
@@ -102,7 +103,9 @@ class Env:
         self._init_envvar_dict()
 
     def _init_cmd_dict(self):
-        def ls_exe(directory):
+
+        @typechecked
+        def ls_exe(directory: str) -> Generator:
             if not os.path.isdir(directory):
                 return
             for item in os.listdir(directory):
@@ -249,7 +252,7 @@ class Env:
         for package in ("pip", "setuptools", "wheel"):
             self.cache_package(package)
 
-    def cache_package(self, name):
+    def cache_package(self, name: str):
 
         os.makedirs(self._p["packages"], exist_ok=True)
 
@@ -267,7 +270,7 @@ class Env:
     # Fetch installer data
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    def _get_python(self, offline=False):
+    def _get_python(self, offline: bool = False) -> bytes:
 
         version = PythonVersion.from_config(self._p["arch"], self._p["pythonversion"])
 
@@ -277,7 +280,7 @@ class Env:
         else:
             return download(version.as_url(), mode="binary")
 
-    def _get_pip(self, offline=False):
+    def _get_pip(self, offline: bool = False) -> bytes:
 
         if offline:
             with open(os.path.join(self._p["cache"], "get-pip.py"), "rb") as f:
@@ -291,7 +294,7 @@ class Env:
     # SETUP
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    def setup_wineprefix(self, overwrite=False):
+    def setup_wineprefix(self, overwrite: bool = False):
 
         if not isinstance(overwrite, bool):
             raise TypeError("overwrite is not a boolean")
@@ -316,7 +319,7 @@ class Env:
         if proc.returncode != 0:
             sys.exit(1)
 
-    def setup_pythonprefix(self, overwrite=False):
+    def setup_pythonprefix(self, overwrite: bool = False):
 
         if not isinstance(overwrite, bool):
             raise TypeError("overwrite is not a boolean")
@@ -410,7 +413,7 @@ class Env:
     # PACKAGE MANAGEMENT
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    def install_package(self, name, update=False):
+    def install_package(self, name: str, update: bool = False):
         """
         Thin wrapper for `wenv pip install`
         """
@@ -437,7 +440,7 @@ class Env:
         if proc.returncode != 0:
             raise SystemError('installing package "%s" failed' % name, outs, errs)
 
-    def uninstall_package(self, name):
+    def uninstall_package(self, name: str):
         """
         Thin wrapper for `wenv pip uninstall -y`
         """
