@@ -82,7 +82,11 @@ class Env:
         """
 
         # Init Wine cmd names
-        self._wine_dict = {"win32": "wine", "win64": "wine64"}
+        self._wine_dict = {
+            "win32": "wine",
+            "win64": "wine64",
+            "arm64": "wine",
+        }
 
         # Init Python environment paths
         self._path_dict = Paths(
