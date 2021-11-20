@@ -73,7 +73,7 @@ def get_available_python_versions():
 	version_downloads = ThreadPool(8).imap(lambda x: download(x, mode = 'text'), version_urls)
 	embedded_versions = {
 		version: [
-			python_version.from_zipname(line.split('"')[1])
+			PythonVersion.from_zipname(line.split('"')[1])
 			for line in version_download.split('\n')
 			if all((line.startswith('<a href="'), 'embed' in line, '.zip' in line, '.zip.asc' not in line))
 			]
