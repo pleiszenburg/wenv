@@ -43,7 +43,7 @@ If you are interested in testing the latest work from the **development branch**
 
 After installing the package with ``pip``, you must initialize the "Wine Python environment" by running ``wenv init``.
 
-If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 1.0.0 or going from 0.1.y to 1.0.0 therefore indicates a breaking change.
+If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.1.y therefore indicates a breaking change.
 
 Possible problem: ``OSError: [WinError 6] Invalid handle``
 ----------------------------------------------------------
