@@ -13,7 +13,7 @@ Configuration
 
 *wenv* can configure itself automatically or can be configured with files and environment variables manually.
 
-Configuration files
+Configuration Files
 -------------------
 
 *wenv* uses ``JSON`` configuration files named ``.wenv.json``. They are expected in the following locations (in that order):
@@ -27,12 +27,12 @@ There is one optional addition to the above rules: The path specified in the ``W
 
 Configuration options are being looked for location after location in the above listed places. If, after checking for configuration files in all those locations, there are still configuration options left undefined, *wenv* will fill them with its defaults. A configuration option found in a location higher in the list will always be given priority over a the same configuration option with different content found in a location further down the list.
 
-Configuration environment variables
+Configuration Environment Variables
 -----------------------------------
 
 Independently of the ``WENV`` environment variable, all configurable parameters of ``wenv`` can directly be overridden with environment variables. All values coming from configuration files will then be ignored for this particular parameter. Take the name of any configurable parameter, convert it to upper case and prefix it with ``WENV``. Example: The ``arch`` parameter can be overridden by declaring the ``WENV_ARCH`` environment variable.
 
-Configurable parameters
+Configurable Parameters
 -----------------------
 
 ``arch`` (str)

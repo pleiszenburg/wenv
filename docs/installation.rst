@@ -56,7 +56,7 @@ On older versions of Linux such as *Ubuntu 14.04* alias *Trusty Tahr* (released 
 
 A **clean solution** is to upgrade to a younger version of Linux. E.g. *Ubuntu 16.04* alias *Xenial Xerus* (released 2016) is known to work.
 
-Installing *wenv* in development mode
+Installing *wenv* in Development Mode
 -------------------------------------
 
 If you are interested in contributing to *wenv*, you might want to install it in development mode. You can find the latest instructions on how to do this in the `CONTRIBUTING file`_ of this project on *Github*.

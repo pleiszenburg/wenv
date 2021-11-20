@@ -42,7 +42,7 @@ Implementation
 
 .. _usecases:
 
-Use cases
+Use Cases
 ---------
 
 - Running *Python* apps & scripts written for *Windows* on *Unix*.
