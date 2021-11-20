@@ -76,6 +76,12 @@ class EnvConfig(dict):
             return "win32"  # Define Wine & Wine-Python architecture
         if key == "pythonversion":
             return "3.7.4"  # Define Wine-Python version
+        if key == "wine_bin_win32":
+            return "wine"
+        if key == "wine_bin_win64":
+            return "wine64"
+        if key == "wine_bin_arm64":
+            return "wine"
         if key == "winedebug":
             return "-all"  # Wine debug output off
         if key == "wineinstallprefix":

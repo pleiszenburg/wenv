@@ -9,6 +9,7 @@
 - FIX: Error handling in package listing for Wine Python environments was broken.
 - FIX: Python version parser could not handle Windows ARM64 builds.
 - FIX: Configuration expected in `/etc/.wenv.json` and `/etc/wenv.json`, see #15. The support for `/etc/.wenv.json` will be removed in a future release.
+- FIX: The names of wine binaries/commands can be configured for special cases like RedHat/Fedora/CentOS wine packages, see zugbruecke#70.
 - API: New makefile structure for developers.
 
 ## 0.2.1 (2020-07-10)

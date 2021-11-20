@@ -51,6 +51,13 @@ Release candidates, alpha and beta versions can be accessed in the following for
 
 .. _python.org: https://www.python.org/downloads/windows/
 
+``wine_bin_win32``, ``wine_bin_win64``, ``wine_bin_arm64`` (str)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This field configures the name of the ``wine`` binary/command. It usually depends on packaging and differs across Linux distributions. On Debian- & Ubuntu-based systems, ``wine`` points to Wine 32 bit while ``wine64`` points to Wine 64 bit. Those are also the default settings for ``wenv``. On RedHat/Fedora/CentOS, ``wine`` is by default an alias for Wine 64 bit, however, see `forums at WineHQ`_, and may require additional configuration for ``wenv``.
+
+.. _forums at WineHQ: https://forum.winehq.org/viewtopic.php?t=29567
+
 ``prefix`` (str)
 ^^^^^^^^^^^^^^^^
 
