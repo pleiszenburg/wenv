@@ -3,17 +3,26 @@
 .. _wineenv:
 
 .. index::
-	single: env python
-	single: env pip
-	single: env pytest
-	single: env init
-	triple: wine; python; environment
-	module: wenv._core.env
+	single: API
+	single: classes
+	single: functions
+	single: methods
 
-API: class ``Env``
-==================
+API
+===
 
-``wenv`` can not only be used from the command line. It also offers an API through its ``Env`` class.
+``wenv`` can not only be used from the command line. It also offers an API and is therefore fully programmable.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: The API in detail
+
+   env
+   envconfig
+   pythonversion
+
+
+
 
 Constructor: ``Env(**kwargs)``
 ------------------------------
