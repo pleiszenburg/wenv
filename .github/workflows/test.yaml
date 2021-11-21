@@ -1,0 +1,50 @@
+name: zugbruecke test suite
+
+on: [push]
+
+jobs:
+  build:
+
+    strategy:
+      matrix:
+        os: ["ubuntu-18.04", "ubuntu-20.04"]
+        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Wine
+        run: |
+          sudo dpkg --add-architecture i386
+          wget https://dl.winehq.org/wine-builds/Release.key
+          sudo apt-key add Release.key
+          wget https://dl.winehq.org/wine-builds/winehq.key
+          sudo apt-key add winehq.key
+          sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
+          sudo apt-get -qq update
+          sudo apt-get install -y wine-staging
+          echo "/opt/wine-staging/bin" >> $GITHUB_PATH
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Update Python infrastructure
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U setuptools
+      - name: Install wenv package
+        run: |
+          make install
+      - name: Pre-check
+        run: |
+          wine --version
+          wine64 --version
+          python --version
+          pytest --version
+          uname -a
+          lsb_release -a
+      - name: Build docs and run tests
+        run: |
+          make docs
+          make test
