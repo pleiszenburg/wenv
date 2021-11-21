@@ -47,12 +47,9 @@ def download(down_url, mode="binary"):
     assert r.ok
     r.raise_for_status()
 
-    if r.encoding is not None:
-        assert mode == "text" and isinstance(r.text, str)
+    if mode == 'text':
         return r.text
-    else:
-        assert mode == "binary" and isinstance(r.content, bytes)
-        return r.content
+    return r.content # mode == 'binary'
 
 
 def get_latest_maintenance_release(
