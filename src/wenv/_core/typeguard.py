@@ -7,7 +7,7 @@ https://github.com/pleiszenburg/wenv
 
     src/wenv/_core/typeguard.py: Wrapper for typeguard for debugging
 
-    Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License

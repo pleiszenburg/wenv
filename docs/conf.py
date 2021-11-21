@@ -8,7 +8,7 @@ https://github.com/pleiszenburg/wenv
 
     docs/conf.py: Configures the documentation build process
 
-    Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -84,7 +84,7 @@ master_doc = "index"
 # General information about the project.
 project = "wenv"
 author = "Sebastian M. Ernst"
-copyright = f"2017-2021 {author:s}"
+copyright = f"2017-2022 {author:s}"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
