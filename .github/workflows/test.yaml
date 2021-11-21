@@ -1,4 +1,4 @@
-name: zugbruecke test suite
+name: wenv test suite
 
 on: [push]
 
