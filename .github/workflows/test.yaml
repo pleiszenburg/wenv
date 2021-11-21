@@ -44,7 +44,9 @@ jobs:
           pytest --version
           uname -a
           lsb_release -a
-      - name: Build docs and run tests
+      - name: Build docs
         run: |
           make docs
+      - name: Run tests
+        run: |
           make test
