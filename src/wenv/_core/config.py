@@ -55,7 +55,7 @@ class EnvConfig(dict):
     _KEYS = (
         "arch",
         "pythonversion",
-        "wine_bin_win32"
+        "wine_bin_win32",
         "wine_bin_win64",
         "wine_bin_arm64",
         "winedebug",
