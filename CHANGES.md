@@ -2,21 +2,20 @@
 
 ## 0.3.0 (2021-XX-XX)
 
-- FEATURE: Experimental ARM64 support added.
 - FEATURE: Added support for Python 3.9 and 3.10.
 - FEATURE: Dropped support for Python 3.4 and 3.5.
 - FEATURE: Exposed parser for CPython versions, see `wenv.PythonVersion`.
 - FEATURE: New functions for querying available Windows Embeddable Python builds from [python.org/downloads](https://www.python.org/downloads/), see `wenv.get_available_python_builds` and `wenv.get_latest_python_build`.
-- FEATURE: Experimental support for ARM64.
+- FEATURE: Experimental support for ARM64 added.
 - FIX: Wine Python can distinctly refer to and handle alpha, beta, release-candidate and stable builds of CPython.
-- FIX: Switched from unsupported `python-language-server` to supported `python-lsp-server`.
 - FIX: Error handling in package listing for Wine Python environments was broken.
 - FIX: Python version parser could not handle Windows ARM64 builds.
 - FIX: Configuration expected in `/etc/.wenv.json` and `/etc/wenv.json`, see #15. The support for `/etc/.wenv.json` will be removed in a future release.
 - FIX: The names of wine binaries/commands can be configured for special cases like RedHat/Fedora/CentOS wine packages, see zugbruecke#70.
 - FIX: Configuration module, `wenv.EnvConfig`, is now properly documented and actually usable from outside `wenv`.
-- DEV: New `makefile` structure for developers.
 - DOCS: Hugely improved.
+- DEV: New `makefile` structure for developers.
+- DEV: Switched from unsupported `python-language-server` to supported `python-lsp-server`.
 
 ## 0.2.1 (2020-07-10)
 
