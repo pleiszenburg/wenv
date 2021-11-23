@@ -43,7 +43,7 @@ from .typeguard import typechecked
 @typechecked
 class PythonVersion:
     """
-    Parse and handle Python versions. Immutable.
+    Parse, compare and export Python versions. Immutable.
 
     Args:
         arch : Build architecture. Can be ``win32``, ``win64`` or ``arm64``.
