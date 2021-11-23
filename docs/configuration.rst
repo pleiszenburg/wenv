@@ -37,6 +37,8 @@ Configuration via API
 
 When using ``wenv`` via its API, it can be configured through its :class:`wenv.EnvConfig` class.
 
+.. _parameters:
+
 Parameters
 ----------
 
@@ -45,16 +47,20 @@ Parameters
 
 Defines the architecture of *Wine* & *Wine* *Python*. It can be set to ``win32``, ``win64`` or ``arm64``. Default is ``win32``, even on 64-bit systems. It appears to be a more stable configuration.
 
-``pythonversion`` (str)
-^^^^^^^^^^^^^^^^^^^^^^^
+``pythonversion`` (:class:`wenv.PythonVersion` or str)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``pythonversion`` parameter tells *wenv* what version of the *Windows* *CPython* interpreter it should use. By default, it is set to ``3.7.4``.
+The ``pythonversion`` parameter tells *wenv* what version of the *Windows* *CPython* interpreter it should use. By default, it is set to ``PythonVersion('{arch}', 3, 7, 4)``.
 
 .. note::
 
-	Windows of Python versions of 3.4 and earlier are not supported. In the opposite direction, at the time of writing, 3.6 (and later) do require *Wine* 4.0 or later. If you are forced to use *Wine* 2.0 or 3.0, you may try to set this parameter to ``3.5.4``. You can only specify versions for which an "*Windows* embeddable zip file" is available, see `python.org`_.
+	Windows versions of Python of 3.5 and earlier are not supported. You can only specify versions for which an "*Windows* embeddable zip file" is available, see `python.org`_. Available versions/builds can be queried for using :func:`wenv.get_available_python_builds` and :func:`wenv.get_latest_python_build`.
 
-Release candidates, alpha and beta versions can be accessed in the following form: ``3.7.0.rc1``. ``3.7.0.a1`` or ``3.7.0.b1``.
+Release candidate, alpha and beta versions can be accessed in the following form: ``PythonVersion('{arch}', 3, 7, 0, 'rc1')`` (first release candidate). ``PythonVersion('{arch}', 3, 7, 0, 'a1')`` (first alpha version) or ``PythonVersion('{arch}', 3, 7, 0, 'b1')`` (first beta version).
+
+.. note::
+
+	The ``pythonversion`` parameter can also be specified as a string, e.g. ``3.7.4``, ``3.7.0.rc1``, ``3.7.0.a1`` or ``3.7.0.b1``. The architecture is then taken from the ``arch`` field.
 
 .. _python.org: https://www.python.org/downloads/windows/
 

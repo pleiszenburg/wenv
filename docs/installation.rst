@@ -24,7 +24,7 @@ For using *wenv*, you need to install **Wine** first. Depending on your platform
 .. _Installation instructions for Mac OS X: https://wiki.winehq.org/MacOS
 .. _Installation instructions for FreeBSD: https://wiki.winehq.org/FreeBSD
 
-Currently, Wine >= 4.x is supported (tested). If you are limited to an older version of Wine such as 2.x or 3.x, you have one option: Try to set the ``pythonversion`` configuration parameter to ``3.5.4``.
+Currently, Wine >= 6.x is supported (tested).
 
 Getting *wenv*
 --------------
