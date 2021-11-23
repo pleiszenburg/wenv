@@ -55,10 +55,10 @@ def test_pip(arch, build):
 
     out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
     assert code == 0
-    assert no_errors_in(err)
     assert "pip" in out
     assert "setuptools" in out
     assert "pytest" in out
+    assert no_errors_in(err)
 
 
 @pytest.mark.parametrize("arch,build", get_context())
