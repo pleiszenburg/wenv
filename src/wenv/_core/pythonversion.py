@@ -50,7 +50,7 @@ class PythonVersion:
         major : Python major version, i.e. ``X`` from ``X.0.0``.
         minor : Python minor version, i.e. ``X`` from ``0.X.0``.
         maintenance : Python maintenance version, i.e. ``X`` from ``0.0.X``.
-        build : Type of build, e.g. ``alpha``, ``beta``, ``rcX``, etc. If left empty or set to ``stable``, the build is considered stable.
+        build : Type of build, e.g. ``aX``, ``bX``, ``rcX``, etc. If left empty or set to ``stable``, the build is considered stable.
     """
 
     def __init__(self, arch: str, major: int, minor: int, maintenance: int, build: str = "stable"):
