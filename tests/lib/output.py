@@ -26,6 +26,8 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import re
+
 from .param import get_context, run_process
 
 
@@ -57,3 +59,9 @@ def no_errors_in(output: str) -> bool:
         return False
 
     return True
+
+
+def remove_colors(output: str) -> str:
+
+    # https://stackoverflow.com/a/14693789/1672565
+    return re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])').sub('', output)

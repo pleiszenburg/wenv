@@ -27,4 +27,4 @@ specific language governing rights and limitations under the License.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from .param import get_context, run_process
-from .output import no_errors_in
+from .output import no_errors_in, remove_colors

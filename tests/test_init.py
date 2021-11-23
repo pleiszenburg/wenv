@@ -26,7 +26,7 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from .lib import get_context, run_process, no_errors_in
+from .lib import get_context, run_process, no_errors_in, remove_colors
 
 import pytest
 
@@ -36,19 +36,23 @@ import pytest
 
 
 @pytest.mark.parametrize("arch", get_context())
-def test_init(arch):
+def test_1_clean(arch):
 
     out, err, code = run_process(["wenv", "clean"], env={"WENV_ARCH": arch})
 
     assert code == 0
     assert no_errors_in(err)
 
+
+@pytest.mark.parametrize("arch", get_context())
+def test_2_init(arch):
+
     out, err, code = run_process(["wenv", "help"], env={"WENV_ARCH": arch})
 
     assert code == 0
     assert no_errors_in(err)
     assert "wenv pip" not in out
-    # assert 'wenv python' not in out # TODO
+    assert 'wenv python' not in remove_colors(out)
 
     out, err, code = run_process(["wenv", "init"], env={"WENV_ARCH": arch})
 
@@ -60,11 +64,20 @@ def test_init(arch):
     assert code == 0
     assert no_errors_in(err)
     assert "wenv pip" in out
-    # assert 'wenv python' in out # TODO
+    assert 'wenv python' in remove_colors(out)
 
 
 @pytest.mark.parametrize("arch", get_context())
-def test_init_offline(arch):
+def test_3_clean(arch):
+
+    out, err, code = run_process(["wenv", "clean"], env={"WENV_ARCH": arch})
+
+    assert code == 0
+    assert no_errors_in(err)
+
+
+@pytest.mark.parametrize("arch", get_context())
+def test_4_offline(arch):
 
     out, err, code = run_process(["wenv", "clean"], env={"WENV_ARCH": arch})
 
@@ -76,7 +89,7 @@ def test_init_offline(arch):
     assert code == 0
     assert no_errors_in(err)
     assert "wenv pip" not in out
-    # assert 'wenv python' not in out # TODO
+    assert 'wenv python' not in remove_colors(out)
 
     out, err, code = run_process(["wenv", "cache"], env={"WENV_ARCH": arch})
 
@@ -96,4 +109,4 @@ def test_init_offline(arch):
     assert code == 0
     assert no_errors_in(err)
     assert "wenv pip" in out
-    # assert 'wenv python' in out # TODO
+    assert 'wenv python' in remove_colors(out)
