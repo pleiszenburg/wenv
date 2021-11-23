@@ -1,13 +1,15 @@
-[![build_master](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=master "Build Status: master / release")](https://travis-ci.org/pleiszenburg/wenv)
+![wenv](http://www.pleiszenburg.de/wenv_logo.png)
+
+# wenv - Running Python on Wine
+
+[![build_master](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=master "Build Status: master / release")](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml)
 [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/)
-[![build_develop](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=develop "Build Status: development branch")](https://travis-ci.org/pleiszenburg/wenv)
-[![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://wenv.readthedocs.io/en/develop/)
 [![license](https://img.shields.io/pypi/l/wenv.svg?style=flat-square "GNU Lesser General Public License v2.1")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE)
 [![status](https://img.shields.io/pypi/status/wenv.svg?style=flat-square "Project Development Status")](https://github.com/pleiszenburg/wenv/issues)
 [![pypi_version](https://img.shields.io/pypi/v/wenv.svg?style=flat-square "Project Development Status")](https://pypi.python.org/pypi/wenv)
 [![pypi_versions](https://img.shields.io/pypi/pyversions/wenv.svg?style=flat-square "Available on PyPi - the Python Package Index")](https://pypi.python.org/pypi/wenv)
-
-![wenv](http://www.pleiszenburg.de/wenv_logo.png)
+[![chat](https://img.shields.io/matrix/zugbruecke:matrix.org.svg?style=flat-square "Matrix Chat Room")](https://matrix.to/#/#zugbruecke:matrix.org)
+[![mailing_list](https://img.shields.io/badge/mailing%20list-groups.io-8cbcd1.svg?style=flat-square "Mailing List")](https://groups.io/g/zugbruecke-dev)
 
 ## Synopsis
 
