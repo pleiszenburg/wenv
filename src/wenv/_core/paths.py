@@ -42,12 +42,10 @@ class Paths:
     Wine Python environment paths
     """
 
-    def __init__(self, pythonprefix: str, arch: str, pythonversion: str):
+    def __init__(self, pythonprefix: str, pythonversion: PythonVersion):
 
         self._pythonprefix = pythonprefix
-        self._pythonversion_block = PythonVersion.from_config(
-            arch, pythonversion
-        ).as_block()
+        self._pythonversion_block = pythonversion.as_block()
 
     def __getitem__(self, key: str) -> str:
 

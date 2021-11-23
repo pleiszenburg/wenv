@@ -30,10 +30,11 @@ import os
 import json
 import site
 import sys
-from typing import Any, Dict, Generator, Optional
+from typing import Any, Dict, Optional
 
 from .const import CONFIG_FN
 from .errors import EnvConfigParserError
+from .pythonversion import PythonVersion
 from .typeguard import typechecked
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -74,13 +75,19 @@ class EnvConfig(dict):
         # Call parent constructur, just in case
         super().__init__()
 
-        # Get config from files as a prioritized list
-        for config in self._get_config_from_files():
-            self.update(config)
+        # Get config from files
+        self.update(self._get_config_from_files())
 
         # Add override parameters
         if len(override) > 0:
             self.update(override)
+
+        # Version type cleanup
+        if not isinstance(self['pythonversion'], PythonVersion):
+            self['pythonversion'] = PythonVersion.from_config(
+                arch = self['arch'],
+                version = self['pythonversion'],
+            )
 
     def __getitem__(self, key: str) -> Any:
         """
@@ -100,6 +107,8 @@ class EnvConfig(dict):
         if env_var in os.environ.keys():
             value = os.environ[env_var]
             if len(value) > 0:
+                if key == "pythonversion":
+                    return PythonVersion.from_config(self['arch'], value)
                 if value.isnumeric():
                     return int(value)
                 if value.strip().lower() in ("true", "false"):
@@ -112,7 +121,7 @@ class EnvConfig(dict):
         if key == "arch":
             return "win32"  # Define Wine & Wine-Python architecture
         if key == "pythonversion":
-            return "3.7.4"  # Define Wine-Python version
+            return PythonVersion(self['arch'], 3, 7, 4, 'stable')  # Define Wine-Python version
         if key == "wine_bin_win32":
             return "wine"
         if key == "wine_bin_win64":
@@ -164,12 +173,14 @@ class EnvConfig(dict):
             for field in self._KEYS
         }
 
-    def _get_config_from_files(self) -> Generator:
+    def _get_config_from_files(self) -> Dict:
+
+        base = {}
 
         # Look for config in the usual spots
         for fn in [
             "/etc/wenv",
-            os.path.join("/etc", CONFIG_FN),
+            os.path.join("/etc", CONFIG_FN), # TODO deprecated
             os.path.join("/etc", CONFIG_FN[1:]),
             os.path.join(os.path.expanduser("~"), CONFIG_FN),
             os.environ.get("WENV"),
@@ -179,10 +190,12 @@ class EnvConfig(dict):
             os.path.join(os.getcwd(), CONFIG_FN),
         ]:
 
-            cnt_dict = self._load_config_from_file(fn)
+            cnt = self._load_config_from_file(fn)
 
-            if cnt_dict is not None:
-                yield cnt_dict
+            if cnt is not None:
+                base.update(cnt)
+
+        return base
 
     def _load_config_from_file(self, try_path: Optional[str] = None) -> Optional[Dict[str, Any]]:
 
@@ -205,14 +218,14 @@ class EnvConfig(dict):
 
         # Try to parse it
         try:
-            cnt_dict = json.loads(cnt)
+            cnt = json.loads(cnt)
         except Exception as e:
             raise EnvConfigParserError(
                 'Config file could not be parsed: "%s"' % try_path
             ) from e
 
         # Ensure that config has the right format
-        if not isinstance(cnt_dict, dict):
+        if not isinstance(cnt, dict):
             raise EnvConfigParserError('Config file is malformed: "%s"' % try_path)
 
-        return cnt_dict
+        return cnt

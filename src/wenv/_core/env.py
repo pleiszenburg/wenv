@@ -38,7 +38,6 @@ import zipfile
 from .config import EnvConfig
 from .const import c, COVERAGE_STARTUP, HELP_STR
 from .paths import Paths
-from .pythonversion import PythonVersion
 from .source import download
 from .typeguard import typechecked
 
@@ -100,9 +99,7 @@ class Env:
         }
 
         # Init Python environment paths
-        self._path_dict = Paths(
-            self._p["pythonprefix"], self._p["arch"], self._p["pythonversion"]
-        )
+        self._path_dict = Paths(self._p["pythonprefix"], self._p["pythonversion"])
         # Init Python commands and scripts
         self._init_cmd_dict()
         # Init internal CLI commands
@@ -268,11 +265,9 @@ class Env:
         Equivalent to ``wenv cache``. It fetches installation files and caches them for offline usage, including the Python interpreter, pip, setuptools and wheel.
         """
 
-        version = PythonVersion.from_config(self._p["arch"], self._p["pythonversion"])
-
         os.makedirs(self._p["cache"], exist_ok=True)
 
-        with open(os.path.join(self._p["cache"], version.as_zipname()), "wb") as f:
+        with open(os.path.join(self._p["cache"], self._p["pythonversion"].as_zipname()), "wb") as f:
             f.write(self._get_python(offline=False))
         with open(os.path.join(self._p["cache"], "get-pip.py"), "wb") as f:
             f.write(self._get_pip(offline=False))
@@ -306,13 +301,11 @@ class Env:
 
     def _get_python(self, offline: bool = False) -> bytes:
 
-        version = PythonVersion.from_config(self._p["arch"], self._p["pythonversion"])
-
         if offline:
-            with open(os.path.join(self._p["cache"], version.as_zipname()), "rb") as f:
+            with open(os.path.join(self._p["cache"], self._p["pythonversion"].as_zipname()), "rb") as f:
                 return f.read()
         else:
-            return download(version.as_url(), mode="binary")
+            return download(self._p["pythonversion"].as_url(), mode="binary")
 
     def _get_pip(self, offline: bool = False) -> bytes:
 
