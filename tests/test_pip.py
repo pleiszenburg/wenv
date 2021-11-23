@@ -51,7 +51,7 @@ def test_pip(arch):
         ["wenv", "pip", "install", "pytest"], env={"WENV_ARCH": arch}
     )
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
 
     out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch})
     assert code == 0
