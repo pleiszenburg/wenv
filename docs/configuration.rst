@@ -47,6 +47,10 @@ Parameters
 
 Defines the architecture of *Wine* & *Wine* *Python*. It can be set to ``win32``, ``win64`` or ``arm64``. Default is ``win32``, even on 64-bit systems. It appears to be a more stable configuration.
 
+.. warning::
+
+	The support for ``arm64`` is experimental and does not receive testing.
+
 ``pythonversion`` (:class:`wenv.PythonVersion` or str)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

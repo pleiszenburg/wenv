@@ -7,6 +7,7 @@
 - FEATURE: Dropped support for Python 3.4 and 3.5.
 - FEATURE: Exposed parser for CPython versions, see `wenv.PythonVersion`.
 - FEATURE: New functions for querying available Windows Embeddable Python builds from [python.org/downloads](https://www.python.org/downloads/), see `wenv.get_available_python_builds` and `wenv.get_latest_python_build`.
+- FEATURE: Experimental support for ARM64.
 - FIX: Wine Python can distinctly refer to and handle alpha, beta, release-candidate and stable builds of CPython.
 - FIX: Switched from unsupported `python-language-server` to supported `python-lsp-server`.
 - FIX: Error handling in package listing for Wine Python environments was broken.
