@@ -13,7 +13,7 @@
 Environment
 ===========
 
-foo bar
+Wine Python environments can be created, managed and destroyed using this API.  
 
 .. autoclass:: wenv.Env
     :members:
