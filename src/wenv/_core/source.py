@@ -27,7 +27,7 @@ specific language governing rights and limitations under the License.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from multiprocessing.pool import ThreadPool
-from typing import Union
+from typing import List, Optional, Union
 
 import requests
 
@@ -55,23 +55,56 @@ def download(down_url: str, mode: str = "binary") -> Union[str, bytes]:
     return r.content # mode == 'binary'
 
 
-def get_latest_maintenance_release(
-    arch: str, major: int, minor: int, sorted_versions=None
-):
+@typechecked
+def get_latest_python_build(
+    arch: str,
+    major: int,
+    minor: int,
+    builds: Optional[List[PythonVersion]] = None,
+) -> Optional[PythonVersion]:
+    """
+    Find the latest build of a given Python major and minor version for a given architecture.
+    Returns ``None`` if none can be found.
 
-    if sorted_versions is None:
-        sorted_versions = get_available_python_versions()
+    Args:
+        arch : Build architecture.
+        major : Python major version.
+        minor : Python minor version.
+        builds : A list of :class:`wenv.PythonVersion` objects. If left empty, ``python.org`` will be queried.
+    Returns:
+        A :class:`wenv.PythonVersion` object or ``None``.
+    """
 
-    arch_versions = sorted_versions[arch]
-    maintenance_versions = {
-        k[2]: v  # maintenance
-        for k, v in arch_versions.items()
-        if k[0] == major and k[1] == minor
-    }
-    return maintenance_versions[max(maintenance_versions.keys())][-1]
+    if builds is None:
+        builds = get_available_python_builds()
+
+    filtered_build = [
+        build
+        for build in builds
+        if all((
+            build.arch == arch,
+            build.major == major,
+            minor.minor == minor,
+        ))
+    ]
+
+    if len(filtered_build) == 0:
+        return None
+
+    filtered_build.sort()
+    return filtered_build[-1]
 
 
-def get_available_python_versions():
+@typechecked
+def get_available_python_builds(parallel: int = 8) -> List[PythonVersion]:
+    """
+    Queries ``python.org`` for Windows Embedded Builds.
+
+    Args:
+        parallel : Number of parallel queries to ``python.org``.
+    Returns:
+        All available Windows Embedded Builds of CPython 3.
+    """
 
     versions = [
         tuple(int(nr) for nr in line.split('"')[1][:-1].split("."))
@@ -79,60 +112,38 @@ def get_available_python_versions():
             "\n"
         )
         if all(
-            [
+            (
                 line.startswith('<a href="'),
                 line[9:10].isdigit(),
                 not line.startswith('<a href="2.'),
-            ]
+            )
         )
-    ]
+    ] # get URLs of all verions, dump Python 2
+
     version_urls = [
         "https://www.python.org/ftp/python/%d.%d.%d/" % version
         if len(version) == 3
         else "https://www.python.org/ftp/python/%d.%d/" % version
         for version in versions
-    ]
-    version_downloads = ThreadPool(8).imap(
-        lambda x: download(x, mode="text"), version_urls
-    )
-    embedded_versions = {
-        version: [
-            PythonVersion.from_zipname(line.split('"')[1])
-            for line in version_download.split("\n")
-            if all(
-                (
-                    line.startswith('<a href="'),
-                    "embed" in line,
-                    ".zip" in line,
-                    ".zip.asc" not in line,
-                )
-            )
-        ]
+    ] # some URLs in early Python 3.X releases are following  `major.minor` pattern
+
+    with ThreadPool(parallel) as p:
+        version_downloads = p.imap(
+            lambda x: download(x, mode="text"), version_urls
+        ) # get inventory of all maintenance version downloads
+
+    return [
+        PythonVersion.from_zipname(line.split('"')[1])
         for version, version_url, version_download in zip(
             versions, version_urls, version_downloads
         )
-    }
-    embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
-
-    sorted_versions = {
-        "win32": {
-            version_tuple: sorted(
-                [version for version in versions if version.arch == "win32"]
+        for line in version_download.split("\n")
+        if all(
+            (
+                line.startswith('<a href="'),
+                "embed" in line,
+                ".zip" in line,
+                ".zip.asc" not in line,
             )
-            for version_tuple, versions in embedded_versions.items()
-        },
-        "win64": {
-            version_tuple: sorted(
-                [version for version in versions if version.arch == "win64"]
-            )
-            for version_tuple, versions in embedded_versions.items()
-        },
-        "arm64": {
-            version_tuple: sorted(
-                [version for version in versions if version.arch == "arm64"]
-            )
-            for version_tuple, versions in embedded_versions.items()
-        },
-    }
-
-    return sorted_versions
+        )
+    ]

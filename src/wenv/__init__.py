@@ -41,8 +41,8 @@ from ._core.pythonversion import (
     PythonVersion,
 )
 from ._core.source import (
-    get_available_python_versions,
-    get_latest_maintenance_release,
+    get_available_python_builds,
+    get_latest_python_build,
 )
 
 env = Env  # legacy
