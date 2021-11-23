@@ -9,7 +9,7 @@
 Python Version Processing
 =========================
 
-foo bar
+``wenv`` allows to handle Python versions for configuration purposes.
 
 .. autoclass:: wenv.PythonVersion
     :members:
