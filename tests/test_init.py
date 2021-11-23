@@ -26,7 +26,7 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from .lib import get_context, run_process
+from .lib import get_context, run_process, no_errors_in
 
 import pytest
 
@@ -41,12 +41,12 @@ def test_init(arch):
     out, err, code = run_process(["wenv", "clean"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
 
     out, err, code = run_process(["wenv", "help"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     assert "wenv pip" not in out
     # assert 'wenv python' not in out # TODO
 
@@ -58,7 +58,7 @@ def test_init(arch):
     out, err, code = run_process(["wenv", "help"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     assert "wenv pip" in out
     # assert 'wenv python' in out # TODO
 
@@ -69,19 +69,19 @@ def test_init_offline(arch):
     out, err, code = run_process(["wenv", "clean"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
 
     out, err, code = run_process(["wenv", "help"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     assert "wenv pip" not in out
     # assert 'wenv python' not in out # TODO
 
     out, err, code = run_process(["wenv", "cache"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     assert "wenv pip" not in out
 
     out, err, code = run_process(
@@ -94,6 +94,6 @@ def test_init_offline(arch):
     out, err, code = run_process(["wenv", "help"], env={"WENV_ARCH": arch})
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     assert "wenv pip" in out
     # assert 'wenv python' in out # TODO

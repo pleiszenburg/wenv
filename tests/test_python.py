@@ -26,7 +26,7 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from .lib import get_context, run_process
+from .lib import get_context, run_process, no_errors_in
 
 import pytest
 
@@ -43,7 +43,7 @@ def test_python(arch):
     )
 
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     assert "Windows" in out
 
     out, err, code = run_process(
@@ -51,6 +51,6 @@ def test_python(arch):
         env={"WENV_ARCH": arch},
     )
     assert code == 0
-    assert len(err.strip()) == 0
+    assert no_errors_in(err)
     out = out.strip()
     assert (arch == "win32" and out == "x86") ^ (arch == "win64" and out == "AMD64")

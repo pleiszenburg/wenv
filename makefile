@@ -67,7 +67,7 @@ release:
 
 test:
 	make clean
-	pytest
+	WENV_DEBUG=1 pytest
 
 upload:
 	for filename in $$(ls dist/*.tar.gz dist/*.whl) ; do \

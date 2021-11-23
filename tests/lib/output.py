@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    tests/lib/__init__.py: Test library module
+    tests/lib/output.py: Looking at output
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -27,4 +27,33 @@ specific language governing rights and limitations under the License.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from .param import get_context, run_process
-from .output import no_errors_in
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ROUTINES
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+def no_errors_in(output: str) -> bool:
+
+    lines = output.split('\n')
+
+    for line in lines:
+
+        line = line.strip()
+
+        if len(line) == 0:
+            continue
+
+        if all(
+            fragment in line.lower()
+            for fragment in (
+                'debug mode',
+                'run-time type checks',
+                'runtimewarning',
+            )
+        ):
+            continue
+
+        return False
+
+    return True
