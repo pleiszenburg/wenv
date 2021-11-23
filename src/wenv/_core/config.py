@@ -184,7 +184,7 @@ class EnvConfig(dict):
             if cnt_dict is not None:
                 yield cnt_dict
 
-    def _load_config_from_file(self, try_path: Optional[str] = None) -> Dict[str, Any]:
+    def _load_config_from_file(self, try_path: Optional[str] = None) -> Optional[Dict[str, Any]]:
 
         # If there is a path ...
         if try_path is None:
