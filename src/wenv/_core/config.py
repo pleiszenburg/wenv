@@ -30,21 +30,46 @@ import os
 import json
 import site
 import sys
+from typing import Any, Dict, Generator, Optional
 
 from .const import CONFIG_FN
 from .errors import EnvConfigParserError
+from .typeguard import typechecked
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CONFIGURATION CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+@typechecked
 class EnvConfig(dict):
     """
-    Wine Python environment configuration
+    Wine Python environment configuration. Subclass of ``dict``.
+    It holds default values and overwrites them with values found in configuration files and environment variables.
+    Usually, one should not work with this class directly - unless an access to current configuration parameters is desired.
+
+    Args:
+        override : Specify custom values for configuration parameters via keyword arguments.
     """
 
-    def __init__(self, **override_dict):
+    _KEYS = (
+        "arch",
+        "pythonversion",
+        "wine_bin_win32"
+        "wine_bin_win64",
+        "wine_bin_arm64",
+        "winedebug",
+        "wineinstallprefix",
+        "prefix",
+        "wineprefix",
+        "pythonprefix",
+        "offline",
+        "cache",
+        "packages",
+        "_issues_50_workaround",
+    )
+
+    def __init__(self, **override: Any):
 
         # Call parent constructur, just in case
         super().__init__()
@@ -54,10 +79,22 @@ class EnvConfig(dict):
             self.update(config)
 
         # Add override parameters
-        if len(override_dict) > 0:
-            self.update(override_dict)
+        if len(override) > 0:
+            self.update(override)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> Any:
+        """
+        Returns values from the following sources in the following order:
+
+        - Environment variables
+        - Internal storage, i.e. changed in the dictionary or read from configuration files.
+        - Default values.
+
+        Args:
+            key : Name of configuration value.
+        Returns:
+            Arbitrary configuration value.
+        """
 
         env_var = "WENV_{NAME:s}".format(NAME=key.upper())
         if env_var in os.environ.keys():
@@ -110,26 +147,24 @@ class EnvConfig(dict):
 
         raise KeyError("not a valid configuration key", key)
 
-    def export_envvar_dict(self):
+    def export_dict(self) -> Dict[str, str]:
+        """
+        Exports a dictionary.
+        """
+
+        return {self[field] for field in self._KEYS}
+
+    def export_envvar_dict(self) -> Dict[str, str]:
+        """
+        Exports a dictionary which can passed to the OS as a set of environment variables for ``wenv`` itself.
+        """
 
         return {
             "WENV_" + field.upper(): "" if field is None else str(self[field])
-            for field in (
-                "arch",
-                "pythonversion",
-                "winedebug",
-                "wineinstallprefix",
-                "prefix",
-                "wineprefix",
-                "pythonprefix",
-                "offline",
-                "cache",
-                "packages",
-                "_issues_50_workaround",
-            )
+            for field in self._KEYS
         }
 
-    def _get_config_from_files(self):
+    def _get_config_from_files(self) -> Generator:
 
         # Look for config in the usual spots
         for fn in [
@@ -149,7 +184,7 @@ class EnvConfig(dict):
             if cnt_dict is not None:
                 yield cnt_dict
 
-    def _load_config_from_file(self, try_path):
+    def _load_config_from_file(self, try_path: Optional[str] = None) -> Dict[str, Any]:
 
         # If there is a path ...
         if try_path is None:
