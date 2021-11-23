@@ -136,6 +136,38 @@ class PythonVersion:
 
         return self._arch
 
+    @property
+    def major(self) -> int:
+        """
+        Python major version.
+        """
+
+        return self._major
+
+    @property
+    def minor(self) -> int:
+        """
+        Python minor version.
+        """
+
+        return self._minor
+
+    @property
+    def maintenance(self) -> int:
+        """
+        Python maintenance version.
+        """
+
+        return self._maintenance
+
+    @property
+    def build(self) -> str:
+        """
+        Type of build.
+        """
+
+        return self._build
+
     def as_block(self) -> str:
         """
         Returns:
