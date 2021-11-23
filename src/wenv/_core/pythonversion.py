@@ -23,33 +23,51 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# IMPORT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+from typing import Any, Union
+
+try:
+    from typing import NotImplementedType # re-introduced in Python 3.10
+except ImportError:
+    NotImplementedType = type(NotImplemented)
+
+from .typeguard import typechecked
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+@typechecked
 class PythonVersion:
     """
-    Parse and handle Python versions
+    Parse and handle Python versions. Immutable.
+
+    Args:
+        arch : Build architecture. Can be ``win32``, ``win64`` or ``arm64``.
+        major : Python major version, i.e. ``X`` from ``X.0.0``.
+        minor : Python minor version, i.e. ``X`` from ``0.X.0``.
+        maintenance : Python maintenance version, i.e. ``X`` from ``0.0.X``.
+        build : Type of build, e.g. ``alpha``, ``beta``, ``rcX``, etc. If left empty or set to ``stable``, the build is considered stable.
     """
 
-    def __init__(self, arch, major, minor, maintenance, build="stable"):
+    def __init__(self, arch: str, major: int, minor: int, maintenance: int, build: str = "stable"):
 
-        if not isinstance(arch, str):
-            raise TypeError("arch must be str")
         if arch not in ("win32", "win64", "arm64"):
             raise ValueError("Unknown arch: " + arch)
-        if any((not isinstance(item, int) for item in (major, minor, maintenance))):
-            raise TypeError("Unknown type for major, minor or maintenance")
         if major <= 2:
             raise ValueError("Only Python 3 and newer supported")
-        if not isinstance(build, str):
-            raise TypeError("build must be str")
 
         self._arch = arch
         self._major, self._minor, self._maintenance = major, minor, maintenance
         self._build = "stable" if build == "" else build
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Converts version to string.
+        """
 
         return "%d.%d.%d.%s" % (
             self._major,
@@ -58,7 +76,10 @@ class PythonVersion:
             self._build,
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """
+        Converts version to interactive string representation.
+        """
 
         return "<Python %d.%d.%d.%s (%s)>" % (
             self._major,
@@ -68,16 +89,38 @@ class PythonVersion:
             self._arch,
         )
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> Union[bool, NotImplementedType]:
+        """
+        Equality operator.
+        """
+
+        if not isinstance(other, type(self)):
+            return NotImplemented
+
         return self._as_sort() == other._as_sort()
 
-    def __gt__(self, other):
+    def __gt__(self, other: Any) -> Union[bool, NotImplementedType]:
+        """
+        Greater than operator.
+        """
+
+        if not isinstance(other, type(self)):
+            return NotImplemented
+
         return self._as_sort() > other._as_sort()
 
-    def __lt__(self, other):
+    def __lt__(self, other: Any) -> Union[bool, NotImplementedType]:
+        """
+        Lesser than operator.
+        """
+
+        if not isinstance(other, type(self)):
+            return NotImplemented
+
         return self._as_sort() < other._as_sort()
 
-    def _as_sort(self):
+    def _as_sort(self) -> str:
+
         return "%04d-%04d-%04d-%s" % (
             self._major,
             self._minor,
@@ -86,19 +129,34 @@ class PythonVersion:
         )
 
     @property
-    def arch(self):
+    def arch(self) -> str:
+        """
+        Build architecture.
+        """
 
         return self._arch
 
-    def as_block(self):
+    def as_block(self) -> str:
+        """
+        Returns:
+            "Block", i.e. combination of major and minor version as string.
+        """
 
         return "%d%d" % (self._major, self._minor)
 
-    def as_config(self):
+    def as_config(self) -> str:
+        """
+        Returns:
+            String for use in configuration.
+        """
 
         return str(self)
 
-    def as_url(self):
+    def as_url(self) -> str:
+        """
+        Returns:
+            Download URL for Windows Embedded Build ZIP file.
+        """
 
         return (
             "https://www.python.org/ftp/python/%d.%d.%d/"
@@ -106,7 +164,11 @@ class PythonVersion:
             + self.as_zipname()
         )
 
-    def as_zipname(self):
+    def as_zipname(self) -> str:
+        """
+        Returns:
+            Name of Windows Embedded Build ZIP file.
+        """
 
         build = "" if self._build == "stable" else self._build
         arch = "amd64" if self._arch == "win64" else self._arch
@@ -118,10 +180,15 @@ class PythonVersion:
             return "python-%d.%d.%d%s-embed-%s.zip" % sub_tuple
 
     @classmethod
-    def from_config(cls, arch, version):
+    def from_config(cls, arch: str, version: str):
+        """
+        Parses version from configuration value.
 
-        if not isinstance(version, str):
-            raise TypeError("version must be str")
+        Args:
+            arch : Build architecture.
+            version : Full version string, including type of build.
+        """
+
         segments = version.split(".")
         if not len(segments) in (3, 4):
             raise ValueError("wrong number of version segments")
@@ -134,7 +201,13 @@ class PythonVersion:
         return cls(arch, *segments)
 
     @classmethod
-    def from_zipname(cls, zip_name):
+    def from_zipname(cls, zip_name: str):
+        """
+        Parse version from Windows Embedded Build ZIP file name.
+
+        Args:
+            zip_name : Name of file
+        """
 
         if not isinstance(zip_name, str):
             raise TypeError("zip_name must be str")
