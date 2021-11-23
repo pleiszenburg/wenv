@@ -41,7 +41,7 @@ def test_without_shebang():
 
     assert code == 0
     assert no_errors_in(err)
-    assert "Hello from Linux!" == out.strip()
+    assert "Hello from Linux on x86_64!" == out.strip()
 
 
 @pytest.mark.parametrize("arch,build", get_context())
@@ -53,4 +53,7 @@ def test_with_shebang(arch, build):
 
     assert code == 0
     assert no_errors_in(err)
-    assert "Hello from Windows!" == out.strip()
+    if arch == 'win32':
+        assert "Hello from Windows on x86!" == out.strip()
+    else:
+        assert "Hello from Windows on AMD64!" == out.strip()

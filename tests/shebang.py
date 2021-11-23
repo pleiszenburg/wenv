@@ -35,4 +35,4 @@ import platform
 
 if __name__ == '__main__':
 
-    print(f'Hello from {platform.uname().system:s}!')
+    print(f'Hello from {platform.uname().system:s} on {platform.uname().machine:s}!')
