@@ -47,14 +47,18 @@ After installing the package with ``pip``, you must **initialize** the "Wine Pyt
 
 	wenv init
 
-If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.2.y therefore indicates a breaking change.
+.. note::
+
+	If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.2.y therefore indicates a breaking change.
 
 Possible problem: ``OSError: [WinError 6] Invalid handle``
 ----------------------------------------------------------
 
 On older versions of Linux such as *Ubuntu 14.04* alias *Trusty Tahr* (released 2014), you may observe errors when running ``wenv python``. Most commonly, they will present themselves as ``OSError: [WinError 6] Invalid handle: 'z:\\...`` triggered by calling ``os.listdir`` on a symbolic link ("symlink") to a folder.
 
-A **clean solution** is to upgrade to a younger version of Linux. E.g. *Ubuntu 16.04* alias *Xenial Xerus* (released 2016) is known to work.
+.. note::
+
+	A **clean solution** is to upgrade to a younger version of Linux. E.g. *Ubuntu 16.04* alias *Xenial Xerus* (released 2016) is known to work.
 
 Installing *wenv* in Development Mode
 -------------------------------------
