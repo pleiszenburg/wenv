@@ -27,17 +27,20 @@ specific language governing rights and limitations under the License.
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from multiprocessing.pool import ThreadPool
+from typing import Union
 
 import requests
 
 from .pythonversion import PythonVersion
+from .typeguard import typechecked
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ROUTINES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-def download(down_url, mode="binary"):
+@typechecked
+def download(down_url: str, mode: str = "binary") -> Union[str, bytes]:
 
     assert mode in ("text", "binary")
     assert isinstance(down_url, str)
