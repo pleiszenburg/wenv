@@ -6,8 +6,8 @@
 	single: Python version
 	module: wenv.PythonVersion
 
-Python Version Processing
-=========================
+Python Versions
+===============
 
 ``wenv`` allows to handle Python versions for configuration purposes.
 
