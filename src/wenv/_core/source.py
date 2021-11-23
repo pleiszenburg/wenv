@@ -26,7 +26,7 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Optional, Union
 
 import requests
@@ -127,10 +127,16 @@ def get_available_python_builds(parallel: int = 8) -> List[PythonVersion]:
         for version in versions
     ] # some URLs in early Python 3.X releases are following  `major.minor` pattern
 
-    with ThreadPool(parallel) as p:
-        version_downloads = p.imap(
-            lambda x: download(x, mode="text"), version_urls
-        ) # get inventory of all maintenance version downloads
+    with ThreadPoolExecutor(max_workers = parallel) as p:
+        version_futures = [
+            p.submit(
+                lambda x: download(x, mode="text"), version_url
+            ) for version_url in version_urls
+        ] # get inventory of all maintenance version downloads
+        version_downloads = [
+            future.result()
+            for future in as_completed(version_futures)
+        ]
 
     return [
         PythonVersion.from_zipname(line.split('"')[1])
