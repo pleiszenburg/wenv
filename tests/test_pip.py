@@ -37,10 +37,10 @@ import pytest
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-@pytest.mark.parametrize("arch", get_context())
-def test_pip(arch):
+@pytest.mark.parametrize("arch,build", get_context())
+def test_pip(arch, build):
 
-    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch})
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
     assert code == 0
     assert no_errors_in(err)
     assert "pip" in out
@@ -48,12 +48,12 @@ def test_pip(arch):
     assert "pytest" not in out
 
     out, err, code = run_process(
-        ["wenv", "pip", "install", "pytest"], env={"WENV_ARCH": arch}
+        ["wenv", "pip", "install", "pytest"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)}
     )
     assert code == 0
     assert no_errors_in(err)
 
-    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch})
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
     assert code == 0
     assert no_errors_in(err)
     assert "pip" in out
@@ -61,12 +61,12 @@ def test_pip(arch):
     assert "pytest" in out
 
 
-@pytest.mark.parametrize("arch", get_context())
-def test_pip_api(arch):
+@pytest.mark.parametrize("arch,build", get_context())
+def test_pip_api(arch, build):
 
-    env = Env(arch=arch)
+    env = Env(arch=arch, pythonversion=build)
 
-    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch})
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
     assert code == 0
     assert no_errors_in(err)
     assert "pip" in out
@@ -80,7 +80,7 @@ def test_pip_api(arch):
 
     env.install_package("requests")
 
-    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch})
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
     assert code == 0
     assert no_errors_in(err)
     assert "pip" in out
@@ -94,7 +94,7 @@ def test_pip_api(arch):
 
     env.uninstall_package("requests")
 
-    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch})
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
     assert code == 0
     assert no_errors_in(err)
     assert "pip" in out

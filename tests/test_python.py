@@ -35,11 +35,11 @@ import pytest
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-@pytest.mark.parametrize("arch", get_context())
-def test_python(arch):
+@pytest.mark.parametrize("arch,build", get_context())
+def test_python(arch, build):
 
     out, err, code = run_process(
-        ["wenv", "python", "-m", "platform"], env={"WENV_ARCH": arch}
+        ["wenv", "python", "-m", "platform"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)}
     )
 
     assert code == 0
@@ -48,7 +48,7 @@ def test_python(arch):
 
     out, err, code = run_process(
         ["wenv", "python", "-c", "import platform; print(platform.machine())"],
-        env={"WENV_ARCH": arch},
+        env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)},
     )
     assert code == 0
     assert no_errors_in(err)

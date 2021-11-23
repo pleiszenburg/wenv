@@ -33,6 +33,27 @@ import subprocess
 
 from .const import ARCHS, DEFAULT_TIMEOUT
 
+from wenv import get_available_python_builds, get_latest_python_build
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# BUILDS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+_builds = get_available_python_builds()
+
+BUILDS = {
+    arch: [
+        get_latest_python_build(arch, 3, minor, builds = _builds)
+        for minor in range(
+            6,  # min minor version
+            10 + 1,  # max major version
+        )
+    ]
+    for arch in ARCHS
+}
+for _value in BUILDS.values():
+    _value.sort()
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ROUTINES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -41,7 +62,8 @@ from .const import ARCHS, DEFAULT_TIMEOUT
 def get_context():
 
     for arch in ARCHS:
-        yield arch
+        for build in BUILDS[arch]:
+            yield arch, build
 
 
 # https://stackoverflow.com/a/14693789/1672565
