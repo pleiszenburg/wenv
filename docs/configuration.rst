@@ -32,6 +32,11 @@ Environment Variables
 
 Independently of the ``WENV`` environment variable, all configurable parameters of ``wenv`` can directly be overridden with environment variables. All values coming from configuration files will then be ignored for this particular parameter. Take the name of any configurable parameter, convert it to upper case and prefix it with ``WENV``. Example: The ``arch`` parameter can be overridden by declaring the ``WENV_ARCH`` environment variable.
 
+Configuration via API
+---------------------
+
+When using ``wenv`` via its API, it can be configured through its :class:`wenv.EnvConfig` class.
+
 Parameters
 ----------
 
@@ -45,7 +50,9 @@ Defines the architecture of *Wine* & *Wine* *Python*. It can be set to ``win32``
 
 The ``pythonversion`` parameter tells *wenv* what version of the *Windows* *CPython* interpreter it should use. By default, it is set to ``3.7.4``.
 
-Please note that 3.4 and earlier are not supported. In the opposite direction, at the time of writing, 3.6 (and later) do require *Wine* 4.0 or later. If you are forced to use *Wine* 2.0 or 3.0, you may try to set this parameter to ``3.5.4``. Note that you can only specify versions for which an "*Windows* embeddable zip file" is available, see `python.org`_.
+.. note::
+
+	Windows of Python versions of 3.4 and earlier are not supported. In the opposite direction, at the time of writing, 3.6 (and later) do require *Wine* 4.0 or later. If you are forced to use *Wine* 2.0 or 3.0, you may try to set this parameter to ``3.5.4``. You can only specify versions for which an "*Windows* embeddable zip file" is available, see `python.org`_.
 
 Release candidates, alpha and beta versions can be accessed in the following form: ``3.7.0.rc1``. ``3.7.0.a1`` or ``3.7.0.b1``.
 
