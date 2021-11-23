@@ -32,7 +32,7 @@ import os
 import shutil
 import subprocess
 import sys
-from typing import Any, Generator
+from typing import Any, Dict, Generator, List
 import zipfile
 
 from .config import EnvConfig
@@ -48,6 +48,14 @@ from .typeguard import typechecked
 
 @typechecked
 class Env:
+    """
+    Represents one Wine Python environment. Mutable.
+
+    The constructor expects
+
+    args:
+        kwargs : An arbitrary number of keyword arguments matching valid configuration options. In previous releases, the constructor expected one optional argument, ``parameter``. It should either be ``None`` or a dictionary. In the latter case, the dictionary may contain all valid configuration options. ``parameter`` can still be used but is deprecated.
+    """
 
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # INIT
@@ -163,8 +171,11 @@ class Env:
 
     def wine_47766_workaround(self):
         """
-        PathAllocCanonicalize treats path segments start with dots wrong.
-        https://bugs.winehq.org/show_bug.cgi?id=47766
+        Due to `Wine bug #47766`_ (in ``PathAllocCanonicalize``), *Wine* crashes if **any** folder in the path to ``pythonprefix`` is hidden Unix-style (i.e. prefixed with a dot / ``.``). This workaround creates a symlink directly pointing to ``pythonprefix`` into ``/tmp``, which is (more or less) guaranteed to be visible. It is then used instead of the actual ``pythonprefix``.
+
+        Run ``setup_wineprefix`` and ``setup_pythonprefix`` **before** calling ``wine_47766_workaround``. Any subsequent action such as installing or using ``pip`` must happen **after** calling ``wine_47766_workaround``.
+
+        .. _Wine bug #47766: https://bugs.winehq.org/show_bug.cgi?id=47766
         """
 
         is_clean = lambda path: not any(
@@ -199,6 +210,9 @@ class Env:
         self._init_dicts()
 
     def wine_47766_workaround_uninstall(self):
+        """
+        Reverts the `Wine bug #47766`_ workaround, i.e. it removes the symlink.
+        """
 
         self.wine_47766_workaround()
 
@@ -210,6 +224,14 @@ class Env:
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def ensure(self):
+        """
+        Equivalent to ``wenv init``. Intended to be used by 3rd-party packages which want to "ensure" that ``wenv`` has been initialized (i.e. *Python* and *pip* are present and working). ``ensure()`` calls the following methods:
+
+            - :meth:`wenv.Env.setup_wineprefix`
+            - :meth:`wenv.Env.setup_pythonprefix`
+            - :meth:`wenv.Env.wine_47766_workaround`
+            - :meth:`wenv.Env.setup_pip`
+        """
 
         self.setup_wineprefix()
         self.setup_pythonprefix()
@@ -221,6 +243,9 @@ class Env:
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def uninstall(self):
+        """
+        Equivalent to ``wenv clean``. It removes the current Wine Python environment, i.e. Python interpreter, pip, setuptools, wheel and all installed packages.
+        """
 
         # Does Wine prefix exist?
         if os.path.exists(self._p["wineprefix"]):
@@ -239,6 +264,9 @@ class Env:
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def cache(self):
+        """
+        Equivalent to ``wenv cache``. It fetches installation files and caches them for offline usage, including the Python interpreter, pip, setuptools and wheel.
+        """
 
         version = PythonVersion.from_config(self._p["arch"], self._p["pythonversion"])
 
@@ -253,6 +281,12 @@ class Env:
             self.cache_package(package)
 
     def cache_package(self, name: str):
+        """
+        Caches a specific package by nameself.
+
+        Args:
+            name : Name of PyPI package
+        """
 
         os.makedirs(self._p["packages"], exist_ok=True)
 
@@ -295,6 +329,12 @@ class Env:
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def setup_wineprefix(self, overwrite: bool = False):
+        """
+        Part of the initialization process, but can be triggered on its own if required. It creates a *Wine* prefix according to *wenv*'s configuration.
+
+        Args:
+            overwrite : If set to ``True``, a pre-existing *Wine* prefix is removed before a new one is created.
+        """
 
         if not isinstance(overwrite, bool):
             raise TypeError("overwrite is not a boolean")
@@ -320,6 +360,12 @@ class Env:
             sys.exit(1)
 
     def setup_pythonprefix(self, overwrite: bool = False):
+        """
+        Part of the initialization process, but can be triggered on its own if required. It installs the *CPython* interpreter into the *Python* prefix.
+
+        Args:
+            overwrite : If set to ``True``, a pre-existing *Python* prefix is removed before a new one is created.
+        """
 
         if not isinstance(overwrite, bool):
             raise TypeError("overwrite is not a boolean")
@@ -370,6 +416,9 @@ class Env:
             os.makedirs(self._path_dict["sitepackages"])
 
     def setup_pip(self):
+        """
+        Part of the initialization process, but can be triggered on its own if required. It installs ``pip``, assuming that both the ``wineprefix`` and ``pythonprefix`` are already present.
+        """
 
         # Exit if it exists
         if os.path.isfile(self._path_dict["pip"]):
@@ -398,6 +447,9 @@ class Env:
             proc.communicate(input=getpip)
 
     def setup_coverage_activate(self):
+        """
+        Equivalent to ``wenv init_coverage``. It enables coverage analysis inside wenv.
+        """
 
         # Ensure that coverage is started with the Python interpreter
         siteconfig_cnt = ""
@@ -415,7 +467,11 @@ class Env:
 
     def install_package(self, name: str, update: bool = False):
         """
-        Thin wrapper for `wenv pip install`
+        Thin wrapper for ``wenv pip install {-U} {name}``. Installs and/or updates a package.
+
+        Args:
+            name : Name of PyPI package
+            update : Update flag
         """
 
         if not isinstance(name, str):
@@ -442,7 +498,10 @@ class Env:
 
     def uninstall_package(self, name: str):
         """
-        Thin wrapper for `wenv pip uninstall -y`
+        Thin wrapper for ``wenv pip uninstall -y {name}``. Removes a package.
+
+        Args:
+            name : Name of PyPI package
         """
 
         if not isinstance(name, str):
@@ -463,9 +522,12 @@ class Env:
         if proc.returncode != 0:
             raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
 
-    def list_packages(self):
+    def list_packages(self) -> List[Dict[str, str]]:
         """
-        Thin wrapper for `wenv pip list --format json`
+        Thin wrapper for ``wenv pip list --format json``.
+
+        Returns:
+            A list of dictionaries of format ``{"name": "Name of PyPI package ", "version": "package version"}``.
         """
 
         envvar_dict = {k: os.environ[k] for k in os.environ.keys()}
@@ -547,6 +609,9 @@ class Env:
         sys.stdout.flush()
 
     def cli(self):
+        """
+        Command line interface entry point. Equivalent to ``wenv [...]``. Looks for sub-commands and parameters in ``sys.argv``.
+        """
 
         # No command passed
         if len(sys.argv) < 2:
@@ -586,10 +651,14 @@ class Env:
         )
 
     def shebang(self):
-        """Working around a lack of Unix specification ...
-        https://stackoverflow.com/q/4303128/1672565
-        https://unix.stackexchange.com/q/63979/28301
-        https://lists.gnu.org/archive/html/bug-sh-utils/2002-04/msg00020.html
+        """
+        shebang entry point for Wine Python interpreter. Equivalent to ``_wenv_python [...]``. Does not look at ``sys.argv``. It only passes ``sys.argv[1]`` on to the Wine Python interpreter.
+
+        This interface is working around a lack of Unix specification, see:
+
+            - https://stackoverflow.com/q/4303128/1672565
+            - https://unix.stackexchange.com/q/63979/28301
+            - https://lists.gnu.org/archive/html/bug-sh-utils/2002-04/msg00020.html
         """
 
         if len(sys.argv) < 2:
