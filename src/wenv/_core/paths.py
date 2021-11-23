@@ -29,25 +29,27 @@ specific language governing rights and limitations under the License.
 import os
 
 from .pythonversion import PythonVersion
+from .typeguard import typechecked
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # PATHS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+@typechecked
 class Paths:
     """
     Wine Python environment paths
     """
 
-    def __init__(self, pythonprefix, arch, pythonversion):
+    def __init__(self, pythonprefix: str, arch: str, pythonversion: str):
 
         self._pythonprefix = pythonprefix
         self._pythonversion_block = PythonVersion.from_config(
             arch, pythonversion
         ).as_block()
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> str:
 
         if key == "pythonprefix":
             return self._pythonprefix
@@ -75,7 +77,7 @@ class Paths:
         raise KeyError("not a valid path key")
 
     @staticmethod
-    def symlink(src, dest):
+    def symlink(src, dest: str):
         """
         Generates a symlink and checks result
         """
