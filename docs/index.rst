@@ -34,6 +34,7 @@ User's guide
    bugs
    changes
    faq
+   support
 
 `Interested in contributing?`_
 
