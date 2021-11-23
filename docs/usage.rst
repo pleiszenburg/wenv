@@ -35,7 +35,9 @@ This command provides help and lists all currently available sub-commands (such 
 
 This command behaves just like the regular ``python`` command in a *Unix* shell, except that it fires up a *Windows* *Python* interpreter on top of *Wine*. It works with all regular parameters and switches, accepts pipes and can be launched in interactive mode.
 
-You can also use it for creating executable *Python* scripts by adding the following at their top: ``#!/usr/bin/env _wenv_python``. Do not forget ``chmod +x your_script.py``. Notice that there is a difference between the more general ``wenv python`` command and its alias ``_wenv_python``, which is meant to be used only with a shebang.
+.. note::
+
+	You can also use it for creating executable *Python* scripts by adding the following at their top: ``#!/usr/bin/env _wenv_python``. Do not forget ``chmod +x your_script.py``. Notice that there is a difference between the more general ``wenv python`` command and its alias ``_wenv_python``, which is meant to be used only with a **shebang**.
 
 ``wenv pip``
 ------------
