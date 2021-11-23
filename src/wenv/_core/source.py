@@ -84,7 +84,7 @@ def get_latest_python_build(
         if all((
             build.arch == arch,
             build.major == major,
-            minor.minor == minor,
+            build.minor == minor,
         ))
     ]
 
