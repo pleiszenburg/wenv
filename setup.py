@@ -31,12 +31,13 @@ from sys import platform
 
 from setuptools import find_packages, setup
 
+from docs.version import get_version
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # SETUP
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Bump version HERE!
-_version_ = "0.3.0"
+__version__ = get_version()
 
 # List all versions of Python which are supported
 python_minor_min = 6
@@ -58,14 +59,14 @@ setup(
     name="wenv",
     packages=find_packages("src"),
     package_dir={"": "src"},
-    version=_version_,
+    version=__version__,
     description="Running Python on Wine",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Sebastian M. Ernst",
     author_email="ernst@pleiszenburg.de",
     url="https://github.com/pleiszenburg/wenv",
-    download_url="https://github.com/pleiszenburg/wenv/archive/v%s.tar.gz" % _version_,
+    download_url="https://github.com/pleiszenburg/wenv/archive/v%s.tar.gz" % __version__,
     license="LGPLv2",
     keywords=["wine", "cross platform"],
     scripts=[],

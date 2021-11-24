@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    src/wenv/_core/const.py: Holds constant values, flags, types
+    docs/version.py: Package version parser
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -23,48 +23,42 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# FOLDER- AND FILENAMES
+# IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-CONFIG_FN = ".wenv.json"
+import ast
+import os
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# COVERAGE
+# CONFIG
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-COVERAGE_STARTUP = """
-import coverage
-coverage.process_startup()
-"""
+SRC_DIR = "src"
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# CLI HELP
+# ROUTINES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-HELP_STR = """wenv {VERSION:s} - the Wine Python environment
+def parse_version(code: str) -> str:
 
-{CLIS:s}
+    tree = ast.parse(code)
 
-The following interpreters, scripts and modules are installed and available:
+    for item in tree.body:
+        if not isinstance(item, ast.Assign):
+            continue
+        if len(item.targets) != 1:
+            continue
+        if item.targets[0].id != "__version__":
+            continue
+        return item.value.s
 
-{SCRIPTS:s}
-"""
+def get_version() -> str:
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# CLI COLORS
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    path = os.path.join(
+        os.path.dirname(__file__), '..', SRC_DIR, "wenv", "__init__.py",
+        )
 
-# https://en.wikipedia.org/wiki/ANSI_escape_code
-c = {
-    "RESET": "\033[0;0m",
-    "BOLD": "\033[;1m",
-    "REVERSE": "\033[;7m",
-    "GREY": "\033[1;30m",
-    "RED": "\033[1;31m",
-    "GREEN": "\033[1;32m",
-    "YELLOW": "\033[1;33m",
-    "BLUE": "\033[1;34m",
-    "MAGENTA": "\033[1;35m",
-    "CYAN": "\033[1;36m",
-    "WHITE": "\033[1;37m",
-}
+    with open(path, "r", encoding="utf-8") as f:
+        version = parse_version(f.read())
+
+    return version

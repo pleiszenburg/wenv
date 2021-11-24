@@ -48,3 +48,8 @@ This command behaves just like the regular ``pip`` command on *Unix*, except tha
 ----------------------
 
 This command enables coverage analysis across the entire *Wine Python environment*. The ``coverage`` package must have been installed before running this command.
+
+``wenv version``
+-------------
+
+Shows the version of ``wenv``.
