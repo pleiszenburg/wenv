@@ -7,6 +7,7 @@
 - FEATURE: Exposed parser for CPython versions, see `wenv.PythonVersion`.
 - FEATURE: New functions for querying available Windows Embeddable Python builds from [python.org/downloads](https://www.python.org/downloads/), see `wenv.get_available_python_builds` and `wenv.get_latest_python_build`.
 - FEATURE: Experimental support for ARM64 added.
+- FEATURE: New command for showing wenv's version: ``wenv version``
 - FIX: Wine Python can distinctly refer to and handle alpha, beta, release-candidate and stable builds of CPython.
 - FIX: Error handling in package listing for Wine Python environments was broken.
 - FIX: Python version parser could not handle Windows ARM64 builds.
