@@ -107,7 +107,7 @@ The ``wenv python`` command behaves just like the regular ``python`` command on 
 	(env) user@comp:~> wenv python -c "from platform import uname; print(uname().system)"
 	Windows
 
-Thanks to Wine, the handling of paths is seamless and transparent:
+Thanks to Wine, the **handling of paths** is seamless and transparent:
 
 .. code:: bash
 
@@ -116,7 +116,7 @@ Thanks to Wine, the handling of paths is seamless and transparent:
 	(env) user@comp:~> wenv python -c "import os; print(os.getcwd())"
 	Z:\home\user
 
-``wenv`` can be heavily configured via configuration files and/or environment variables. In the following example, two Wine Python environments are initialized. The first environment is using the ``wenv`` default Python version, 3.7.4. The second environment is using a custom Python version, 3.10.0:
+``wenv`` can be heavily configured via **configuration files and/or environment variables**. In the following example, two **Wine Python environments** are initialized. The first environment is using the ``wenv`` default Python version, 3.7.4. The second environment is using a custom Python version, 3.10.0:
 
 .. code:: bash
 
@@ -145,7 +145,11 @@ Thanks to Wine, the handling of paths is seamless and transparent:
 	(env) user@comp:~> WENV_PYTHONVERSION=3.10.0 wenv python --version
 	Python 3.10.0
 
-For use as a shebang, ``wenv python`` has an alias. One can write ``#!/usr/bin/env _wenv_python`` at the top of scripts:
+.. note::
+
+	*wenv* uses a somewhat unusual definition of "virtual environments" for its "Wine/Windows Python environments". *wenv* itself resides as a normal Python package within a regular Python virtual environment on the "Unix side". When ``wenv init`` is invoked, *wenv* will create a special kind of environment **underneath** the Unix Python virtual environment, by default in ``{prefix}/share/wenv/{arch}/drive_c/python-{pythonversion}/``. The parameters ``prefix``, ``arch`` and ``pythonversion`` can be :ref:`configured <configuration>`. The ``prefix`` parameter defaults to ``sys.prefix``, the root of the Unix Python environment. The location can also be overwritten as a whole by setting the ``pythonprefix`` parameter. In the above example, two "Wine Python environments" are created by altering the ``pythonversion`` parameter: The first one is based on the default ``pythonversion`` of 3.7.4, the second one is user-defined ``pythonversion`` of 3.10.0.
+
+For use as a **shebang**, ``wenv python`` has an alias. One can write ``#!/usr/bin/env _wenv_python`` at the top of scripts:
 
 .. code:: python
 
