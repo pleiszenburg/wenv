@@ -50,8 +50,8 @@ User's guide
    :maxdepth: 2
    :caption: Reference
 
-   configuration
    usage
+   configuration
    api
 
 .. toctree::
