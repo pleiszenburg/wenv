@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    src/wenv/__init__.py: Package entry point
+    tests/lib/output.py: Looking at output
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -26,10 +26,46 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import cli
+import re
+
+from .param import get_context, run_process
+
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ENTRY POINT
+# ROUTINES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-cli()
+def no_errors_in(output: str) -> bool:
+
+    lines = output.split('\n')
+
+    for line in lines:
+
+        line = line.strip()
+
+        if len(line) == 0:
+            continue
+
+        if all(
+            fragment in line.lower()
+            for fragment in (
+                'debug mode',
+                'run-time type checks',
+                'runtimewarning',
+            )
+        ):
+            continue
+
+        if 'wine client error:' in line:
+            print('IGNORED:', line)
+            continue
+
+        return False
+
+    return True
+
+
+def remove_colors(output: str) -> str:
+
+    # https://stackoverflow.com/a/14693789/1672565
+    return re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])').sub('', output)

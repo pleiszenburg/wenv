@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    tests/lib/const.py: Holds constant values, flags, types
+    src/wenv/_core/typeguard.py: Wrapper for typeguard for debugging
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -23,8 +23,14 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# CONST
+# WRAPPER
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-ARCHS = ["win32", "win64"]
-DEFAULT_TIMEOUT = 600
+import os
+import warnings
+
+if os.environ.get('WENV_DEBUG', '0') == '1':
+    from typeguard import typechecked
+    warnings.warn("running in debug mode with activated run-time type checks", RuntimeWarning)
+else:
+    typechecked = lambda x: x

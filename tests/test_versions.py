@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    src/wenv/__init__.py: Package entry point
+    tests/test_versions.py: Test version parser and queries
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -26,10 +26,44 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import cli
+from wenv import PythonVersion, get_available_python_builds, get_latest_python_build
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ENTRY POINT
+# TEST(s)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-cli()
+def test_available_builds():
+
+    builds = get_available_python_builds()
+
+    assert len(builds) > 0
+    assert all(isinstance(build, PythonVersion) for build in builds)
+
+    for arch in ('win32', 'win64', 'arm64'):
+        assert arch in (build.arch for build in builds)
+
+
+def tests_latest_build():
+
+    a = get_latest_python_build('win64', 3, 5)
+
+    assert a == PythonVersion('win64', 3, 5, 4)
+
+
+def test_stable_versions():
+
+    a = PythonVersion('win64', 3, 9, 8, 'stable')
+    b = PythonVersion('win64', 3, 10, 1, 'stable')
+
+    assert a != b
+    assert a < b
+    assert b > a
+
+def test_unstable_versions():
+
+    a = PythonVersion('win64', 3, 9, 0, 'alpha')
+    b = PythonVersion('win64', 3, 9, 0, 'rc1')
+
+    assert a != b
+    assert a < b
+    assert b > a

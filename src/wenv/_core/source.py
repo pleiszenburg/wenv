@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
-
 WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/_core/source.py: Obtaining Python and pip locally or remotely
+    src/wenv/_core/source.py: Obtaining Python and pip locally or remotely
 
-	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -21,209 +20,136 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the
 specific language governing rights and limitations under the License.
 </LICENSE_BLOCK>
-
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import List, Optional, Union
 
 import requests
+
+from .pythonversion import PythonVersion
+from .typeguard import typechecked
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ROUTINES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-def download(down_url, mode = 'binary'):
 
-	assert mode in ('text', 'binary')
-	assert isinstance(down_url, str)
+@typechecked
+def download(down_url: str, mode: str = "binary") -> Union[str, bytes]:
 
-	r = requests.get(down_url)
+    assert mode in ("text", "binary")
+    assert isinstance(down_url, str)
 
-	assert r.ok
-	r.raise_for_status()
+    r = requests.get(down_url)
 
-	if r.encoding is not None:
-		assert mode == 'text' and isinstance(r.text, str)
-		return r.text
-	else:
-		assert mode == 'binary' and isinstance(r.content, bytes)
-		return r.content
+    assert r.ok
+    r.raise_for_status()
 
-def get_available_python_versions():
+    if mode == 'text':
+        return r.text
+    return r.content # mode == 'binary'
 
-	versions = [
-		tuple(int(nr) for nr in line.split('"')[1][:-1].split('.'))
-		for line in download('https://www.python.org/ftp/python/', mode = 'text').split('\n')
-		if all([
-			line.startswith('<a href="'),
-			line[9:10].isdigit(),
-			not line.startswith('<a href="2.')
-			])
-		]
-	version_urls = [
-		'https://www.python.org/ftp/python/%d.%d.%d/' % version
-			if len(version) == 3 else
-		'https://www.python.org/ftp/python/%d.%d/' % version
-		for version in versions
-		]
-	version_downloads = ThreadPool(8).imap(lambda x: download(x, mode = 'text'), version_urls)
-	embedded_versions = {
-		version: [
-			python_version.from_zipname(line.split('"')[1])
-			for line in version_download.split('\n')
-			if all((line.startswith('<a href="'), 'embed' in line, '.zip' in line, '.zip.asc' not in line))
-			]
-		for version, version_url, version_download in zip(versions, version_urls, version_downloads)
-		}
-	embedded_versions = {k: v for k, v in embedded_versions.items() if len(v) > 0}
 
-	sorted_versions = {
-		'win32': {
-			version_tuple: sorted([version for version in versions if version.arch == 'win32'])
-			for version_tuple, versions in embedded_versions.items()
-			},
-		'win64': {
-			version_tuple: sorted([version for version in versions if version.arch == 'win64'])
-			for version_tuple, versions in embedded_versions.items()
-			}
-		}
+@typechecked
+def get_latest_python_build(
+    arch: str,
+    major: int,
+    minor: int,
+    builds: Optional[List[PythonVersion]] = None,
+) -> Optional[PythonVersion]:
+    """
+    Find the latest build of a given Python major and minor version for a given architecture.
+    Returns ``None`` if none can be found.
 
-	return sorted_versions
+    Args:
+        arch : Build architecture.
+        major : Python major version.
+        minor : Python minor version.
+        builds : A list of :class:`wenv.PythonVersion` objects. If left empty, ``python.org`` will be queried.
+    Returns:
+        A :class:`wenv.PythonVersion` object or ``None``.
+    """
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# CLASS: PYTHON VERSION
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    if builds is None:
+        builds = get_available_python_builds()
 
-class PythonVersion:
+    filtered_build = [
+        build
+        for build in builds
+        if all((
+            build.arch == arch,
+            build.major == major,
+            build.minor == minor,
+        ))
+    ]
 
-	def __init__(self, arch, major, minor, maintenance, build = 'stable'):
+    if len(filtered_build) == 0:
+        return None
 
-		if not isinstance(arch, str):
-			raise TypeError('arch must be str')
-		if arch not in ('win32', 'win64'):
-			raise ValueError('Unknown arch: ' + arch)
-		if any((not isinstance(item, int) for item in (major, minor, maintenance))):
-			raise TypeError('Unknown type for major, minor or maintenance')
-		if major <= 2:
-			raise ValueError('Only Python 3 and newer supported')
-		if not isinstance(build, str):
-			raise TypeError('build must be str')
+    filtered_build.sort()
+    return filtered_build[-1]
 
-		self._arch = arch
-		self._major, self._minor, self._maintenance = major, minor, maintenance
-		self._build = 'stable' if build == '' else build
 
-	def __str__(self):
+@typechecked
+def get_available_python_builds(parallel: int = 8) -> List[PythonVersion]:
+    """
+    Queries ``python.org`` for Windows Embedded Builds.
 
-		return '%d.%d.%d.%s' % (
-			self._major, self._minor, self._maintenance, self._build
-			)
+    Args:
+        parallel : Number of parallel queries to ``python.org``.
+    Returns:
+        All available Windows Embedded Builds of CPython 3.
+    """
 
-	def __repr__(self):
+    versions = [
+        tuple(int(nr) for nr in line.split('"')[1][:-1].split("."))
+        for line in download("https://www.python.org/ftp/python/", mode="text").split(
+            "\n"
+        )
+        if all(
+            (
+                line.startswith('<a href="'),
+                line[9:10].isdigit(),
+                not line.startswith('<a href="2.'),
+            )
+        )
+    ] # get URLs of all verions, dump Python 2
 
-		return '<Python %d.%d.%d.%s (%s)>' % (
-			self._major, self._minor, self._maintenance, self._build, self._arch
-			)
+    version_urls = [
+        "https://www.python.org/ftp/python/%d.%d.%d/" % version
+        if len(version) == 3
+        else "https://www.python.org/ftp/python/%d.%d/" % version
+        for version in versions
+    ] # some URLs in early Python 3.X releases are following  `major.minor` pattern
 
-	def __eq__(self, other):
-		return self._as_sort() == other._as_sort()
-	def __gt__(self, other):
-		return self._as_sort() > other._as_sort()
-	def __lt__(self, other):
-		return self._as_sort() < other._as_sort()
-	def _as_sort(self):
-		return '%04d-%04d-%04d-%s' % (self._major, self._minor, self._maintenance, self._build)
+    with ThreadPoolExecutor(max_workers = parallel) as p:
+        version_futures = [
+            p.submit(
+                lambda x: download(x, mode="text"), version_url
+            ) for version_url in version_urls
+        ] # get inventory of all maintenance version downloads
+        version_downloads = [
+            future.result()
+            for future in as_completed(version_futures)
+        ]
 
-	@property
-	def arch(self):
-
-		return self._arch
-
-	def as_block(self):
-
-		return '%d%d' % (self._major, self._minor)
-
-	def as_config(self):
-
-		return str(self)
-
-	def as_url(self):
-
-		return 'https://www.python.org/ftp/python/%d.%d.%d/' % (
-			self._major, self._minor, self._maintenance
-			) + self.as_zipname()
-
-	def as_zipname(self):
-
-		build = '' if self._build == 'stable' else self._build
-		arch = 'amd64' if self._arch == 'win64' else self._arch
-		sub_tuple = (self._major, self._minor, self._maintenance, build, arch)
-
-		if build.startswith('post'):
-			return 'python-%d.%d.%d.%s-embed-%s.zip' % sub_tuple
-		else:
-			return 'python-%d.%d.%d%s-embed-%s.zip' % sub_tuple
-
-	@classmethod
-	def from_config(cls, arch, version):
-
-		if not isinstance(version, str):
-			raise TypeError('version must be str')
-		segments = version.split('.')
-		if not len(segments) in (3, 4):
-			raise ValueError('wrong number of version segments')
-		if len(segments) == 3:
-			segments.append('stable')
-		if not all((segment.isnumeric() for segment in segments[:3])):
-			raise ValueError('version segments are not numeric')
-		segments = tuple([int(segment) for segment in segments[:3]] + [segments[3]])
-
-		return cls(arch, *segments)
-
-	@classmethod
-	def from_zipname(cls, zip_name):
-
-		if not isinstance(zip_name, str):
-			raise TypeError('zip_name must be str')
-
-		fragments = zip_name.split('-')
-		fragments.append(fragments[3].split('.')[1])
-		fragments[3] = fragments[3].split('.')[0]
-
-		if not fragments[0] == 'python':
-			raise ValueError('fagment[0] != "python"')
-		if not  fragments[2] == 'embed':
-			raise ValueError('fagment[2] != "embed"')
-		if not  fragments[3] in ('win32', 'amd64'):
-			raise ValueError('fagment[3] not in in ("win32", "amd64")')
-		if not  fragments[4] == 'zip':
-			raise ValueError('fagment[4] != "zip"')
-
-		arch = 'win32' if fragments[3] == 'win32' else 'win64'
-		release = [
-			int(f) if f.isnumeric() else f
-			for f in fragments[1].split('.')
-			]
-
-		if isinstance(release[2], str):
-			if not len(release[2]) > 0:
-				raise ValueError('broken maintenance/build fragment')
-			for pos, char in enumerate(release[2]):
-				if not char.isdigit():
-					break
-			release.append(release[2][pos:])
-			release[2] = release[2][:pos]
-			if not release[2].isnumeric():
-				raise ValueError('maintenance fragment not numeric')
-			release[2] = int(release[2])
-
-		if len(release) == 3:
-			release.append('stable')
-		if not len(release) == 4:
-			raise ValueError('release does not have 4 fragments (major,minor,maintenance,build)')
-
-		return cls(arch, *release)
+    return [
+        PythonVersion.from_zipname(line.split('"')[1])
+        for version, version_url, version_download in zip(
+            versions, version_urls, version_downloads
+        )
+        for line in version_download.split("\n")
+        if all(
+            (
+                line.startswith('<a href="'),
+                "embed" in line,
+                ".zip" in line,
+                ".zip.asc" not in line,
+            )
+        )
+    ]

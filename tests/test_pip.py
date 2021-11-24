@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
-
 WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	tests/test_util.py: Testing pip
+    tests/test_util.py: Testing pip
 
-	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -21,15 +20,13 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the
 specific language governing rights and limitations under the License.
 </LICENSE_BLOCK>
-
 """
-
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from .lib import get_context, run_process
+from .lib import get_context, run_process, no_errors_in
 
 from wenv import Env
 
@@ -39,71 +36,72 @@ import pytest
 # TEST(s)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-@pytest.mark.parametrize('arch', get_context())
-def test_pip(arch):
 
-	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-	assert code == 0
-	assert len(err.strip()) == 0
-	assert 'pip' in out
-	assert 'setuptools' in out
-	assert 'pytest' not in out
+@pytest.mark.parametrize("arch,build", get_context())
+def test_pip(arch, build):
 
-	out, err, code = run_process(
-		['wenv', 'pip', 'install', 'pytest'],
-		env = {'WENV_ARCH': arch}
-		)
-	assert code == 0
-	assert len(err.strip()) == 0
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
+    assert code == 0
+    assert no_errors_in(err)
+    assert "pip" in out
+    assert "setuptools" in out
+    assert "pytest" not in out
 
-	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-	assert code == 0
-	assert len(err.strip()) == 0
-	assert 'pip' in out
-	assert 'setuptools' in out
-	assert 'pytest' in out
+    out, err, code = run_process(
+        ["wenv", "pip", "install", "pytest"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)}
+    )
+    assert code == 0
+    assert no_errors_in(err)
 
-@pytest.mark.parametrize('arch', get_context())
-def test_pip_api(arch):
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
+    assert code == 0
+    assert "pip" in out
+    assert "setuptools" in out
+    assert "pytest" in out
+    assert no_errors_in(err)
 
-	env = Env(arch = arch)
 
-	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-	assert code == 0
-	assert len(err.strip()) == 0
-	assert 'pip' in out
-	assert 'setuptools' in out
-	assert 'requests' not in out
+@pytest.mark.parametrize("arch,build", get_context())
+def test_pip_api(arch, build):
 
-	packages = [package['name'] for package in env.list_packages()]
-	assert 'pip' in packages
-	assert 'setuptools' in packages
-	assert 'requests' not in packages
+    env = Env(arch=arch, pythonversion=build)
 
-	env.install_package('requests')
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
+    assert code == 0
+    assert no_errors_in(err)
+    assert "pip" in out
+    assert "setuptools" in out
+    assert "requests" not in out
 
-	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-	assert code == 0
-	assert len(err.strip()) == 0
-	assert 'pip' in out
-	assert 'setuptools' in out
-	assert 'requests' in out
+    packages = [package["name"] for package in env.list_packages()]
+    assert "pip" in packages
+    assert "setuptools" in packages
+    assert "requests" not in packages
 
-	packages = [package['name'] for package in env.list_packages()]
-	assert 'pip' in packages
-	assert 'setuptools' in packages
-	assert 'requests' in packages
+    env.install_package("requests")
 
-	env.uninstall_package('requests')
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
+    assert code == 0
+    assert no_errors_in(err)
+    assert "pip" in out
+    assert "setuptools" in out
+    assert "requests" in out
 
-	out, err, code = run_process(['wenv', 'pip', 'list'], env = {'WENV_ARCH': arch})
-	assert code == 0
-	assert len(err.strip()) == 0
-	assert 'pip' in out
-	assert 'setuptools' in out
-	assert 'requests' not in out
+    packages = [package["name"] for package in env.list_packages()]
+    assert "pip" in packages
+    assert "setuptools" in packages
+    assert "requests" in packages
 
-	packages = [package['name'] for package in env.list_packages()]
-	assert 'pip' in packages
-	assert 'setuptools' in packages
-	assert 'requests' not in packages
+    env.uninstall_package("requests")
+
+    out, err, code = run_process(["wenv", "pip", "list"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)})
+    assert code == 0
+    assert no_errors_in(err)
+    assert "pip" in out
+    assert "setuptools" in out
+    assert "requests" not in out
+
+    packages = [package["name"] for package in env.list_packages()]
+    assert "pip" in packages
+    assert "setuptools" in packages
+    assert "requests" not in packages

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
-
 WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/__init__.py: Package init file
+    src/wenv/__init__.py: Package init file
 
-	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -21,23 +20,31 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the
 specific language governing rights and limitations under the License.
 </LICENSE_BLOCK>
-
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # IMPORT / EXPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import (
-	cli,
-	Env,
-	shebang,
-	)
-from ._core.config import (
-	EnvConfig,
-	)
-from ._core.errors import (
-	EnvConfigParserError,
-	)
+__version__ = '0.3.0'  # Bump version HERE!
 
-env = Env # legacy
+from ._core.env import (
+    cli,
+    Env,
+    shebang,
+)
+from ._core.config import (
+    EnvConfig,
+)
+from ._core.errors import (
+    EnvConfigParserError,
+)
+from ._core.pythonversion import (
+    PythonVersion,
+)
+from ._core.source import (
+    get_available_python_builds,
+    get_latest_python_build,
+)
+
+env = Env  # legacy

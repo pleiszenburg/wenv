@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
-
 WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-	src/wenv/_core/errors.py: Exceptions
+    src/wenv/_core/errors.py: Exceptions
 
-	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+    Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
 <LICENSE_BLOCK>
 The contents of this file are subject to the GNU Lesser General Public License
@@ -21,12 +20,12 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the
 specific language governing rights and limitations under the License.
 </LICENSE_BLOCK>
-
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # TYPES
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 class EnvConfigParserError(Exception):
-	pass
+    pass

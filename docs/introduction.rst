@@ -7,8 +7,8 @@
 	single: implementation
 	single: use cases
 
-Introduction
-============
+About ``wenv``
+==============
 
 .. _synopsis:
 
@@ -36,13 +36,13 @@ While researching options for developing *zugbruecke*, *CPython*'s `embeddable p
 Implementation
 --------------
 
-*wenv* has two roles. First, it downloads, installs and configures both *CPython* and *pip*. The process is based on *CPython*'s embeddable package distribution for *Windows*. Second, *wenv* provides a thin launcher for staring *Python* (or just any *Python* application) on *Wine*. The installer and launcher themselves are also written in *Python* and run on any *Unix*-version of *Python*. The launcher sets the stage in *Unix Python* before using an `exec syscall`_ to replace itself with *Windows Python*.
+*wenv* has two roles. First, it downloads, installs and configures both *CPython* and *pip*. The process is based on *CPython*'s embeddable package distribution for *Windows*. Second, *wenv* provides a thin launcher for starting *Python* (or just any *Python* application) on *Wine*. The installer and launcher themselves are also written in *Python* and run on any *Unix*-version of *Python*. The launcher sets the stage in *Unix Python* before using an `exec syscall`_ to replace itself with *Windows Python*.
 
 .. _exec syscall: https://en.wikipedia.org/wiki/Exec_(system_call)
 
 .. _usecases:
 
-Use cases
+Use Cases
 ---------
 
 - Running *Python* apps & scripts written for *Windows* on *Unix*.

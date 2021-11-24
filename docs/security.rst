@@ -8,7 +8,11 @@
 Security
 ========
 
-*wenv* should be used with **caution**.
+.. warning::
+
+	*wenv* must be used with **caution**.
+
+Beware:
 
 - **DO NOT** run untrusted code (or DLLs)!
 - **DO NOT** run it with root / super users privileges!
@@ -21,4 +25,6 @@ The following problems also directly apply to *wenv*:
 .. _Windows malware: https://en.wikipedia.org/wiki/Wine_(software)#Security
 .. _FAQ at WineHQ: https://wiki.winehq.org/FAQ#Should_I_run_Wine_as_root.3F
 
-*wenv* does not actively prohibit its use with root privileges.
+.. warning::
+
+	*wenv* does not actively prohibit its use with root privileges.

@@ -1,3 +1,4 @@
+#!/usr/bin/env _wenv_python
 # -*- coding: utf-8 -*-
 
 """
@@ -5,7 +6,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    tests/lib/const.py: Holds constant values, flags, types
+    tests/shebang.py: Test script for Python interpreter shebang alias
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -23,8 +24,15 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# CONST
+# IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-ARCHS = ["win32", "win64"]
-DEFAULT_TIMEOUT = 600
+import platform
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ENTRY POINT
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+if __name__ == '__main__':
+
+    print(f'Hello from {platform.uname().system:s} on {platform.uname().machine:s}!')

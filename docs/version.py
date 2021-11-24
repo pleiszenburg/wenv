@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    src/wenv/__init__.py: Package entry point
+    docs/version.py: Package version parser
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -26,10 +26,39 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import cli
+import ast
+import os
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ENTRY POINT
+# CONFIG
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-cli()
+SRC_DIR = "src"
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ROUTINES
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+def parse_version(code: str) -> str:
+
+    tree = ast.parse(code)
+
+    for item in tree.body:
+        if not isinstance(item, ast.Assign):
+            continue
+        if len(item.targets) != 1:
+            continue
+        if item.targets[0].id != "__version__":
+            continue
+        return item.value.s
+
+def get_version() -> str:
+
+    path = os.path.join(
+        os.path.dirname(__file__), '..', SRC_DIR, "wenv", "__init__.py",
+        )
+
+    with open(path, "r", encoding="utf-8") as f:
+        version = parse_version(f.read())
+
+    return version

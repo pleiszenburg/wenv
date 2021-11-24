@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    src/wenv/__init__.py: Package entry point
+    tests/test_shebang.py: Testing Python interpreter shebang alias
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -26,10 +26,34 @@ specific language governing rights and limitations under the License.
 # IMPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from ._core.env import cli
+from .lib import get_context, run_process, no_errors_in
+
+import pytest
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ENTRY POINT
+# TEST(s)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-cli()
+
+def test_without_shebang():
+
+    out, err, code = run_process(["python", "tests/shebang.py"])
+
+    assert code == 0
+    assert no_errors_in(err)
+    assert "Hello from Linux on x86_64!" == out.strip()
+
+
+@pytest.mark.parametrize("arch,build", get_context())
+def test_with_shebang(arch, build):
+
+    out, err, code = run_process(
+        ["./tests/shebang.py"], env={"WENV_ARCH": arch, "WENV_PYTHONVERSION": str(build)}
+    )
+
+    assert code == 0
+    assert no_errors_in(err)
+    if arch == 'win32':
+        assert "Hello from Windows on x86!" == out.strip()
+    else:
+        assert "Hello from Windows on AMD64!" == out.strip()
