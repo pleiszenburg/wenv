@@ -1,8 +1,8 @@
 name: wenv test suite
 
 on:
-    - push
-    - schedule:
+    push
+    schedule:
         - cron: '30 9 7 * *'
 
 jobs:
