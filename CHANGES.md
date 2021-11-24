@@ -1,6 +1,6 @@
 # Changes
 
-## 0.3.0 (2021-XX-XX)
+## 0.3.0 (2021-11-24)
 
 - FEATURE: Added support for Python 3.9 and 3.10.
 - FEATURE: Dropped support for Python 3.4 and 3.5.
