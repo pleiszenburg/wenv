@@ -1,7 +1,7 @@
 name: wenv test suite
 
 on:
-    push
+    push: {}
     schedule:
         - cron: '30 9 7 * *'
 
