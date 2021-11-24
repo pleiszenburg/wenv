@@ -161,7 +161,7 @@ class EnvConfig(dict):
         Exports a dictionary.
         """
 
-        return {self[field] for field in self._KEYS}
+        return {field: self[field] for field in self._KEYS}
 
     def export_envvar_dict(self) -> Dict[str, str]:
         """

@@ -44,7 +44,17 @@ This command behaves just like the regular ``python`` command in a *Unix* shell,
 
 This command behaves just like the regular ``pip`` command on *Unix*, except that it attempts to install *Python* packages into a dedicated *Python* environment under *Wine*. So if you need any specific packages in ``wenv python``, this is how you install them. Most packages written in pure *Python* should work just fine. Anything requiring a compiler during installation does not work. Packages / wheels with pre-compiled binary components in them might work, although this is largely untested territory. Feel free to report any (positive or negative) results.
 
+``wenv {*}``
+------------
+
+``wenv`` will automatically detect commands installed in the present environment, e.g. by third-party Python packages. Installing ``pytest`` (``wenv pip install pytest``) for instance will make it available via ``wenv pytest``. It will also be listed in the output of ``wenv help``.
+
 ``wenv init_coverage``
 ----------------------
 
 This command enables coverage analysis across the entire *Wine Python environment*. The ``coverage`` package must have been installed before running this command.
+
+``wenv version``
+----------------
+
+Shows the version of ``wenv``. Can also be used as follows: ``wenv --version``.

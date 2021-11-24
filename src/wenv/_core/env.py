@@ -41,6 +41,8 @@ from .paths import Paths
 from .source import download
 from .typeguard import typechecked
 
+import wenv # HACK für version
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -576,8 +578,22 @@ class Env:
                 text = text.replace(key, c[color] + key + c["RESET"])
             return text
 
+        scripts = colorize(
+            "\n".join(
+                [
+                    "- wenv {SCRIPT:s}".format(
+                        SCRIPT=key,
+                    )
+                    for key in sorted(self._cmd_dict.keys())
+                ]
+            )
+        )
+        if len(scripts) == 0:
+            scripts = "(None)"
+
         sys.stdout.write(
             HELP_STR.format(
+                VERSION=wenv.__version__,
                 CLIS="\n".join(
                     [
                         "- wenv {CLI:s}: {HELP:s}".format(
@@ -587,18 +603,15 @@ class Env:
                         for key in sorted(self._cli_dict.keys())
                     ]
                 ),
-                SCRIPTS=colorize(
-                    "\n".join(
-                        [
-                            "- wenv {SCRIPT:s}".format(
-                                SCRIPT=key,
-                            )
-                            for key in sorted(self._cmd_dict.keys())
-                        ]
-                    )
-                ),
+                SCRIPTS=scripts,
             )
         )
+        sys.stdout.flush()
+
+    def _cli_version(self):
+        "shows wenv's version (also available as `--version`)"
+
+        sys.stdout.write(wenv.__version__ + '\n')
         sys.stdout.flush()
 
     def cli(self):
@@ -618,6 +631,10 @@ class Env:
         # Allow -h and --help
         if cmd in ["-h", "--help"]:
             cmd = "help"
+
+        # Version exposed
+        if cmd == "--version":
+            cmd = "version"
 
         # Special CLI command
         if cmd in self._cli_dict.keys():
