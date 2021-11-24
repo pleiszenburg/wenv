@@ -1,5 +1,9 @@
 # Changes
 
+## 0.3.1 (202X-XX-XX)
+
+- (TBD)
+
 ## 0.3.0 (2021-11-24)
 
 - FEATURE: Added support for Python 3.9 and 3.10.
