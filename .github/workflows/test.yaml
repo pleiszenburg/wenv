@@ -44,6 +44,7 @@ jobs:
           pytest --version
           uname -a
           lsb_release -a
+          wenv --version
       - name: Build docs
         run: |
           make docs
