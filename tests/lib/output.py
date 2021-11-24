@@ -56,6 +56,10 @@ def no_errors_in(output: str) -> bool:
         ):
             continue
 
+        if 'wine client error:' in line:
+            print('IGNORED:', line)
+            continue
+
         return False
 
     return True
