@@ -2,7 +2,7 @@
 
 ## 0.3.1 (202X-XX-XX)
 
-- (TBD)
+- FIX: Internal paths were not updated when API calls were used, resulting in bugs in subsequent API calls expecting the paths to be changed.
 
 ## 0.3.0 (2021-11-24)
 
