@@ -4,6 +4,7 @@
 
 - FIX: Internal paths were not updated when API calls were used, resulting in bugs in subsequent API calls expecting the paths to be changed.
 - FIX: Dropped `requests` as a dependency in favor or standard library's `urllib` for compatibility with `zugbruecke`.
+- FIX: Configuration export to dict broken due to false type annotation.
 
 ## 0.3.0 (2021-11-24)
 
