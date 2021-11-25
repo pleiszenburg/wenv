@@ -11,6 +11,10 @@ Development happens in the `develop` branch. Please issue pull requests against 
 
 This project targets Python 3 exclusively. The primary target so far is CPython, although PyPy support is highly welcome.
 
+## Dependencies
+
+Keep them to a minimum, i.e. none. This is important for the `zugbruecke` package, which depends on `wenv`.
+
 ## General workflow
 
 If you are planning on working on a "larger" issue or feature, please add yourself to the corresponding issue on GitHub or create a new one there - before you start working. This helps to reduce duplicate effort and allows to coordinate developers.
