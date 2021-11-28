@@ -58,7 +58,7 @@ Just like Wine, `wenv` can run malicious Windows software on Unix. **Never, ever
 
 ## Need help?
 
-Feel free to post questions in the [GitHub issue tracker](https://github.com/pleiszenburg/wenv/labels/question) of this project.
+See section on [Getting Help](https://wenv.readthedocs.io/en/latest/support.html) on `wenv`'s documentation.
 
 ## Bugs & issues
 
