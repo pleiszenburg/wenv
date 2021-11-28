@@ -30,8 +30,8 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 
 | branch | status | installation | documentation |
 | --- | --- | --- | --- |
-| master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/) |
-| develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://wenv.readthedocs.io/en/develop/) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
+| master (release) | [![build_master](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=master "Build Status: master / release")](https://github.com/pleiszenburg/wenv/tree/master) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/) |
+| develop | [![build_develop](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=develop "Build Status: development branch")](https://github.com/pleiszenburg/wenv/tree/develop | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://wenv.readthedocs.io/en/develop/) |
 
 After installing the package with `pip`, you must initialize the "Wine Python environment" by running ``wenv init``.
 
