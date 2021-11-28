@@ -54,7 +54,7 @@ Windows
 
 ## Security
 
-Just like Wine, `wenv` can run malicious Windows software on Unix. **Never, ever, run `wenv` with root / super users privileges!** For details, check the section on [security](http://wenv.readthedocs.io/en/stable/security.html) in the documentation.
+Just like Wine, `wenv` can run malicious Windows software on Unix. **Never, ever, run `wenv` with root / super users privileges!** For details, check the section on [security](https://wenv.readthedocs.io/en/stable/security.html) in the documentation.
 
 ## Need help?
 
@@ -62,17 +62,17 @@ See section on [Getting Help](https://wenv.readthedocs.io/en/latest/support.html
 
 ## Bugs & Issues
 
-See section on [Bugs and Issues](http://wenv.readthedocs.io/en/stable/bugs.html) on `wenv`'s documentation.
+See section on [Bugs and Issues](https://wenv.readthedocs.io/en/stable/bugs.html) on `wenv`'s documentation.
 
 ## Miscellaneous
 
 - Full project documentation
-    - at [Read the Docs](http://wenv.readthedocs.io/en/latest/)
+    - at [Read the Docs](https://wenv.readthedocs.io/en/latest/)
     - at [`wenv` repository](https://github.com/pleiszenburg/wenv/blob/master/docs/index.rst)
 - [Authors](https://github.com/pleiszenburg/wenv/blob/master/AUTHORS.md)
 - [Change log (current)](https://github.com/pleiszenburg/wenv/blob/develop/CHANGES.md) (changes in development branch since last release)
 - [Change log (past)](https://github.com/pleiszenburg/wenv/blob/master/CHANGES.md) (release history)
 - [Contributing](https://github.com/pleiszenburg/wenv/blob/master/CONTRIBUTING.md) (**Contributions are highly welcomed!**)
-- [FAQ](http://wenv.readthedocs.io/en/stable/faq.html)
+- [FAQ](https://wenv.readthedocs.io/en/stable/faq.html)
 - [License](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) (**LGPL v2.1**)
 - [Upstream issues](https://github.com/pleiszenburg/wenv/issues?q=is%3Aissue+is%3Aopen+label%3Aupstream) (relevant bugs in dependencies)
