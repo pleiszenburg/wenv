@@ -8,7 +8,7 @@ wenv - Running Python on Wine
 
 .. |build_master| image:: https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=master
 	:target: https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml
-	:alt: Documentation Status: master / release
+	:alt: Test Status: master / release
 .. |docs_master| image:: https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square
 	:target: https://wenv.readthedocs.io/en/latest/
 	:alt: Documentation Status: master / release
