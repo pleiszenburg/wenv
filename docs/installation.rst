@@ -24,7 +24,9 @@ For using *wenv*, you need to install **Wine** first. Depending on your platform
 .. _Installation instructions for Mac OS X: https://wiki.winehq.org/MacOS
 .. _Installation instructions for FreeBSD: https://wiki.winehq.org/FreeBSD
 
-Currently, Wine >= 6.x is supported (tested).
+.. note::
+
+	Currently, Wine >= 6.x is supported (tested).
 
 Getting *wenv*
 --------------
