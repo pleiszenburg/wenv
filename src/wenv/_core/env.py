@@ -52,8 +52,6 @@ class Env:
     """
     Represents one Wine Python environment. Mutable.
 
-    The constructor expects
-
     args:
         kwargs : An arbitrary number of keyword arguments matching valid configuration options. In previous releases, the constructor expected one optional argument, ``parameter``. It should either be ``None`` or a dictionary. In the latter case, the dictionary may contain all valid configuration options. ``parameter`` can still be used but is deprecated.
     """
