@@ -23,7 +23,7 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 
 | prerequisite | version |
 | --- | --- |
-| [CPython](https://www.python.org/) | 3.x (tested with 3.{6,7,8,9,10}) |
+| [CPython](https://www.python.org/) | 3.x (tested with 3.{7,8,9,10}) |
 | [Wine](https://www.winehq.org/) | >= 6.x (tested with regular & [staging](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
 
 ## Installation
