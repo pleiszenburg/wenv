@@ -19,8 +19,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install Wine
         run: |
-          sudo add-apt-repository universe
           sudo dpkg --add-architecture i386
+          sudo add-apt-repository universe
+          sudo add-apt-repository multiverse
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
           sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
           sudo apt-get -qq update
