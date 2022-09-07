@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: ["ubuntu-18.04", "ubuntu-20.04"]
+        os: ["ubuntu-20.04", "ubuntu-22.04"]
         python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
 
     runs-on: ${{ matrix.os }}
@@ -22,12 +22,10 @@ jobs:
           sudo dpkg --add-architecture i386
           wget https://dl.winehq.org/wine-builds/Release.key
           sudo apt-key add Release.key
-          wget https://dl.winehq.org/wine-builds/winehq.key
-          sudo apt-key add winehq.key
+          wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg
           sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
           sudo apt-get -qq update
-          sudo apt-get install -y wine-staging
-          echo "/opt/wine-staging/bin" >> $GITHUB_PATH
+          sudo apt-get install -y winehq-staging
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
