@@ -20,7 +20,7 @@ jobs:
       - name: Install Wine
         run: |
           sudo dpkg --add-architecture i386
-          sudo apt-get update && sudo apt-get dist-upgrade
+          sudo apt-get update && sudo apt-get upgrade
           sudo add-apt-repository universe
           sudo add-apt-repository multiverse
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
