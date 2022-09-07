@@ -27,6 +27,9 @@ jobs:
           sudo apt --fix-broken install
           sudo apt remove nginx nginx-common
           sudo cat /etc/apt/sources.list
+          sudo apt list --installed | grep -i openssl
+          sudo apt list --installed | grep -i cert
+          sudo apt install -y --install-recommends debconf
           sudo apt install -y --install-recommends libpcre2-8-0:i386
           sudo apt install -y --install-recommends libselinux1:i386
           sudo apt install -y --install-recommends libmount1:i386
