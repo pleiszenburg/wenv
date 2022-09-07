@@ -22,7 +22,7 @@ jobs:
           sudo dpkg --add-architecture i386
           wget https://dl.winehq.org/wine-builds/Release.key
           sudo apt-key add Release.key
-          wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg
+          curl https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg
           sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
           sudo apt-get -qq update
           sudo apt-get install -y winehq-staging
