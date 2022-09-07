@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: ["ubuntu-20.04", "ubuntu-22.04"]
+        os: ["ubuntu-20.04"]
         python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
 
     runs-on: ${{ matrix.os }}
@@ -23,23 +23,9 @@ jobs:
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
           sudo sh -c "apt-add-repository \"https://dl.winehq.org/wine-builds/ubuntu\""
           sudo apt update
-          sudo apt upgrade
-          sudo apt --fix-broken install
-          sudo apt remove nginx nginx-common
-          sudo apt --fix-broken install
-          echo "G"
-          sudo apt install -y --install-recommends libpcre2-8-0:i386 update-motd libselinux1:i386 libpam-modules:i386 login:i386 libmount1:i386 libpam0g:i386 libgssapi-krb5-2:i386 libglib2.0-0:i386 fontconfig-config:i386 libglib2.0-0:i386
-          echo "F"
-          sudo apt install -y --install-recommends libpcre2-8-0:i386
-          echo "E"
-          sudo apt install -y --install-recommends libselinux1:i386
-          echo "D"
-          sudo apt install -y --install-recommends libmount1:i386
-          echo "C"
-          sudo apt install -y --install-recommends libglib2.0-0:i386
-          echo "B"
+          sudo apt-get install -yqq --allow-downgrades libgd3/focal libpcre2-8-0/focal libpcre2-16-0/focal libpcre2-32-0/focal libpcre2-posix2/focal
+          sudo apt-get purge -yqq libmono* moby* mono* php* libgdiplus libpcre2-posix3 libzip4
           sudo apt install -y --install-recommends wine-staging-i386
-          echo "A"
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
