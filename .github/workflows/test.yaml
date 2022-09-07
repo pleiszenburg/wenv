@@ -22,8 +22,9 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
           sudo sh -c "apt-add-repository \"https://dl.winehq.org/wine-builds/ubuntu\""
-          sudo apt-get -qq update
-          sudo apt-get install -y --install-recommends wine-staging
+          sudo apt -qq update
+          sudo apt install libgphoto2-6
+          sudo apt install -y --install-recommends wine-staging
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
