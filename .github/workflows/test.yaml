@@ -28,7 +28,7 @@ jobs:
           sudo apt remove nginx nginx-common
           sudo apt --fix-broken install
           echo "G"
-          sudo apt install -y --install-recommends login:i386 libpam0g:i386 libgssapi-krb5-2:i386 libglib2.0-0:i386 fontconfig-config:i386
+          sudo apt install -y --install-recommends  libpam-modules:i386 login:i386 libpam0g:i386 libgssapi-krb5-2:i386 libglib2.0-0:i386 fontconfig-config:i386
           echo "F"
           sudo apt install -y --install-recommends libpcre2-8-0:i386
           echo "E"
