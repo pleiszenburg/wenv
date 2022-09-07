@@ -23,9 +23,7 @@ jobs:
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
           sudo sh -c "apt-add-repository \"https://dl.winehq.org/wine-builds/ubuntu\""
           sudo apt update
-          sudo apt upgrade
-          sudo apt --fix-broken install
-          sudo apt install -y --install-recommends wine-staging-i386
+          sudo apt remove nginx nginx-common
           sudo apt install -y --install-recommends wine-staging
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
