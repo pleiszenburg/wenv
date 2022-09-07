@@ -23,6 +23,7 @@ jobs:
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
           sudo sh -c "apt-add-repository \"https://dl.winehq.org/wine-builds/ubuntu\""
           sudo apt update
+          sudo apt upgrade
           sudo apt --fix-broken install
           sudo apt install libgphoto2-6
           sudo apt install -y --install-recommends wine-staging
