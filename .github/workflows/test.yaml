@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo sh -c "curl https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /etc/apt/trusted.gpg.d/winehq.gpg"
-          sudo sh -c "apt-add-repository https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -cs) main"
+          sudo sh -c "apt-add-repository \"https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -cs) main\""
           sudo apt-get -qq update
           sudo apt-get install -y winehq-staging
       - name: Install Python ${{ matrix.python-version }}
