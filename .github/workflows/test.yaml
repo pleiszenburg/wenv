@@ -26,15 +26,20 @@ jobs:
           sudo apt upgrade
           sudo apt --fix-broken install
           sudo apt remove nginx nginx-common
-          sudo cat /etc/apt/sources.list
-          sudo apt list --installed | grep -i openssl
-          sudo apt list --installed | grep -i cert
-          sudo apt install -y --install-recommends debconf
+          sudo apt --fix-broken install
+          echo "G"
+          sudo apt install -y --install-recommends libc6:i386
+          echo "F"
           sudo apt install -y --install-recommends libpcre2-8-0:i386
+          echo "E"
           sudo apt install -y --install-recommends libselinux1:i386
+          echo "D"
           sudo apt install -y --install-recommends libmount1:i386
+          echo "C"
           sudo apt install -y --install-recommends libglib2.0-0:i386
+          echo "B"
           sudo apt install -y --install-recommends wine-staging-i386
+          echo "A"
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
