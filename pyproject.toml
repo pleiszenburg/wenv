@@ -58,7 +58,7 @@ Documentation = "https://wenv.readthedocs.io/en/latest/"
 Source = "https://github.com/pleiszenburg/wenv"
 
 [tool.black]
-target-version = ['py36']
+target-version = ['py37']
 include = '\.pyi?$'
 exclude = '''
 /(
