@@ -1,11 +1,14 @@
 # Changes
 
-## 0.3.1 (202X-XX-XX)
+## 0.4.0 (202X-XX-XX)
 
 - FEATURE: Dropped support for Python 3.6.
 - FIX: Internal paths were not updated when API calls were used, resulting in bugs in subsequent API calls expecting the paths to be changed.
 - FIX: Dropped `requests` as a dependency in favor or standard library's `urllib` for compatibility with `zugbruecke`.
 - FIX: Configuration export to dict broken due to false type annotation.
+- FIX: CI pipeline, Wine installation.
+- DEV: Moved from `setuptools` to `flit` for packaging.
+- DEV: Cleanups in documentation configuration for younger versions of Sphinx.
 
 ## 0.3.0 (2021-11-24)
 
