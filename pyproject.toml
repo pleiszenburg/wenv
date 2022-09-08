@@ -10,7 +10,7 @@ maintainers = [{name = "Sebastian M. Ernst", email = "ernst@pleiszenburg.de"}]
 keywords = ["wine", "cross platform"]
 readme = "README.md"
 license = {file = "LICENSE"}
-requires-python = ">=3.6"
+requires-python = ">=3.7"
 dependencies = []
 classifiers = [
     "Development Status :: 4 - Beta",
