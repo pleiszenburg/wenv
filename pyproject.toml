@@ -49,6 +49,7 @@ dev = [
     "sphinx-autodoc-typehints",
     "typeguard",
     "myst-parser",
+    "twine",
 ]
 
 [project.urls]
