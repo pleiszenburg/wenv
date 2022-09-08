@@ -1,15 +1,6 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 
-[tool.coverage.run]
-branch = True
-parallel = True
-
-[tool.coverage.paths]
-source = '''
-    src/
-'''
-
 [tool.black]
 target-version = ['py36']
 include = '\.pyi?$'
@@ -31,4 +22,13 @@ exclude = '''
   | env[0-9]{2}
   | env
 )/
+'''
+
+[tool.coverage.run]
+branch = True
+parallel = True
+
+[tool.coverage.paths]
+source = '''
+    src/
 '''
