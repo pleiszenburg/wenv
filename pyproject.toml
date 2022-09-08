@@ -4,12 +4,57 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "wenv"
+description = "Running Python on Wine"
 authors = [{name = "Sebastian M. Ernst", email = "ernst@pleiszenburg.de"}]
+maintainers = [{name = "Sebastian M. Ernst", email = "ernst@pleiszenburg.de"}]
+keywords = ["wine", "cross platform"]
 readme = "README.md"
-dynamic = ["version", "description"]
+license = {file = "LICENSE"}
+requires-python = ">=3.6"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: BSD",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development",
+    "Topic :: System :: Operating System",
+    "Topic :: System :: Operating System Kernels",
+    "Topic :: Utilities",
+]
+dynamic = ["version"]
+
+[project.scripts]
+wenv = "wenv:cli"
+_wenv_python = "wenv:shebang"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "coverage[toml]",
+    "pytest-cov",
+    "python-lsp-server[all]",
+    "Sphinx",
+    "sphinx_rtd_theme",
+    "sphinx-autodoc-typehints",
+    "typeguard",
+    "myst-parser",
+]
 
 [project.urls]
 Home = "https://github.com/pleiszenburg/wenv"
+Documentation = "https://wenv.readthedocs.io/en/latest/"
+Source = "https://github.com/pleiszenburg/wenv"
 
 [tool.black]
 target-version = ['py36']
