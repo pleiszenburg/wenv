@@ -77,7 +77,7 @@ setup(
         "dev": [
             "black",
             "pytest",
-            "coverage",
+            "coverage[toml]",
             "pytest-cov",
             "python-lsp-server[all]",
             "setuptools",
