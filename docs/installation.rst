@@ -24,7 +24,9 @@ For using *wenv*, you need to install **Wine** first. Depending on your platform
 .. _Installation instructions for Mac OS X: https://wiki.winehq.org/MacOS
 .. _Installation instructions for FreeBSD: https://wiki.winehq.org/FreeBSD
 
-Currently, Wine >= 6.x is supported (tested).
+.. note::
+
+	Currently, Wine >= 6.x is supported (tested).
 
 Getting *wenv*
 --------------
@@ -49,16 +51,9 @@ After installing the package with ``pip``, you must **initialize** the "Wine Pyt
 
 .. note::
 
-	If you are relying on *wenv*, please notice that it uses semantic versioning. Breaking changes are indicated by increasing the first version number, the major version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.2.y therefore indicates a breaking change.
+	If you are relying on *wenv*, please notice that it uses **semantic versioning**. Breaking changes are indicated by increasing the second version number, the minor version. Going for example from 0.0.x to 0.1.y or going from 0.1.x to 0.2.y therefore indicates a breaking change.
 
-Possible problem: ``OSError: [WinError 6] Invalid handle``
-----------------------------------------------------------
-
-On older versions of Linux such as *Ubuntu 14.04* alias *Trusty Tahr* (released 2014), you may observe errors when running ``wenv python``. Most commonly, they will present themselves as ``OSError: [WinError 6] Invalid handle: 'z:\\...`` triggered by calling ``os.listdir`` on a symbolic link ("symlink") to a folder.
-
-.. note::
-
-	A **clean solution** is to upgrade to a younger version of Linux. E.g. *Ubuntu 16.04* alias *Xenial Xerus* (released 2016) is known to work.
+If you are encountering any problems, see :ref:`section on bugs and known issues <bugs>`.
 
 Installing *wenv* in Development Mode
 -------------------------------------

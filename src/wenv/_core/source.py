@@ -28,8 +28,7 @@ specific language governing rights and limitations under the License.
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Optional, Union
-
-import requests
+from urllib.request import urlopen, Request
 
 from .pythonversion import PythonVersion
 from .typeguard import typechecked
@@ -45,14 +44,16 @@ def download(down_url: str, mode: str = "binary") -> Union[str, bytes]:
     assert mode in ("text", "binary")
     assert isinstance(down_url, str)
 
-    r = requests.get(down_url)
+    httprequest = Request(down_url)
 
-    assert r.ok
-    r.raise_for_status()
+    with urlopen(httprequest) as response:
+        assert response.status == 200
+        data = response.read()
 
     if mode == 'text':
-        return r.text
-    return r.content # mode == 'binary'
+        return data.decode('utf-8')
+
+    return data # mode == 'binary'
 
 
 @typechecked

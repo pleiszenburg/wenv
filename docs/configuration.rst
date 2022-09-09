@@ -58,7 +58,7 @@ The ``pythonversion`` parameter tells *wenv* what version of the *Windows* *CPyt
 
 .. note::
 
-	Windows versions of Python of 3.5 and earlier are not supported. You can only specify versions for which an "*Windows* embeddable zip file" is available, see `python.org`_. Available versions/builds can be queried for using :func:`wenv.get_available_python_builds` and :func:`wenv.get_latest_python_build`.
+	Windows versions of Python of 3.6 and earlier are not supported. You can only specify versions for which an "*Windows* embeddable zip file" is available, see `python.org`_. Available versions/builds can be queried for using :func:`wenv.get_available_python_builds` and :func:`wenv.get_latest_python_build`.
 
 Release candidate, alpha and beta versions can be accessed in the following form: ``PythonVersion('{arch}', 3, 7, 0, 'rc1')`` (first release candidate). ``PythonVersion('{arch}', 3, 7, 0, 'a1')`` (first alpha version) or ``PythonVersion('{arch}', 3, 7, 0, 'b1')`` (first beta version).
 

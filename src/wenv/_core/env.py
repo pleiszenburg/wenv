@@ -52,8 +52,6 @@ class Env:
     """
     Represents one Wine Python environment. Mutable.
 
-    The constructor expects
-
     args:
         kwargs : An arbitrary number of keyword arguments matching valid configuration options. In previous releases, the constructor expected one optional argument, ``parameter``. It should either be ``None`` or a dictionary. In the latter case, the dictionary may contain all valid configuration options. ``parameter`` can still be used but is deprecated.
     """
@@ -354,6 +352,8 @@ class Env:
         if proc.returncode != 0:
             sys.exit(1)
 
+        self._init_dicts()
+
     def setup_pythonprefix(self, overwrite: bool = False):
         """
         Part of the initialization process, but can be triggered on its own if required. It installs the *CPython* interpreter into the *Python* prefix.
@@ -410,6 +410,8 @@ class Env:
             # Create folder
             os.makedirs(self._path_dict["sitepackages"])
 
+        self._init_dicts()
+
     def setup_pip(self):
         """
         Part of the initialization process, but can be triggered on its own if required. It installs ``pip``, assuming that both the ``wineprefix`` and ``pythonprefix`` are already present.
@@ -440,6 +442,8 @@ class Env:
                 ["wenv", "python"], stdin=subprocess.PIPE, env=envvar_dict
             )
             proc.communicate(input=getpip)
+
+        self._init_dicts()
 
     def setup_coverage_activate(self):
         """
@@ -491,6 +495,8 @@ class Env:
         if proc.returncode != 0:
             raise SystemError('installing package "%s" failed' % name, outs, errs)
 
+        self._init_dicts()
+
     def uninstall_package(self, name: str):
         """
         Thin wrapper for ``wenv pip uninstall -y {name}``. Removes a package.
@@ -516,6 +522,8 @@ class Env:
         outs, errs = proc.communicate()
         if proc.returncode != 0:
             raise SystemError('uninstalling package "%s" failed' % name, outs, errs)
+
+        self._init_dicts()
 
     def list_packages(self) -> List[Dict[str, str]]:
         """

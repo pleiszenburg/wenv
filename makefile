@@ -25,9 +25,6 @@
 _clean_coverage:
 	coverage erase
 
-_clean_egg:
-	-rm -r src/*.egg-info
-
 _clean_py:
 	find src/ tests/ -name '*.pyc' -exec rm -f {} +
 	find src/ tests/ -name '*.pyo' -exec rm -f {} +
@@ -35,7 +32,6 @@ _clean_py:
 	find src/ tests/ -name '__pycache__' -exec rm -fr {} +
 
 _clean_release:
-	-rm -r build/*
 	-rm -r dist/*
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -60,8 +56,7 @@ install:
 
 release:
 	make clean
-	make _clean_egg
-	python setup.py sdist bdist_wheel
+	flit build
 	gpg --detach-sign -a dist/wenv*.whl
 	gpg --detach-sign -a dist/wenv*.tar.gz
 

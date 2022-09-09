@@ -23,17 +23,17 @@ About Wine (from [winehq.org](https://www.winehq.org/)): *Wine (originally an ac
 
 | prerequisite | version |
 | --- | --- |
-| [CPython](https://www.python.org/) | 3.x (tested with 3.{6,7,8,9,10}) |
+| [CPython](https://www.python.org/) | 3.x (tested with 3.{7,8,9,10}) |
 | [Wine](https://www.winehq.org/) | >= 6.x (tested with regular & [staging](https://wine-staging.com/)) - expected to be in the user's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) |
 
 ## Installation
 
 | branch | status | installation | documentation |
 | --- | --- | --- | --- |
-| master (release) | [![build_master](https://img.shields.io/travis/pleiszenburg/wenv/master.svg?style=flat-square "Build Status: master / release")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/) |
-| develop | [![build_develop](https://img.shields.io/travis/pleiszenburg/wenv/develop.svg?style=flat-square "Build Status: development branch")](https://wenv.readthedocs.io/en/develop/) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) |
+| master (release) | [![build_master](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=master "Build Status: master / release")](https://github.com/pleiszenburg/wenv/tree/master) | `pip install wenv` | [![docs_master](https://readthedocs.org/projects/wenv/badge/?version=latest&style=flat-square "Documentation Status: master / release")](https://wenv.readthedocs.io/en/latest/) |
+| develop | [![build_develop](https://github.com/pleiszenburg/wenv/actions/workflows/test.yaml/badge.svg?branch=develop "Build Status: development branch")](https://github.com/pleiszenburg/wenv/tree/develop) | `pip install git+https://github.com/pleiszenburg/wenv.git@develop` | [![docs_develop](https://readthedocs.org/projects/wenv/badge/?version=develop&style=flat-square "Documentation Status: development branch")](https://wenv.readthedocs.io/en/develop/) |
 
-After installing the package with `pip`, you must initialize the "Wine Python environment" by running ``wenv init``.
+After installing the package with `pip`, you must initialize the *Wine Python environment* by running `wenv init`.
 
 ## Examples
 
@@ -54,28 +54,25 @@ Windows
 
 ## Security
 
-Just like Wine, `wenv` can run malicious Windows software on Unix. **Never, ever, run `wenv` with root / super users privileges!** For details, check the section on [security](http://wenv.readthedocs.io/en/stable/security.html) in the documentation.
+Just like Wine, `wenv` can run malicious Windows software on Unix. **Never, ever, run `wenv` with root / super users privileges!** For details, check the section on [security](https://wenv.readthedocs.io/en/stable/security.html) in the documentation.
 
 ## Need help?
 
-Feel free to post questions in the [GitHub issue tracker](https://github.com/pleiszenburg/wenv/labels/question) of this project.
+See section on [Getting Help](https://wenv.readthedocs.io/en/latest/support.html) on `wenv`'s documentation.
 
-## Bugs & issues
+## Bugs & Issues
 
-- Report bugs in *wenv* here: [GitHub issue tracker](https://github.com/pleiszenburg/wenv/issues)
-- Report bugs in *Wine* here: [WineHQ Bug Tracking System](https://bugs.winehq.org/)
-
-Make sure you have read the chapter on [bugs](http://wenv.readthedocs.io/en/stable/bugs.html) in `wenv`'s documentation.
+See section on [Bugs and Issues](https://wenv.readthedocs.io/en/stable/bugs.html) on `wenv`'s documentation.
 
 ## Miscellaneous
 
 - Full project documentation
-    - at [Read the Docs](http://wenv.readthedocs.io/en/latest/)
+    - at [Read the Docs](https://wenv.readthedocs.io/en/latest/)
     - at [`wenv` repository](https://github.com/pleiszenburg/wenv/blob/master/docs/index.rst)
 - [Authors](https://github.com/pleiszenburg/wenv/blob/master/AUTHORS.md)
 - [Change log (current)](https://github.com/pleiszenburg/wenv/blob/develop/CHANGES.md) (changes in development branch since last release)
 - [Change log (past)](https://github.com/pleiszenburg/wenv/blob/master/CHANGES.md) (release history)
 - [Contributing](https://github.com/pleiszenburg/wenv/blob/master/CONTRIBUTING.md) (**Contributions are highly welcomed!**)
-- [FAQ](http://wenv.readthedocs.io/en/stable/faq.html)
+- [FAQ](https://wenv.readthedocs.io/en/stable/faq.html)
 - [License](https://github.com/pleiszenburg/wenv/blob/master/LICENSE) (**LGPL v2.1**)
 - [Upstream issues](https://github.com/pleiszenburg/wenv/issues?q=is%3Aissue+is%3Aopen+label%3Aupstream) (relevant bugs in dependencies)
