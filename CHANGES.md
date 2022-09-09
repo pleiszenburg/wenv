@@ -1,6 +1,6 @@
 # Changes
 
-## 0.4.0 (202X-XX-XX)
+## 0.4.0 (2022-09-09)
 
 - FEATURE: Dropped support for Python 3.6.
 - FIX: Internal paths were not updated when API calls were used, resulting in bugs in subsequent API calls expecting the paths to be changed.
