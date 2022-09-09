@@ -11,7 +11,6 @@
 1) Tag branch `master` with `f"v{version:s}"`: `git tag "v0.0.1"`
 1) Push the tag to Github: `git push origin --tags`
 1) Build and sign packages: `make release`
-1) Upload package to `pypitest` and review result: `make upload_test`
 1) Upload package to `pypi`: `make upload`
 1) Change to branch `develop`: `git checkout develop`
 1) In branch `develop`, bump the package version in `src/wenv/__init__.py` by changing the `__version__` string.
