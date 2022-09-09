@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.1 (202X-XX-XX)
+
+- (TBD)
+
 ## 0.4.0 (2022-09-09)
 
 - FEATURE: Dropped support for Python 3.6.
