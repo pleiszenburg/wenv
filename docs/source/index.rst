@@ -1,6 +1,6 @@
 :github_url:
 
-.. image:: https://www.pleiszenburg.de/wenv_logo.png
+.. image:: _static/logo.png
 	:alt: wenv
 
 wenv - Running Python on Wine
