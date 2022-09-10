@@ -1,4 +1,4 @@
-![wenv](http://www.pleiszenburg.de/wenv_logo.png)
+![wenv](https://www.pleiszenburg.de/wenv_logo.png)
 
 # wenv - Running Python on Wine
 
