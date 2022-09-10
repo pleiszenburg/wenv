@@ -2,7 +2,8 @@
 
 ## 0.4.1 (202X-XX-XX)
 
-- (TBD)
+- DEV: Cleanup of `docs` folder structure.
+- DEV: Include logo in repo.
 
 ## 0.4.0 (2022-09-09)
 
