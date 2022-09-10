@@ -5,7 +5,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    docs/version.py: Package version parser
+    docs/source/version.py: Package version parser
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -55,7 +55,7 @@ def parse_version(code: str) -> str:
 def get_version() -> str:
 
     path = os.path.join(
-        os.path.dirname(__file__), '..', SRC_DIR, "wenv", "__init__.py",
+        os.path.dirname(__file__), '..', '..', SRC_DIR, "wenv", "__init__.py",
         )
 
     with open(path, "r", encoding="utf-8") as f:
