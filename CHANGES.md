@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.2 (2022-XX-XX)
+
+- (TBD)
+
 ## 0.4.1 (2022-09-11)
 
 - DEV: Cleanup of `docs` folder structure.
