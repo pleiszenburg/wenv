@@ -1,6 +1,6 @@
 # Changes
 
-## 0.4.1 (202X-XX-XX)
+## 0.4.1 (2022-09-11)
 
 - DEV: Cleanup of `docs` folder structure.
 - DEV: Include logo in repo.
