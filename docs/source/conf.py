@@ -6,7 +6,7 @@ WENV
 Running Python on Wine
 https://github.com/pleiszenburg/wenv
 
-    docs/conf.py: Configures the documentation build process
+    docs/source/conf.py: Configures the documentation build process
 
     Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 
@@ -34,9 +34,9 @@ import os
 import sys
 
 # sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from docs.version import get_version
+from docs.source.version import get_version
 
 # -- General configuration ------------------------------------------------
 
@@ -124,14 +124,14 @@ html_context = {
         ('<i class="fa fa-envelope fa-fw"></i> Mailing List', 'https://groups.io/g/zugbruecke-dev'),
         ('<i class="fa fa-comments fa-fw"></i> Chat', 'https://matrix.to/#/#zugbruecke:matrix.org'),
         # ('<i class="fa fa-file-text fa-fw"></i> Citation', 'https://doi.org/000'),
-        ('<i class="fa fa-info-circle fa-fw"></i> pleiszenburg.de', 'http://www.pleiszenburg.de/'),
+        ('<i class="fa fa-info-circle fa-fw"></i> pleiszenburg.de', 'https://www.pleiszenburg.de/'),
     ],
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-# html_static_path = ["_static"]
+html_static_path = ["_static"]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

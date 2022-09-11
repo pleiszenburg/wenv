@@ -4,7 +4,7 @@
 #
 #	docs/makefile: GNU makefile for building the documentation
 #
-# 	Copyright (C) 2017-2020 Sebastian M. Ernst <ernst@pleiszenburg.de>
+# 	Copyright (C) 2017-2022 Sebastian M. Ernst <ernst@pleiszenburg.de>
 #
 # <LICENSE_BLOCK>
 # The contents of this file are subject to the GNU Lesser General Public License
@@ -23,8 +23,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
 SPHINXPROJ    = wenv
-SOURCEDIR     = .
-BUILDDIR      = _build
+SOURCEDIR     = source
+BUILDDIR      = build
 
 # Put it first so that "make" without argument is like "make help".
 help:

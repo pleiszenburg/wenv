@@ -1,5 +1,10 @@
 # Changes
 
+## 0.4.1 (2022-09-11)
+
+- DEV: Cleanup of `docs` folder structure.
+- DEV: Include logo in repo.
+
 ## 0.4.0 (2022-09-09)
 
 - FEATURE: Dropped support for Python 3.6.

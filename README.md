@@ -1,4 +1,4 @@
-![wenv](http://www.pleiszenburg.de/wenv_logo.png)
+![wenv](docs/source/_static/logo.png "wenv logo")
 
 # wenv - Running Python on Wine
 
@@ -68,7 +68,7 @@ See section on [Bugs and Issues](https://wenv.readthedocs.io/en/stable/bugs.html
 
 - Full project documentation
     - at [Read the Docs](https://wenv.readthedocs.io/en/latest/)
-    - at [`wenv` repository](https://github.com/pleiszenburg/wenv/blob/master/docs/index.rst)
+    - at [`wenv` repository](https://github.com/pleiszenburg/wenv/blob/master/docs/source/index.rst)
 - [Authors](https://github.com/pleiszenburg/wenv/blob/master/AUTHORS.md)
 - [Change log (current)](https://github.com/pleiszenburg/wenv/blob/develop/CHANGES.md) (changes in development branch since last release)
 - [Change log (past)](https://github.com/pleiszenburg/wenv/blob/master/CHANGES.md) (release history)
