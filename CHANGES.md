@@ -1,6 +1,6 @@
 # Changes
 
-## 0.5.0 (2022-XX-XX)
+## 0.5.0 (2022-12-24)
 
 - FEATURE: Added support for Python 3.11.
 - FEATURE: Deal with unexpected configuration parameters, transparently pass them through - required by `zugbruecke`.
