@@ -1,5 +1,9 @@
 # Changes
 
+## 0.5.1 (2022-XX-XX)
+
+- (TBD)
+
 ## 0.5.0 (2022-12-24)
 
 - FEATURE: Added support for Python 3.11.
