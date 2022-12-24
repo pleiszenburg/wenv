@@ -158,7 +158,10 @@ class EnvConfig(dict):
         Exports a dictionary.
         """
 
-        return {field: self[field] for field in self._KEYS}
+        return {
+            field: self[field]
+            for field in set(self._KEYS) | self.keys()
+        }
 
     def export_envvar_dict(self) -> Dict[str, str]:
         """
@@ -167,7 +170,7 @@ class EnvConfig(dict):
 
         return {
             "WENV_" + field.upper(): "" if field is None else str(self[field])
-            for field in self._KEYS
+            for field in set(self._KEYS) | self.keys()
         }
 
     def _get_config_from_files(self) -> Dict:
