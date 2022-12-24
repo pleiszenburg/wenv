@@ -1,7 +1,9 @@
 # Changes
 
-## 0.4.2 (2022-XX-XX)
+## 0.5.0 (2022-XX-XX)
 
+- FEATURE: Added support for Python 3.11.
+- FEATURE: Deal with unexpected configuration parameters, transparently pass them through - required by `zugbruecke`.
 - DEV: Cleanup of old workaround configuration parameter (zugbruecke#50). Moved mechanism to `zugbruecke` entirely.
 
 ## 0.4.1 (2022-09-11)
