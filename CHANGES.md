@@ -2,7 +2,7 @@
 
 ## 0.4.2 (2022-XX-XX)
 
-- (TBD)
+- DEV: Cleanup of old workaround configuration parameter (zugbruecke#50). Moved mechanism to `zugbruecke` entirely.
 
 ## 0.4.1 (2022-09-11)
 
