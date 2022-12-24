@@ -46,7 +46,7 @@ BUILDS = {
         get_latest_python_build(arch, 3, minor, builds = _builds)
         for minor in range(
             7,  # min minor version
-            10 + 1,  # max major version
+            11 + 1,  # max major version
         )
     ]
     for arch in ARCHS
