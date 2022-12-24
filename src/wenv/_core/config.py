@@ -67,7 +67,6 @@ class EnvConfig(dict):
         "offline",
         "cache",
         "packages",
-        "_issues_50_workaround",
     )
 
     def __init__(self, **override: Any):
@@ -151,8 +150,6 @@ class EnvConfig(dict):
             return os.path.join(self["prefix"], "share", "wenv", "cache")
         if key == "packages":
             return os.path.join(self["cache"], "packages")
-        if key == "_issues_50_workaround":
-            return False  # Workaround for zugbruecke issue #50 (symlinks ...)
 
         raise KeyError("not a valid configuration key", key)
 
