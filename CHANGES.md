@@ -1,6 +1,6 @@
 # Changes
 
-## 0.5.1 (2022-XX-XX)
+## 0.5.1 (2022-12-26)
 
 - FEATURE: Prepends empty string to `sys.path` in Wine Python environment, allowing to import modules from the current working directory when running a Windows build of Python <= 3.10.
 - FEATURE: New configuration parameter `no_pth_file`, allowing to work around [CPython PR #31542](https://github.com/python/cpython/pull/31542) in CPython >= 3.11. The PR sets `safe_path` to `1` thus avoiding to prepend an empty string to `sys.path` if a pth-file is present.
