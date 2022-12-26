@@ -53,6 +53,8 @@ class Paths:
             return self._pythonprefix
         if key == "lib":
             return os.path.join(self["pythonprefix"], "Lib")
+        if key == 'sitepy':
+            return os.path.join(self["lib"], "site.py")
         if key == "sitepackages":
             return os.path.join(self["lib"], "site-packages")
         if key == "sitecustomize":
