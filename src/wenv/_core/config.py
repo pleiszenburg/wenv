@@ -67,6 +67,7 @@ class EnvConfig(dict):
         "offline",
         "cache",
         "packages",
+        "no_pth_file",
     )
 
     def __init__(self, **override: Any):
@@ -150,6 +151,8 @@ class EnvConfig(dict):
             return os.path.join(self["prefix"], "share", "wenv", "cache")
         if key == "packages":
             return os.path.join(self["cache"], "packages")
+        if key == "no_pth_file":
+            return False
 
         raise KeyError("not a valid configuration key", key)
 

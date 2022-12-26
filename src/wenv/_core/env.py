@@ -86,6 +86,8 @@ class Env:
 
         self._init_dicts()
 
+        self.cpython_31542_pth_workaround()
+
     def _init_dicts(self):
         """
         Initialize core dictionaries. Function can also be used for re-initialization.
@@ -215,6 +217,32 @@ class Env:
 
         if os.path.lexists(self._p["pythonprefix"]):
             os.unlink(self._p["pythonprefix"])
+
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # CPython >= 3.11 PR #31542 `safe_path` workaround
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    def cpython_31542_pth_workaround(self):
+        """
+        Deletes pth-file or reconstructs it from backup depending on ``no_pth_file`` configuration parameter.
+        Relevant for prepending ``""`` to ``sys.path`` in CPython >= 3.11 thanks to `CPython PR #31542`_.
+        This function works around "Modules/getpath.py sets safe_path to 1 if a "._pth" file is present".
+
+        .. _CPython PR #31542: https://github.com/python/cpython/pull/31542
+        """
+
+        pth_backup = self._path_dict["pth"] + '.backup'
+
+        if not os.path.exists(pth_backup):
+            return
+
+        if self._p["no_pth_file"] and os.path.exists(self._path_dict["pth"]):
+            os.remove(self._path_dict["pth"])
+            return
+
+        if not self._p["no_pth_file"] and not os.path.exists(self._path_dict["pth"]):
+            shutil.copy2(pth_backup, self._path_dict["pth"])
+            return
 
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # ENSURE ENVIRONMENT
@@ -420,6 +448,8 @@ class Env:
                 f.write(
                     "Lib\n.\n\n# Uncomment to run site.main() automatically\nimport site\n"
                 )
+            # HACK: Make backup of pth-file so it can be temporarily removed (CPython >= 3.11)
+            shutil.copy2(self._path_dict["pth"], self._path_dict["pth"] + '.backup')
 
             # HACK delete site.pyc, get site.py from Github, add '' at beginning of sys.path (CWD)
             # For details, see https://bugs.python.org/issue34841
