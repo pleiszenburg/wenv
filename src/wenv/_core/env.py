@@ -86,6 +86,8 @@ class Env:
 
         self._init_dicts()
 
+        self.cpython_31542_pth_workaround()
+
     def _init_dicts(self):
         """
         Initialize core dictionaries. Function can also be used for re-initialization.
@@ -217,6 +219,32 @@ class Env:
             os.unlink(self._p["pythonprefix"])
 
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # CPython >= 3.11 PR #31542 `safe_path` workaround
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    def cpython_31542_pth_workaround(self):
+        """
+        Deletes pth-file or reconstructs it from backup depending on ``no_pth_file`` configuration parameter.
+        Relevant for prepending ``""`` to ``sys.path`` in CPython >= 3.11 thanks to `CPython PR #31542`_.
+        This function works around "Modules/getpath.py sets safe_path to 1 if a "._pth" file is present".
+
+        .. _CPython PR #31542: https://github.com/python/cpython/pull/31542
+        """
+
+        pth_backup = self._path_dict["pth"] + '.backup'
+
+        if not os.path.exists(pth_backup):
+            return
+
+        if self._p["no_pth_file"] and os.path.exists(self._path_dict["pth"]):
+            os.remove(self._path_dict["pth"])
+            return
+
+        if not self._p["no_pth_file"] and not os.path.exists(self._path_dict["pth"]):
+            shutil.copy2(pth_backup, self._path_dict["pth"])
+            return
+
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # ENSURE ENVIRONMENT
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -271,6 +299,8 @@ class Env:
             f.write(self._get_python(offline=False))
         with open(os.path.join(self._p["cache"], "get-pip.py"), "wb") as f:
             f.write(self._get_pip(offline=False))
+        with open(os.path.join(self._p["cache"], "site.py"), "wb") as f:
+            f.write(self._get_sitepy(offline=False))
 
         for package in ("pip", "setuptools", "wheel"):
             self.cache_package(package)
@@ -316,6 +346,20 @@ class Env:
             return download("https://bootstrap.pypa.io/get-pip.py", mode="text").encode(
                 "utf-8"
             )
+
+    def _get_sitepy(self, offline: bool = False) -> bytes:
+
+        if offline:
+            with open(os.path.join(self._p["cache"], "site.py"), "rb") as f:
+                return f.read()
+        else:
+            return download(
+                (
+                    "https://raw.githubusercontent.com/python/cpython/"
+                    f"{self._p['pythonversion'].as_githubtag():s}/Lib/site.py"
+                ),
+                mode="text"
+            ).encode("utf-8")
 
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # SETUP
@@ -404,6 +448,21 @@ class Env:
                 f.write(
                     "Lib\n.\n\n# Uncomment to run site.main() automatically\nimport site\n"
                 )
+            # HACK: Make backup of pth-file so it can be temporarily removed (CPython >= 3.11)
+            shutil.copy2(self._path_dict["pth"], self._path_dict["pth"] + '.backup')
+
+            # HACK delete site.pyc, get site.py from Github, add '' at beginning of sys.path (CWD)
+            # For details, see https://bugs.python.org/issue34841
+            if os.path.exists(self._path_dict['sitepy'] + 'c'):
+                os.remove(self._path_dict['sitepy'] + 'c')
+            sitepy = self._get_sitepy(self._p["offline"]).decode('utf-8').split('\n')
+            idx = sitepy.index('    main()')
+            sitepy.insert(idx + 1, '    sys.path.insert(0, "")')
+            sitepy = '\n'.join(sitepy)
+            if os.path.exists(self._path_dict['sitepy']):
+                os.remove(self._path_dict['sitepy'])
+            with open(self._path_dict['sitepy'], mode = 'w', encoding = 'utf-8') as f:
+                f.write(sitepy)
 
         # Create site-packages folder if it does not exist
         if not os.path.exists(self._path_dict["sitepackages"]):

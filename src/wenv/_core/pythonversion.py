@@ -184,6 +184,19 @@ class PythonVersion:
 
         return str(self)
 
+    def as_githubtag(self) -> str:
+        """
+        Returns:
+            Github version tag
+        """
+
+        tag = f'v{self._major:d}.{self._minor:d}.{self._maintenance:d}'
+
+        if self._build == 'stable':
+            return tag
+
+        return tag + self._build
+
     def as_url(self) -> str:
         """
         Returns:

@@ -116,3 +116,10 @@ Path to the local package cache directory. By default, it is set to ``{cache}/pa
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Path to custom *Wine* installation. Binaries are expected in ``{wineinstallprefix}/bin``, libraries in ``{wineinstallprefix}/lib`` and ``{wineinstallprefix}/lib64``. If set to an empty string or ``None``, its value is ignored.
+
+``no_pth_file`` (bool)
+^^^^^^^^^^^^^^^^^^^^^^
+
+If set to ``True``, the pth-file within the *Wine Python environment* is temporarily removed and later reconstructed from a backup. This is relevant for prepending ``""`` to ``sys.path`` in CPython >= 3.11 thanks to `CPython PR #31542`_. ``no_pth_file`` allows to work around "Modules/getpath.py sets safe_path to 1 if a "._pth" file is present".
+
+.. _CPython PR #31542: https://github.com/python/cpython/pull/31542
