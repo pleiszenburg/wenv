@@ -26,7 +26,7 @@ specific language governing rights and limitations under the License.
 # IMPORT / EXPORT
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-__version__ = '0.5.1'  # Bump version HERE!
+__version__ = '0.5.2'  # Bump version HERE!
 
 from ._core.env import (
     cli,

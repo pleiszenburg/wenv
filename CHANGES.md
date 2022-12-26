@@ -1,5 +1,9 @@
 # Changes
 
+## 0.5.2 (2022-XX-XX)
+
+- (TBD)
+
 ## 0.5.1 (2022-12-26)
 
 - FEATURE: Prepends empty string to `sys.path` in Wine Python environment, allowing to import modules from the current working directory when running a Windows build of Python <= 3.10.
